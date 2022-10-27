@@ -1,4 +1,4 @@
-package slice
+package list
 
 func FindIf[T any](items []T, predicate func(T) bool) (T, bool) {
 	for _, item := range items {

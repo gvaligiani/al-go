@@ -1,4 +1,4 @@
-package slice_test
+package list_test
 
 import (
 	"testing"
@@ -6,11 +6,11 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/slice"
+	"github.com/gvaligiani/algo/list"
 	"github.com/gvaligiani/algo/test"
 )
 
-func TestAllOfInt64(t *testing.T) {
+func TestAnyOfInt64(t *testing.T) {
 
 	//
 	// test cases
@@ -19,7 +19,7 @@ func TestAllOfInt64(t *testing.T) {
 	type TestCase struct {
 		items     []int64
 		predicate func(int64) bool
-		wantAllOf bool
+		wantAnyOf bool
 	}
 
 	empty := []int64{}
@@ -35,27 +35,27 @@ func TestAllOfInt64(t *testing.T) {
 		"nil": {
 			items:     nil,
 			predicate: func(i int64) bool { return i > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"empty": {
 			items:     empty,
 			predicate: func(i int64) bool { return i > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"no-match": {
 			items:     items,
 			predicate: func(i int64) bool { return i > 100 },
-			wantAllOf: false,
+			wantAnyOf: false,
 		},
 		"some-match": {
 			items:     items,
 			predicate: func(i int64) bool { return i > 20 },
-			wantAllOf: false,
+			wantAnyOf: true,
 		},
 		"all-match": {
 			items:     items,
 			predicate: func(i int64) bool { return i < 100 },
-			wantAllOf: true,
+			wantAnyOf: true,
 		},
 	}
 
@@ -66,14 +66,14 @@ func TestAllOfInt64(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := slice.AllOf[int64](testCase.items, testCase.predicate)
+		gotAnyOf := list.AnyOf[int64](testCase.items, testCase.predicate)
 
 		// assert
-		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
+		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
 	})
 }
 
-func TestAllOfStruct(t *testing.T) {
+func TestAnyOfStruct(t *testing.T) {
 
 	//
 	// test cases
@@ -86,7 +86,7 @@ func TestAllOfStruct(t *testing.T) {
 	type TestCase struct {
 		items     []Item
 		predicate func(Item) bool
-		wantAllOf bool
+		wantAnyOf bool
 	}
 
 	empty := []Item{}
@@ -102,27 +102,27 @@ func TestAllOfStruct(t *testing.T) {
 		"nil": {
 			items:     nil,
 			predicate: func(i Item) bool { return i.value > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"empty": {
 			items:     empty,
 			predicate: func(i Item) bool { return i.value > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"no-match": {
 			items:     items,
 			predicate: func(i Item) bool { return i.value > 100 },
-			wantAllOf: false,
+			wantAnyOf: false,
 		},
-		"one-match": {
+		"some-match": {
 			items:     items,
 			predicate: func(i Item) bool { return i.value > 20 },
-			wantAllOf: false,
+			wantAnyOf: true,
 		},
-		"two-matches": {
+		"all-match": {
 			items:     items,
 			predicate: func(i Item) bool { return i.value < 100 },
-			wantAllOf: true,
+			wantAnyOf: true,
 		},
 	}
 
@@ -133,14 +133,14 @@ func TestAllOfStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := slice.AllOf[Item](testCase.items, testCase.predicate)
+		gotAnyOf := list.AnyOf[Item](testCase.items, testCase.predicate)
 
 		// assert
-		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
+		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
 	})
 }
 
-func TestAllOfStructPointer(t *testing.T) {
+func TestAnyOfStructPointer(t *testing.T) {
 
 	//
 	// test cases
@@ -153,7 +153,7 @@ func TestAllOfStructPointer(t *testing.T) {
 	type TestCase struct {
 		items     []*Item
 		predicate func(*Item) bool
-		wantAllOf bool
+		wantAnyOf bool
 	}
 
 	empty := []*Item{}
@@ -169,27 +169,27 @@ func TestAllOfStructPointer(t *testing.T) {
 		"nil": {
 			items:     nil,
 			predicate: func(i *Item) bool { return i.value > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"empty": {
 			items:     empty,
 			predicate: func(i *Item) bool { return i.value > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"no-match": {
 			items:     items,
 			predicate: func(i *Item) bool { return i.value > 100 },
-			wantAllOf: false,
+			wantAnyOf: false,
 		},
-		"one-match": {
+		"some-match": {
 			items:     items,
 			predicate: func(i *Item) bool { return i.value > 20 },
-			wantAllOf: false,
+			wantAnyOf: true,
 		},
-		"two-matches": {
+		"all-match": {
 			items:     items,
 			predicate: func(i *Item) bool { return i.value < 100 },
-			wantAllOf: true,
+			wantAnyOf: true,
 		},
 	}
 
@@ -200,9 +200,9 @@ func TestAllOfStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := slice.AllOf[*Item](testCase.items, testCase.predicate)
+		gotAnyOf := list.AnyOf[*Item](testCase.items, testCase.predicate)
 
 		// assert
-		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
+		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
 	})
 }

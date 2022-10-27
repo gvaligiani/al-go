@@ -1,4 +1,4 @@
-package slice
+package list
 
 func AnyOf[T any](items []T, predicate func(T) bool) bool {
 	_, found := FindIf(items, predicate)

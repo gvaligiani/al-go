@@ -1,4 +1,4 @@
-package slice
+package list
 
 func FindIfNot[T any](items []T, predicate func(T) bool) (T, bool) {
 	for _, item := range items {

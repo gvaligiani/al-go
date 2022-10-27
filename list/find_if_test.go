@@ -1,4 +1,4 @@
-package slice_test
+package list_test
 
 import (
 	"testing"
@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/slice"
+	"github.com/gvaligiani/algo/list"
 	"github.com/gvaligiani/algo/test"
 )
 
@@ -36,32 +36,32 @@ func TestFindIfInt64(t *testing.T) {
 		"nil": {
 			items:     nil,
 			predicate: func(i int64) bool { return i%10 == 3 },
-			wantFound: false,
 			wantItem:  0,
+			wantFound: false,
 		},
 		"empty": {
 			items:     empty,
 			predicate: func(i int64) bool { return i%10 == 3 },
-			wantFound: false,
 			wantItem:  0,
+			wantFound: false,
 		},
 		"no-match": {
 			items:     items,
 			predicate: func(i int64) bool { return i%10 == 3 },
-			wantFound: false,
 			wantItem:  0,
+			wantFound: false,
 		},
 		"one-match": {
 			items:     items,
 			predicate: func(i int64) bool { return i%10 == 4 },
-			wantFound: true,
 			wantItem:  34,
+			wantFound: true,
 		},
 		"two-matches": {
 			items:     items,
 			predicate: func(i int64) bool { return i%10 == 2 },
-			wantFound: true,
 			wantItem:  12,
+			wantFound: true,
 		},
 	}
 
@@ -72,7 +72,7 @@ func TestFindIfInt64(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := slice.FindIf[int64](testCase.items, testCase.predicate)
+		gotItem, gotFound := list.FindIf[int64](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
@@ -110,32 +110,32 @@ func TestFindIfStruct(t *testing.T) {
 		"nil": {
 			items:     nil,
 			predicate: func(i Item) bool { return i.value%10 == 3 },
-			wantFound: false,
 			wantItem:  Item{},
+			wantFound: false,
 		},
 		"empty": {
 			items:     empty,
 			predicate: func(i Item) bool { return i.value%10 == 3 },
-			wantFound: false,
 			wantItem:  Item{},
+			wantFound: false,
 		},
 		"no-match": {
 			items:     items,
 			predicate: func(i Item) bool { return i.value%10 == 3 },
-			wantFound: false,
 			wantItem:  Item{},
+			wantFound: false,
 		},
 		"one-match": {
 			items:     items,
 			predicate: func(i Item) bool { return i.value%10 == 4 },
-			wantFound: true,
 			wantItem:  Item{value: 34},
+			wantFound: true,
 		},
 		"two-matches": {
 			items:     items,
 			predicate: func(i Item) bool { return i.value%10 == 2 },
-			wantFound: true,
 			wantItem:  Item{value: 12},
+			wantFound: true,
 		},
 	}
 
@@ -146,7 +146,7 @@ func TestFindIfStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := slice.FindIf[Item](testCase.items, testCase.predicate)
+		gotItem, gotFound := list.FindIf[Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
@@ -184,32 +184,32 @@ func TestFindIfStructPointer(t *testing.T) {
 		"nil": {
 			items:     nil,
 			predicate: func(i *Item) bool { return i.value%10 == 3 },
-			wantFound: false,
 			wantItem:  nil,
+			wantFound: false,
 		},
 		"empty": {
 			items:     empty,
 			predicate: func(i *Item) bool { return i.value%10 == 3 },
-			wantFound: false,
 			wantItem:  nil,
+			wantFound: false,
 		},
 		"no-match": {
 			items:     items,
 			predicate: func(i *Item) bool { return i.value%10 == 3 },
-			wantFound: false,
 			wantItem:  nil,
+			wantFound: false,
 		},
 		"one-match": {
 			items:     items,
 			predicate: func(i *Item) bool { return i.value%10 == 4 },
-			wantFound: true,
 			wantItem:  &Item{value: 34},
+			wantFound: true,
 		},
 		"two-matches": {
 			items:     items,
 			predicate: func(i *Item) bool { return i.value%10 == 2 },
-			wantFound: true,
 			wantItem:  &Item{value: 12},
+			wantFound: true,
 		},
 	}
 
@@ -220,7 +220,7 @@ func TestFindIfStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := slice.FindIf[*Item](testCase.items, testCase.predicate)
+		gotItem, gotFound := list.FindIf[*Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
