@@ -1,4 +1,4 @@
-package list_test
+package set_test
 
 import (
 	"testing"
@@ -6,56 +6,56 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/list"
+	"github.com/gvaligiani/algo/set"
 	"github.com/gvaligiani/algo/test"
 )
 
-func TestAllOfInt64(t *testing.T) {
+func TestAnyOfInt64(t *testing.T) {
 
 	//
 	// test cases
 	//
 
 	type TestCase struct {
-		items     []int64
+		items     map[int64]struct{}
 		predicate func(int64) bool
-		wantAllOf bool
+		wantAnyOf bool
 	}
 
-	empty := []int64{}
-	items := []int64{
-		21,
-		12,
-		34,
-		87,
-		52,
+	empty := map[int64]struct{}{}
+	items := map[int64]struct{}{
+		21: {},
+		12: {},
+		34: {},
+		87: {},
+		52: {},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
 			predicate: func(i int64) bool { return i > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"empty": {
 			items:     empty,
 			predicate: func(i int64) bool { return i > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"no-match": {
 			items:     items,
 			predicate: func(i int64) bool { return i > 100 },
-			wantAllOf: false,
+			wantAnyOf: false,
 		},
 		"some-match": {
 			items:     items,
 			predicate: func(i int64) bool { return i > 20 },
-			wantAllOf: false,
+			wantAnyOf: true,
 		},
 		"all-match": {
 			items:     items,
 			predicate: func(i int64) bool { return i < 100 },
-			wantAllOf: true,
+			wantAnyOf: true,
 		},
 	}
 
@@ -66,63 +66,63 @@ func TestAllOfInt64(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := list.AllOf[int64](testCase.items, testCase.predicate)
+		gotAnyOf := set.AnyOf[int64](testCase.items, testCase.predicate)
 
 		// assert
-		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
+		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
 	})
 }
 
-func TestAllOfStruct(t *testing.T) {
+func TestAnyOfStruct(t *testing.T) {
 
 	//
 	// test cases
 	//
 
 	type Item struct {
-		value int
+		value int64
 	}
 
 	type TestCase struct {
-		items     []Item
+		items     map[Item]struct{}
 		predicate func(Item) bool
-		wantAllOf bool
+		wantAnyOf bool
 	}
 
-	empty := []Item{}
-	items := []Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
+	empty := map[Item]struct{}{}
+	items := map[Item]struct{}{
+		{value: 21}: {},
+		{value: 12}: {},
+		{value: 34}: {},
+		{value: 87}: {},
+		{value: 52}: {},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
 			predicate: func(i Item) bool { return i.value > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"empty": {
 			items:     empty,
 			predicate: func(i Item) bool { return i.value > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"no-match": {
 			items:     items,
 			predicate: func(i Item) bool { return i.value > 100 },
-			wantAllOf: false,
+			wantAnyOf: false,
 		},
 		"some-match": {
 			items:     items,
 			predicate: func(i Item) bool { return i.value > 20 },
-			wantAllOf: false,
+			wantAnyOf: true,
 		},
 		"all-match": {
 			items:     items,
 			predicate: func(i Item) bool { return i.value < 100 },
-			wantAllOf: true,
+			wantAnyOf: true,
 		},
 	}
 
@@ -133,63 +133,63 @@ func TestAllOfStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := list.AllOf[Item](testCase.items, testCase.predicate)
+		gotAnyOf := set.AnyOf[Item](testCase.items, testCase.predicate)
 
 		// assert
-		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
+		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
 	})
 }
 
-func TestAllOfStructPointer(t *testing.T) {
+func TestAnyOfStructPointer(t *testing.T) {
 
 	//
 	// test cases
 	//
 
 	type Item struct {
-		value int
+		value int64
 	}
 
 	type TestCase struct {
-		items     []*Item
+		items     map[*Item]struct{}
 		predicate func(*Item) bool
-		wantAllOf bool
+		wantAnyOf bool
 	}
 
-	empty := []*Item{}
-	items := []*Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
+	empty := map[*Item]struct{}{}
+	items := map[*Item]struct{}{
+		{value: 21}: {},
+		{value: 12}: {},
+		{value: 34}: {},
+		{value: 87}: {},
+		{value: 52}: {},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
 			predicate: func(i *Item) bool { return i.value > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"empty": {
 			items:     empty,
 			predicate: func(i *Item) bool { return i.value > 100 },
-			wantAllOf: true,
+			wantAnyOf: false,
 		},
 		"no-match": {
 			items:     items,
 			predicate: func(i *Item) bool { return i.value > 100 },
-			wantAllOf: false,
+			wantAnyOf: false,
 		},
 		"some-match": {
 			items:     items,
 			predicate: func(i *Item) bool { return i.value > 20 },
-			wantAllOf: false,
+			wantAnyOf: true,
 		},
 		"all-match": {
 			items:     items,
 			predicate: func(i *Item) bool { return i.value < 100 },
-			wantAllOf: true,
+			wantAnyOf: true,
 		},
 	}
 
@@ -200,9 +200,9 @@ func TestAllOfStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := list.AllOf[*Item](testCase.items, testCase.predicate)
+		gotAnyOf := set.AnyOf[*Item](testCase.items, testCase.predicate)
 
 		// assert
-		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
+		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
 	})
 }

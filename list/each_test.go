@@ -49,7 +49,7 @@ func TestEachInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNb := 0
@@ -103,7 +103,7 @@ func TestEachStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNb := 0
@@ -157,7 +157,7 @@ func TestEachStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNb := 0

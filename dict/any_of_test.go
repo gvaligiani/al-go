@@ -63,7 +63,7 @@ func TestAnyOfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotAnyOf := dict.AnyOf[int,int64](testCase.items, testCase.predicate)
@@ -130,7 +130,7 @@ func TestAnyOfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotAnyOf := dict.AnyOf[int, Item](testCase.items, testCase.predicate)
@@ -197,7 +197,7 @@ func TestAnyOfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotAnyOf := dict.AnyOf[int, *Item](testCase.items, testCase.predicate)

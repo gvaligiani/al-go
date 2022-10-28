@@ -1,4 +1,4 @@
-package list_test
+package dict_test
 
 import (
 	"testing"
@@ -6,51 +6,51 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/list"
+	"github.com/gvaligiani/algo/dict"
 	"github.com/gvaligiani/algo/test"
 )
 
-func TestFindInt64(t *testing.T) {
+func TestFindKeyInt64(t *testing.T) {
 
 	//
 	// test cases
 	//
 
 	type TestCase struct {
-		items     []int64
-		value     int64
+		items     map[int]int64
+		key     int
 		wantFound bool
 	}
 
-	empty := []int64{}
-	items := []int64{
-		21,
-		12,
-		34,
-		87,
-		52,
+	empty := map[int]int64{}
+	items := map[int]int64{
+		10: 21,
+		20: 12,
+		30: 34,
+		40: 87,
+		50: 52,
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			value:     34,
+			key:     30,
 			wantFound: false,
 		},
 		"empty": {
 			items:     empty,
-			value:     34,
+			key:     30,
 			wantFound: false,
 		},
 		"found": {
 			items:     items,
-			value:     34,
+			key:     30,
 			wantFound: true,
 		},
 		"not-found": {
 			items:     items,
-			value:     34,
-			wantFound: true,
+			key:     90,
+			wantFound: false,
 		},
 	}
 
@@ -61,14 +61,14 @@ func TestFindInt64(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := list.Find[int64](testCase.items, testCase.value)
+		gotFound := dict.FindKey[int,int64](testCase.items, testCase.key)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
-func TestFindStruct(t *testing.T) {
+func TestFindKeyStruct(t *testing.T) {
 
 	//
 	// test cases
@@ -79,39 +79,39 @@ func TestFindStruct(t *testing.T) {
 	}
 
 	type TestCase struct {
-		items     []Item
-		value     Item
+		items     map[int]Item
+		key     int
 		wantFound bool
 	}
 
-	empty := []Item{}
-	items := []Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
+	empty := map[int]Item{}
+	items := map[int]Item{
+		10: {value: 21},
+		20: {value: 12},
+		30: {value: 34},
+		40: {value: 87},
+		50: {value: 52},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			value:     Item{value: 34},
+			key:     30,
 			wantFound: false,
 		},
 		"empty": {
 			items:     empty,
-			value:     Item{value: 34},
+			key:     30,
 			wantFound: false,
 		},
 		"found": {
 			items:     items,
-			value:     Item{value: 34},
+			key:     30,
 			wantFound: true,
 		},
 		"not-found": {
 			items:     items,
-			value:     Item{value: 99},
+			key:     90,
 			wantFound: false,
 		},
 	}
@@ -123,14 +123,14 @@ func TestFindStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := list.Find[Item](testCase.items, testCase.value)
+		gotFound := dict.FindKey[int,Item](testCase.items, testCase.key)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
-func TestFindStructPointer(t *testing.T) {
+func TestFindKeyStructPointer(t *testing.T) {
 
 	//
 	// test cases
@@ -141,39 +141,39 @@ func TestFindStructPointer(t *testing.T) {
 	}
 
 	type TestCase struct {
-		items     []*Item
-		value     *Item
+		items     map[int]*Item
+		key     int
 		wantFound bool
 	}
 
-	empty := []*Item{}
-	items := []*Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
+	empty := map[int]*Item{}
+	items := map[int]*Item{
+		10: {value: 21},
+		20: {value: 12},
+		30: {value: 34},
+		40: {value: 87},
+		50: {value: 52},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			value:     &Item{value: 34},
+			key:     30,
 			wantFound: false,
 		},
 		"empty": {
 			items:     empty,
-			value:     &Item{value: 34},
+			key:     30,
 			wantFound: false,
 		},
 		"found": {
 			items:     items,
-			value:     &Item{value: 34},
+			key:     30,
 			wantFound: true,
 		},
 		"not-found": {
 			items:     items,
-			value:     &Item{value: 99},
+			key:     90,
 			wantFound: false,
 		},
 	}
@@ -185,7 +185,7 @@ func TestFindStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := list.Find[*Item](testCase.items, testCase.value)
+		gotFound := dict.FindKey[int, *Item](testCase.items, testCase.key)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")

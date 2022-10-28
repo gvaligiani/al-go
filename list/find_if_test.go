@@ -69,7 +69,7 @@ func TestFindIfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotItem, gotFound := list.FindIf[int64](testCase.items, testCase.predicate)
@@ -143,7 +143,7 @@ func TestFindIfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotItem, gotFound := list.FindIf[Item](testCase.items, testCase.predicate)
@@ -217,7 +217,7 @@ func TestFindIfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotItem, gotFound := list.FindIf[*Item](testCase.items, testCase.predicate)

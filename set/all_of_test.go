@@ -1,4 +1,4 @@
-package dict_test
+package set_test
 
 import (
 	"testing"
@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/dict"
+	"github.com/gvaligiani/algo/set"
 	"github.com/gvaligiani/algo/test"
 )
 
@@ -17,44 +17,44 @@ func TestAllOfInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]int64
-		predicate func(int, int64) bool
+		items     map[int64]struct{}
+		predicate func(int64) bool
 		wantAllOf bool
 	}
 
-	empty := map[int]int64{}
-	items := map[int]int64{
-		10: 21,
-		20: 12,
-		30: 34,
-		40: 87,
-		50: 52,
+	empty := map[int64]struct{}{}
+	items := map[int64]struct{}{
+		21: {},
+		12: {},
+		34: {},
+		87: {},
+		52: {},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, i int64) bool { return i > 100 },
+			predicate: func(i int64) bool { return i > 100 },
 			wantAllOf: true,
 		},
 		"empty": {
 			items:     empty,
-			predicate: func(_ int, i int64) bool { return i > 100 },
+			predicate: func(i int64) bool { return i > 100 },
 			wantAllOf: true,
 		},
 		"no-match": {
 			items:     items,
-			predicate: func(_ int, i int64) bool { return i > 100 },
+			predicate: func(i int64) bool { return i > 100 },
 			wantAllOf: false,
 		},
 		"some-match": {
 			items:     items,
-			predicate: func(_ int, i int64) bool { return i > 20 },
+			predicate: func(i int64) bool { return i > 20 },
 			wantAllOf: false,
 		},
 		"all-match": {
 			items:     items,
-			predicate: func(_ int, i int64) bool { return i < 100 },
+			predicate: func(i int64) bool { return i < 100 },
 			wantAllOf: true,
 		},
 	}
@@ -66,7 +66,7 @@ func TestAllOfInt64(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := dict.AllOf[int,int64](testCase.items, testCase.predicate)
+		gotAllOf := set.AllOf[int64](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
@@ -80,48 +80,48 @@ func TestAllOfStruct(t *testing.T) {
 	//
 
 	type Item struct {
-		value int
+		value int64
 	}
 
 	type TestCase struct {
-		items     map[int]Item
-		predicate func(int,Item) bool
+		items     map[Item]struct{}
+		predicate func(Item) bool
 		wantAllOf bool
 	}
 
-	empty := map[int]Item{}
-	items := map[int]Item{
-		10: {value: 21},
-		20: {value: 12},
-		30: {value: 34},
-		40: {value: 87},
-		50: {value: 52},
+	empty := map[Item]struct{}{}
+	items := map[Item]struct{}{
+		{value: 21}: {},
+		{value: 12}: {},
+		{value: 34}: {},
+		{value: 87}: {},
+		{value: 52}: {},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, i Item) bool { return i.value > 100 },
+			predicate: func(i Item) bool { return i.value > 100 },
 			wantAllOf: true,
 		},
 		"empty": {
 			items:     empty,
-			predicate: func(_ int, i Item) bool { return i.value > 100 },
+			predicate: func(i Item) bool { return i.value > 100 },
 			wantAllOf: true,
 		},
 		"no-match": {
 			items:     items,
-			predicate: func(_ int, i Item) bool { return i.value > 100 },
+			predicate: func(i Item) bool { return i.value > 100 },
 			wantAllOf: false,
 		},
 		"some-match": {
 			items:     items,
-			predicate: func(_ int, i Item) bool { return i.value > 20 },
+			predicate: func(i Item) bool { return i.value > 20 },
 			wantAllOf: false,
 		},
 		"all-match": {
 			items:     items,
-			predicate: func(_ int, i Item) bool { return i.value < 100 },
+			predicate: func(i Item) bool { return i.value < 100 },
 			wantAllOf: true,
 		},
 	}
@@ -133,7 +133,7 @@ func TestAllOfStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := dict.AllOf[int,Item](testCase.items, testCase.predicate)
+		gotAllOf := set.AllOf[Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
@@ -147,48 +147,48 @@ func TestAllOfStructPointer(t *testing.T) {
 	//
 
 	type Item struct {
-		value int
+		value int64
 	}
 
 	type TestCase struct {
-		items     map[int]*Item
-		predicate func(int,*Item) bool
+		items     map[*Item]struct{}
+		predicate func(*Item) bool
 		wantAllOf bool
 	}
 
-	empty := map[int]*Item{}
-	items := map[int]*Item{
-		10: {value: 21},
-		20: {value: 12},
-		30: {value: 34},
-		40: {value: 87},
-		50: {value: 52},
+	empty := map[*Item]struct{}{}
+	items := map[*Item]struct{}{
+		{value: 21}: {},
+		{value: 12}: {},
+		{value: 34}: {},
+		{value: 87}: {},
+		{value: 52}: {},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, i *Item) bool { return i.value > 100 },
+			predicate: func(i *Item) bool { return i.value > 100 },
 			wantAllOf: true,
 		},
 		"empty": {
 			items:     empty,
-			predicate: func(_ int, i *Item) bool { return i.value > 100 },
+			predicate: func(i *Item) bool { return i.value > 100 },
 			wantAllOf: true,
 		},
 		"no-match": {
 			items:     items,
-			predicate: func(_ int, i *Item) bool { return i.value > 100 },
+			predicate: func(i *Item) bool { return i.value > 100 },
 			wantAllOf: false,
 		},
 		"some-match": {
 			items:     items,
-			predicate: func(_ int, i *Item) bool { return i.value > 20 },
+			predicate: func(i *Item) bool { return i.value > 20 },
 			wantAllOf: false,
 		},
 		"all-match": {
 			items:     items,
-			predicate: func(_ int, i *Item) bool { return i.value < 100 },
+			predicate: func(i *Item) bool { return i.value < 100 },
 			wantAllOf: true,
 		},
 	}
@@ -200,7 +200,7 @@ func TestAllOfStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := dict.AllOf[int, *Item](testCase.items, testCase.predicate)
+		gotAllOf := set.AllOf[*Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")

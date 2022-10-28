@@ -10,7 +10,7 @@ import (
 	"github.com/gvaligiani/algo/test"
 )
 
-func TestFindInt64(t *testing.T) {
+func TestFindValueInt64(t *testing.T) {
 
 	//
 	// test cases
@@ -49,8 +49,8 @@ func TestFindInt64(t *testing.T) {
 		},
 		"not-found": {
 			items:     items,
-			value:     34,
-			wantFound: true,
+			value:     99,
+			wantFound: false,
 		},
 	}
 
@@ -58,17 +58,17 @@ func TestFindInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := dict.Find[int,int64](testCase.items, testCase.value)
+		gotFound := dict.FindValue[int,int64](testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
-func TestFindStruct(t *testing.T) {
+func TestFindValueStruct(t *testing.T) {
 
 	//
 	// test cases
@@ -120,17 +120,17 @@ func TestFindStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := dict.Find[int,Item](testCase.items, testCase.value)
+		gotFound := dict.FindValue[int,Item](testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
-func TestFindStructPointer(t *testing.T) {
+func TestFindValueStructPointer(t *testing.T) {
 
 	//
 	// test cases
@@ -182,10 +182,10 @@ func TestFindStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := dict.Find[int, *Item](testCase.items, testCase.value)
+		gotFound := dict.FindValue[int, *Item](testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")

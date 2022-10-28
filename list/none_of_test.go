@@ -63,7 +63,7 @@ func TestNoneOfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNoneOf := list.NoneOf[int64](testCase.items, testCase.predicate)
@@ -130,7 +130,7 @@ func TestNoneOfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNoneOf := list.NoneOf[Item](testCase.items, testCase.predicate)
@@ -197,7 +197,7 @@ func TestNoneOfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNoneOf := list.NoneOf[*Item](testCase.items, testCase.predicate)

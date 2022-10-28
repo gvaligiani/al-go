@@ -1,23 +1,27 @@
 package test
 
 import (
+	"fmt"
 	"testing"
 	"time"
-	
+	"reflect"
+
 	"go.uber.org/zap"
 )
 
 // RunTestCases runs a set of test cases
-func RunTestCases[TestCase any](t *testing.T,testCases map[string]TestCase,runTestCase func(testName string, logger *zap.Logger, testCase TestCase)) {
+func RunTestCases[TestCase any](t *testing.T,testCases map[string]TestCase,runTestCase func(t *testing.T, logger *zap.Logger, testCase TestCase)) {
+	// t.Helper()
 	for testName, testCase := range testCases {
 		t.Run(testName, func(t *testing.T) {
-			logger := NewTestCaseLogger(testName)
-			logger.Info(" ---------- start ---------- ")
+			// t.Helper()
+			
+			logger := NewLogger()
+			logger.Info(fmt.Sprintf(" ----- %s/%v ",reflect.TypeOf(testCase).PkgPath(),t.Name()))
 			start := time.Now()
-			defer logger.Info(" ---------- end ---------- ", zap.Duration("time", time.Since(start)))
+			defer logger.Info(fmt.Sprintf(" >>> test completed in %v ",time.Since(start)))
 
-			runTestCase(testName,logger,testCase)
+			runTestCase(t,NewTestCaseLogger(testName),testCase)
 		})
-	}	
+	}
 }
-
