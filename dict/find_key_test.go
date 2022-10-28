@@ -34,12 +34,12 @@ func TestFindKeyInt64(t *testing.T) {
 			wantFound: false,
 		},
 		"found": {
-			items:     test.Int64Dict,
+			items:     test.DefaultInt64Dict,
 			key:     30,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     test.Int64Dict,
+			items:     test.DefaultInt64Dict,
 			key:     90,
 			wantFound: false,
 		},
@@ -83,12 +83,12 @@ func TestFindKeyStruct(t *testing.T) {
 			wantFound: false,
 		},
 		"found": {
-			items:     test.ItemDict,
+			items:     test.DefaultItemDict,
 			key:     30,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     test.ItemDict,
+			items:     test.DefaultItemDict,
 			key:     90,
 			wantFound: false,
 		},
@@ -132,12 +132,12 @@ func TestFindKeyStructPointer(t *testing.T) {
 			wantFound: false,
 		},
 		"found": {
-			items:     test.ItemPointerDict,
+			items:     test.DefaultItemPointerDict,
 			key:     30,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     test.ItemPointerDict,
+			items:     test.DefaultItemPointerDict,
 			key:     90,
 			wantFound: false,
 		},

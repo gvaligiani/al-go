@@ -34,17 +34,17 @@ func TestAnyOfInt64(t *testing.T) {
 			wantAnyOf: false,
 		},
 		"no-match": {
-			items:     test.Int64List,
+			items:     test.DefaultInt64List,
 			predicate: func(i int64) bool { return i > 100 },
 			wantAnyOf: false,
 		},
 		"some-match": {
-			items:     test.Int64List,
+			items:     test.DefaultInt64List,
 			predicate: func(i int64) bool { return i > 20 },
 			wantAnyOf: true,
 		},
 		"all-match": {
-			items:     test.Int64List,
+			items:     test.DefaultInt64List,
 			predicate: func(i int64) bool { return i < 100 },
 			wantAnyOf: true,
 		},
@@ -88,17 +88,17 @@ func TestAnyOfStruct(t *testing.T) {
 			wantAnyOf: false,
 		},
 		"no-match": {
-			items:     test.ItemList,
+			items:     test.DefaultItemList,
 			predicate: func(item test.Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"some-match": {
-			items:     test.ItemList,
+			items:     test.DefaultItemList,
 			predicate: func(item test.Item) bool { return item.Value > 20 },
 			wantAnyOf: true,
 		},
 		"all-match": {
-			items:     test.ItemList,
+			items:     test.DefaultItemList,
 			predicate: func(item test.Item) bool { return item.Value < 100 },
 			wantAnyOf: true,
 		},
@@ -142,17 +142,17 @@ func TestAnyOfStructPointer(t *testing.T) {
 			wantAnyOf: false,
 		},
 		"no-match": {
-			items:     test.ItemPointerList,
+			items:     test.DefaultItemPointerList,
 			predicate: func(item *test.Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"some-match": {
-			items:     test.ItemPointerList,
+			items:     test.DefaultItemPointerList,
 			predicate: func(item *test.Item) bool { return item.Value > 20 },
 			wantAnyOf: true,
 		},
 		"all-match": {
-			items:     test.ItemPointerList,
+			items:     test.DefaultItemPointerList,
 			predicate: func(item *test.Item) bool { return item.Value < 100 },
 			wantAnyOf: true,
 		},
