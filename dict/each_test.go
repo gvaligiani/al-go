@@ -21,26 +21,17 @@ func TestEachInt64(t *testing.T) {
 		wantNb int
 	}
 
-	empty := map[int]int64{}
-	items := map[int]int64{
-		10: 21,
-		20: 12,
-		30: 34,
-		40: 87,
-		50: 52,
-	}
-
 	testCases := map[string]TestCase{
 		"nil": {
 			items:  nil,
 			wantNb: 0,
 		},
 		"empty": {
-			items:  empty,
+			items:  test.EmptyInt64Dict,
 			wantNb: 0,
 		},
 		"all": {
-			items:  items,
+			items:  test.Int64Dict,
 			wantNb: 5,
 		},
 	}
@@ -49,7 +40,7 @@ func TestEachInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNb := 0
@@ -66,22 +57,9 @@ func TestEachStruct(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items  map[int]Item
+		items  map[int]test.Item
 		wantNb int
-	}
-
-	empty := map[int]Item{}
-	items := map[int]Item{
-		10: {value: 21},
-		20: {value: 12},
-		30: {value: 34},
-		40: {value: 87},
-		50: {value: 52},
 	}
 
 	testCases := map[string]TestCase{
@@ -90,11 +68,11 @@ func TestEachStruct(t *testing.T) {
 			wantNb: 0,
 		},
 		"empty": {
-			items:  empty,
+			items:  test.EmptyItemDict,
 			wantNb: 0,
 		},
 		"all": {
-			items:  items,
+			items:  test.ItemDict,
 			wantNb: 5,
 		},
 	}
@@ -103,11 +81,11 @@ func TestEachStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNb := 0
-		dict.Each[int,Item](testCase.items, func(_ int, _ Item) { gotNb++ })
+		dict.Each[int,test.Item](testCase.items, func(_ int, _ test.Item) { gotNb++ })
 
 		// assert
 		require.Equalf(t, testCase.wantNb, gotNb, "wrong nb!")
@@ -120,22 +98,9 @@ func TestEachStructPointer(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items  map[int]*Item
+		items  map[int]*test.Item
 		wantNb int
-	}
-
-	empty := map[int]*Item{}
-	items := map[int]*Item{
-		10: {value: 21},
-		20: {value: 12},
-		30: {value: 34},
-		40: {value: 87},
-		50: {value: 52},
 	}
 
 	testCases := map[string]TestCase{
@@ -144,11 +109,11 @@ func TestEachStructPointer(t *testing.T) {
 			wantNb: 0,
 		},
 		"empty": {
-			items:  empty,
+			items:  test.EmptyItemPointerDict,
 			wantNb: 0,
 		},
 		"all": {
-			items:  items,
+			items:  test.ItemPointerDict,
 			wantNb: 5,
 		},
 	}
@@ -157,11 +122,11 @@ func TestEachStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNb := 0
-		dict.Each[int, *Item](testCase.items, func(_ int, _ *Item) { gotNb++ })
+		dict.Each[int, *test.Item](testCase.items, func(_ int, _ *test.Item) { gotNb++ })
 
 		// assert
 		require.Equalf(t, testCase.wantNb, gotNb, "wrong nb!")

@@ -19,50 +19,47 @@ func TestFindIfNotInt64(t *testing.T) {
 	type TestCase struct {
 		items     map[int]int64
 		predicate func(int, int64) bool
+		wantKey int
 		wantItem  int64
 		wantFound bool
-	}
-
-	empty := map[int]int64{}
-	items := map[int]int64{
-		10: 21,
-		20: 12,
-		30: 34,
-		40: 87,
-		50: 52,
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
 			predicate: func(_ int, i int64) bool { return i%10 == 3 },
-			wantFound: false,
+			wantKey: 0,
 			wantItem:  0,
+			wantFound: false,
 		},
 		"empty": {
-			items:     empty,
+			items:     test.EmptyInt64Dict,
 			predicate: func(_ int, i int64) bool { return i%10 == 3 },
-			wantFound: false,
+			wantKey: 0,
 			wantItem:  0,
+			wantFound: false,
 		},
 		"no-match": {
-			items:     items,
+			items:     test.Int64Dict,
 			predicate: func(_ int, i int64) bool { return i < 100 },
-			wantFound: false,
+			wantKey: 0,
 			wantItem:  0,
+			wantFound: false,
 		},
 		// NOTE order could not be guarantee >>> expected 21, 12, 87, 52
 		// "some-match": {
-		// 	items:     items,
+		// 	items:     test.Int64Dict,
 		// 	predicate: func(_ int, i int64) bool { return i%10 == 4 },
-		// 	wantFound: true,
+		// 	wantKey:   10,
 		// 	wantItem:  21,
+		// 	wantFound: true,
 		// },
 		"one-match": {
-			items:     items,
-			predicate: func(_ int, i int64) bool { return i < 50 },
-			wantFound: true,
+			items:     test.Int64Dict,
+			predicate: func(_ int, i int64) bool { return i < 60 },
+			wantKey: 40,
 			wantItem:  87,
+			wantFound: true,
 		},
 	}
 
@@ -70,14 +67,15 @@ func TestFindIfNotInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := dict.FindIfNot[int, int64](testCase.items, testCase.predicate)
+		gotKey, gotItem, gotFound := dict.FindIfNot[int, int64](testCase.items, testCase.predicate)
 
 		// assert
-		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
+		require.Equalf(t, testCase.wantKey, gotKey, "wrong key!")
 		require.Equalf(t, testCase.wantItem, gotItem, "wrong item!")
+		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
@@ -87,57 +85,50 @@ func TestFindIfNotStruct(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items     map[int]Item
-		predicate func(int, Item) bool
-		wantItem  Item
+		items     map[int]test.Item
+		predicate func(int, test.Item) bool
+		wantKey int
+		wantItem  test.Item
 		wantFound bool
-	}
-
-	empty := map[int]Item{}
-	items := map[int]Item{
-		10: {value: 21},
-		20: {value: 12},
-		30: {value: 34},
-		40: {value: 87},
-		50: {value: 52},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, i Item) bool { return i.value%10 == 3 },
+			predicate: func(_ int, item test.Item) bool { return item.Value%10 == 3 },
+			wantKey: 0,
+			wantItem:  test.Item{},
 			wantFound: false,
-			wantItem:  Item{},
 		},
 		"empty": {
-			items:     empty,
-			predicate: func(_ int, i Item) bool { return i.value%10 == 3 },
+			items:     test.EmptyItemDict,
+			predicate: func(_ int, item test.Item) bool { return item.Value%10 == 3 },
+			wantKey: 0,
+			wantItem:  test.Item{},
 			wantFound: false,
-			wantItem:  Item{},
 		},
 		"no-match": {
-			items:     items,
-			predicate: func(_ int, i Item) bool { return i.value < 100 },
+			items:     test.ItemDict,
+			predicate: func(_ int, item test.Item) bool { return item.Value < 100 },
+			wantKey: 0,
+			wantItem:  test.Item{},
 			wantFound: false,
-			wantItem:  Item{},
 		},
 		// NOTE order could not be guarantee >>> expected 21, 12, 87, 52
 		// "some-match": {
-		// 	items:     items,
-		// 	predicate: func(_ int, i Item) bool { return i.value%10 == 4 },
+		// 	items:     test.ItemDict,
+		// 	predicate: func(_ int, item test.Item) bool { return item.Value%10 == 4 },
+		// 	wantKey:   10,
+		// 	wantItem:  test.Item{Value: 21},
 		// 	wantFound: true,
-		// 	wantItem:  Item{value: 21},
 		// },
 		"one-match": {
-			items:     items,
-			predicate: func(_ int, i Item) bool { return i.value < 50 },
+			items:     test.ItemDict,
+			predicate: func(_ int, item test.Item) bool { return item.Value < 60 },
+			wantKey: 40,
+			wantItem:  test.Item{Value: 87},
 			wantFound: true,
-			wantItem:  Item{value: 87},
 		},
 	}
 
@@ -145,14 +136,15 @@ func TestFindIfNotStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := dict.FindIfNot[int, Item](testCase.items, testCase.predicate)
+		gotKey, gotItem, gotFound := dict.FindIfNot[int, test.Item](testCase.items, testCase.predicate)
 
 		// assert
-		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
+		require.Equalf(t, testCase.wantKey, gotKey, "wrong key!")
 		require.Equalf(t, testCase.wantItem, gotItem, "wrong item!")
+		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
@@ -162,57 +154,50 @@ func TestFindIfNotStructPointer(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items     map[int]*Item
-		predicate func(int, *Item) bool
-		wantItem  *Item
+		items     map[int]*test.Item
+		predicate func(int, *test.Item) bool
+		wantKey int
+		wantItem  *test.Item
 		wantFound bool
-	}
-
-	empty := map[int]*Item{}
-	items := map[int]*Item{
-		10: {value: 21},
-		20: {value: 12},
-		30: {value: 34},
-		40: {value: 87},
-		50: {value: 52},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, i *Item) bool { return i.value%10 == 3 },
-			wantFound: false,
+			predicate: func(_ int, item *test.Item) bool { return item.Value%10 == 3 },
+			wantKey: 0,
 			wantItem:  nil,
+			wantFound: false,
 		},
 		"empty": {
-			items:     empty,
-			predicate: func(_ int, i *Item) bool { return i.value%10 == 3 },
-			wantFound: false,
+			items:     test.EmptyItemPointerDict,
+			predicate: func(_ int, item *test.Item) bool { return item.Value%10 == 3 },
+			wantKey: 0,
 			wantItem:  nil,
+			wantFound: false,
 		},
 		"no-match": {
-			items:     items,
-			predicate: func(_ int, i *Item) bool { return i.value < 100 },
-			wantFound: false,
+			items:     test.ItemPointerDict,
+			predicate: func(_ int, item *test.Item) bool { return item.Value < 100 },
+			wantKey: 0,
 			wantItem:  nil,
+			wantFound: false,
 		},
 		// NOTE order could not be guarantee >>> expected 21, 12, 87, 52
 		// "some-match": {
-		// 	items:     items,
-		// 	predicate: func(_ int, i *Item) bool { return i.value%10 == 4 },
+		// 	items:     test.ItemPointerDict,
+		// 	predicate: func(_ int, item *test.Item) bool { return item.Value%10 == 4 },
+		//  wantKey:   10,
+		// 	wantItem:  &test.Item{Value: 21},
 		// 	wantFound: true,
-		// 	wantItem:  &Item{value: 21},
 		// },
 		"one-match": {
-			items:     items,
-			predicate: func(_ int, i *Item) bool { return i.value < 50 },
+			items:     test.ItemPointerDict,
+			predicate: func(_ int, item *test.Item) bool { return item.Value < 60 },
+			wantKey:  40,
+			wantItem:  &test.Item{Value: 87},
 			wantFound: true,
-			wantItem:  &Item{value: 87},
 		},
 	}
 
@@ -220,13 +205,14 @@ func TestFindIfNotStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(_ string, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := dict.FindIfNot[int, *Item](testCase.items, testCase.predicate)
+		gotKey, gotItem, gotFound := dict.FindIfNot[int, *test.Item](testCase.items, testCase.predicate)
 
 		// assert
-		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
+		require.Equalf(t, testCase.wantKey, gotKey, "wrong key!")
 		require.Equalf(t, testCase.wantItem, gotItem, "wrong item!")
+		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
