@@ -34,17 +34,17 @@ func TestAllOfInt64(t *testing.T) {
 			wantAllOf: true,
 		},
 		"no-match": {
-			items:     test.Int64Dict,
+			items:     test.DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i > 100 },
 			wantAllOf: false,
 		},
 		"some-match": {
-			items:     test.Int64Dict,
+			items:     test.DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i > 20 },
 			wantAllOf: false,
 		},
 		"all-match": {
-			items:     test.Int64Dict,
+			items:     test.DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i < 100 },
 			wantAllOf: true,
 		},
@@ -88,17 +88,17 @@ func TestAllOfStruct(t *testing.T) {
 			wantAllOf: true,
 		},
 		"no-match": {
-			items:     test.ItemDict,
+			items:     test.DefaultItemDict,
 			predicate: func(_ int, item test.Item) bool { return item.Value > 100 },
 			wantAllOf: false,
 		},
 		"some-match": {
-			items:     test.ItemDict,
+			items:     test.DefaultItemDict,
 			predicate: func(_ int, item test.Item) bool { return item.Value > 20 },
 			wantAllOf: false,
 		},
 		"all-match": {
-			items:     test.ItemDict,
+			items:     test.DefaultItemDict,
 			predicate: func(_ int, item test.Item) bool { return item.Value < 100 },
 			wantAllOf: true,
 		},
@@ -142,17 +142,17 @@ func TestAllOfStructPointer(t *testing.T) {
 			wantAllOf: true,
 		},
 		"no-match": {
-			items:     test.ItemPointerDict,
+			items:     test.DefaultItemPointerDict,
 			predicate: func(_ int, item *test.Item) bool { return item.Value > 100 },
 			wantAllOf: false,
 		},
 		"some-match": {
-			items:     test.ItemPointerDict,
+			items:     test.DefaultItemPointerDict,
 			predicate: func(_ int, item *test.Item) bool { return item.Value > 20 },
 			wantAllOf: false,
 		},
 		"all-match": {
-			items:     test.ItemPointerDict,
+			items:     test.DefaultItemPointerDict,
 			predicate: func(_ int, item *test.Item) bool { return item.Value < 100 },
 			wantAllOf: true,
 		},

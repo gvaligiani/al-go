@@ -37,13 +37,13 @@ func TestFindIfInt64(t *testing.T) {
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.Int64Set,
+			items:     test.DefaultInt64Set,
 			predicate: func(i int64) bool { return i%10 == 3 },
 			wantItem:  0,
 			wantFound: false,
 		},
 		"one-match": {
-			items:     test.Int64Set,
+			items:     test.DefaultInt64Set,
 			predicate: func(i int64) bool { return i%10 == 4 },
 			wantItem:  34,
 			wantFound: true,
@@ -99,13 +99,13 @@ func TestFindIfStruct(t *testing.T) {
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.ItemSet,
+			items:     test.DefaultItemSet,
 			predicate: func(item test.Item) bool { return item.Value%10 == 3 },
 			wantItem:  test.Item{},
 			wantFound: false,
 		},
 		"one-match": {
-			items:     test.ItemSet,
+			items:     test.DefaultItemSet,
 			predicate: func(item test.Item) bool { return item.Value%10 == 4 },
 			wantItem:  test.Item{Value: 34},
 			wantFound: true,
@@ -161,13 +161,13 @@ func TestFindIfStructPointer(t *testing.T) {
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.ItemPointerSet,
+			items:     test.DefaultItemPointerSet,
 			predicate: func(item *test.Item) bool { return item.Value%10 == 3 },
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"one-match": {
-			items:     test.ItemPointerSet,
+			items:     test.DefaultItemPointerSet,
 			predicate: func(item *test.Item) bool { return item.Value%10 == 4 },
 			wantItem:  &test.Item{Value: 34},
 			wantFound: true,

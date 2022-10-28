@@ -34,12 +34,12 @@ func TestFindInt64(t *testing.T) {
 			wantFound: false,
 		},
 		"found": {
-			items:     test.Int64Set,
+			items:     test.DefaultInt64Set,
 			value:     34,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     test.Int64Set,
+			items:     test.DefaultInt64Set,
 			value:     34,
 			wantFound: true,
 		},
@@ -83,12 +83,12 @@ func TestFindStruct(t *testing.T) {
 			wantFound: false,
 		},
 		"found": {
-			items:     test.ItemSet,
+			items:     test.DefaultItemSet,
 			value:     test.Item{Value: 34},
 			wantFound: true,
 		},
 		"not-found": {
-			items:     test.ItemSet,
+			items:     test.DefaultItemSet,
 			value:     test.Item{Value: 99},
 			wantFound: false,
 		},
@@ -132,12 +132,12 @@ func TestFindStructPointer(t *testing.T) {
 			wantFound: false,
 		},
 		"found": {
-			items:     test.ItemPointerSet,
+			items:     test.DefaultItemPointerSet,
 			value:     &test.Item{Value: 34},
 			wantFound: true,
 		},
 		"not-found": {
-			items:     test.ItemPointerSet,
+			items:     test.DefaultItemPointerSet,
 			value:     &test.Item{Value: 99},
 			wantFound: false,
 		},

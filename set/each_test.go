@@ -31,7 +31,7 @@ func TestEachInt64(t *testing.T) {
 			wantSum: 0,
 		},
 		"all": {
-			items:   test.Int64Set,
+			items:   test.DefaultInt64Set,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -72,7 +72,7 @@ func TestEachStruct(t *testing.T) {
 			wantSum: 0,
 		},
 		"all": {
-			items:   test.ItemSet,
+			items:   test.DefaultItemSet,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -113,7 +113,7 @@ func TestEachStructPointer(t *testing.T) {
 			wantSum: 0,
 		},
 		"all": {
-			items:   test.ItemPointerSet,
+			items:   test.DefaultItemPointerSet,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}

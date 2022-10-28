@@ -34,17 +34,17 @@ func TestNoneOfInt64(t *testing.T) {
 			wantNoneOf: true,
 		},
 		"no-match": {
-			items:      test.Int64Dict,
+			items:      test.DefaultInt64Dict,
 			predicate:  func(_ int, i int64) bool { return i > 100 },
 			wantNoneOf: true,
 		},
 		"some-match": {
-			items:      test.Int64Dict,
+			items:      test.DefaultInt64Dict,
 			predicate:  func(_ int, i int64) bool { return i > 20 },
 			wantNoneOf: false,
 		},
 		"all-match": {
-			items:      test.Int64Dict,
+			items:      test.DefaultInt64Dict,
 			predicate:  func(_ int, i int64) bool { return i < 100 },
 			wantNoneOf: false,
 		},
@@ -88,17 +88,17 @@ func TestNoneOfStruct(t *testing.T) {
 			wantNoneOf: true,
 		},
 		"no-match": {
-			items:      test.ItemDict,
+			items:      test.DefaultItemDict,
 			predicate:  func(_ int, item test.Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"some-match": {
-			items:      test.ItemDict,
+			items:      test.DefaultItemDict,
 			predicate:  func(_ int, item test.Item) bool { return item.Value > 20 },
 			wantNoneOf: false,
 		},
 		"all-match": {
-			items:      test.ItemDict,
+			items:      test.DefaultItemDict,
 			predicate:  func(_ int, item test.Item) bool { return item.Value < 100 },
 			wantNoneOf: false,
 		},
@@ -142,17 +142,17 @@ func TestNoneOfStructPointer(t *testing.T) {
 			wantNoneOf: true,
 		},
 		"no-match": {
-			items:      test.ItemPointerDict,
+			items:      test.DefaultItemPointerDict,
 			predicate:  func(_ int, item *test.Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"some-match": {
-			items:      test.ItemPointerDict,
+			items:      test.DefaultItemPointerDict,
 			predicate:  func(_ int, item *test.Item) bool { return item.Value > 20 },
 			wantNoneOf: false,
 		},
 		"all-match": {
-			items:      test.ItemPointerDict,
+			items:      test.DefaultItemPointerDict,
 			predicate:  func(_ int, item *test.Item) bool { return item.Value < 100 },
 			wantNoneOf: false,
 		},

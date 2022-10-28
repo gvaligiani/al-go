@@ -37,7 +37,7 @@ func TestFindIfNotInt64(t *testing.T) {
 			wantItem:  0,
 		},
 		"no-match": {
-			items:     test.Int64Set,
+			items:     test.DefaultInt64Set,
 			predicate: func(i int64) bool { return i < 100 },
 			wantFound: false,
 			wantItem:  0,
@@ -50,7 +50,7 @@ func TestFindIfNotInt64(t *testing.T) {
 		// 	wantItem:  21,
 		// },
 		"one-match": {
-			items:     test.Int64Set,
+			items:     test.DefaultInt64Set,
 			predicate: func(i int64) bool { return i < 60 },
 			wantFound: true,
 			wantItem:  87,
@@ -99,7 +99,7 @@ func TestFindIfNotStruct(t *testing.T) {
 			wantItem:  test.Item{},
 		},
 		"no-match": {
-			items:     test.ItemSet,
+			items:     test.DefaultItemSet,
 			predicate: func(item test.Item) bool { return item.Value < 100 },
 			wantFound: false,
 			wantItem:  test.Item{},
@@ -112,7 +112,7 @@ func TestFindIfNotStruct(t *testing.T) {
 		// 	wantItem:  test.Item{Value: 21},
 		// },
 		"one-match": {
-			items:     test.ItemSet,
+			items:     test.DefaultItemSet,
 			predicate: func(item test.Item) bool { return item.Value < 60 },
 			wantFound: true,
 			wantItem:  test.Item{Value: 87},
@@ -161,7 +161,7 @@ func TestFindIfNotStructPointer(t *testing.T) {
 			wantItem:  nil,
 		},
 		"no-match": {
-			items:     test.ItemPointerSet,
+			items:     test.DefaultItemPointerSet,
 			predicate: func(item *test.Item) bool { return item.Value < 100 },
 			wantFound: false,
 			wantItem:  nil,
@@ -174,7 +174,7 @@ func TestFindIfNotStructPointer(t *testing.T) {
 		// 	wantItem:  &test.Item{Value: 21},
 		// },
 		"one-match": {
-			items:     test.ItemPointerSet,
+			items:     test.DefaultItemPointerSet,
 			predicate: func(item *test.Item) bool { return item.Value < 60 },
 			wantFound: true,
 			wantItem:  &test.Item{Value: 87},

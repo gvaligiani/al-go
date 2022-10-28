@@ -40,14 +40,14 @@ func TestFindIfInt64(t *testing.T) {
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.Int64Dict,
+			items:     test.DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i%10 == 3 },
 			wantKey: 0,
 			wantItem:  0,
 			wantFound: false,
 		},
 		"one-match": {
-			items:     test.Int64Dict,
+			items:     test.DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i%10 == 4 },
 			wantKey: 30,
 			wantItem:  34,
@@ -55,7 +55,7 @@ func TestFindIfInt64(t *testing.T) {
 		},
 		// NOTE order could not be guarantee >>> expected 12 or 52
 		// "two-matches": {
-		// 	items:     test.Int64Dict,
+		// 	items:     test.DefaultInt64Dict,
 		// 	predicate: func(_ int, i int64) bool { return i%10 == 2 },
 		// 	wantKey:   20,
 		// 	wantItem:  12,
@@ -109,14 +109,14 @@ func TestFindIfStruct(t *testing.T) {
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.ItemDict,
+			items:     test.DefaultItemDict,
 			predicate: func(_ int, item test.Item) bool { return item.Value%10 == 3 },
 			wantKey: 0,
 			wantItem:  test.Item{},
 			wantFound: false,
 		},
 		"one-match": {
-			items:     test.ItemDict,
+			items:     test.DefaultItemDict,
 			predicate: func(_ int, item test.Item) bool { return item.Value%10 == 4 },
 			wantKey: 30,
 			wantItem:  test.Item{Value: 34},
@@ -178,14 +178,14 @@ func TestFindIfStructPointer(t *testing.T) {
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.ItemPointerDict,
+			items:     test.DefaultItemPointerDict,
 			predicate: func(_ int, item *test.Item) bool { return item.Value%10 == 3 },
 			wantKey: 0,
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"one-match": {
-			items:     test.ItemPointerDict,
+			items:     test.DefaultItemPointerDict,
 			predicate: func(_ int, item *test.Item) bool { return item.Value%10 == 4 },
 			wantKey: 30,
 			wantItem:  &test.Item{Value: 34},

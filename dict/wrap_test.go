@@ -31,7 +31,7 @@ func TestWrapInt64(t *testing.T) {
 			wantSum: 0,
 		},
 		"all": {
-			items:  test.Int64Dict,
+			items:  test.DefaultInt64Dict,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -72,7 +72,7 @@ func TestWrapStruct(t *testing.T) {
 			wantSum: 0,
 		},
 		"all": {
-			items:  test.ItemDict,
+			items:  test.DefaultItemDict,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -113,7 +113,7 @@ func TestWrapStructPointer(t *testing.T) {
 			wantSum: 0,
 		},
 		"all": {
-			items:  test.ItemPointerDict,
+			items:  test.DefaultItemPointerDict,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}

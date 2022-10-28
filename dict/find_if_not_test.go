@@ -40,7 +40,7 @@ func TestFindIfNotInt64(t *testing.T) {
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.Int64Dict,
+			items:     test.DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i < 100 },
 			wantKey: 0,
 			wantItem:  0,
@@ -48,14 +48,14 @@ func TestFindIfNotInt64(t *testing.T) {
 		},
 		// NOTE order could not be guarantee >>> expected 21, 12, 87, 52
 		// "some-match": {
-		// 	items:     test.Int64Dict,
+		// 	items:     test.DefaultInt64Dict,
 		// 	predicate: func(_ int, i int64) bool { return i%10 == 4 },
 		// 	wantKey:   10,
 		// 	wantItem:  21,
 		// 	wantFound: true,
 		// },
 		"one-match": {
-			items:     test.Int64Dict,
+			items:     test.DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i < 60 },
 			wantKey: 40,
 			wantItem:  87,
@@ -109,7 +109,7 @@ func TestFindIfNotStruct(t *testing.T) {
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.ItemDict,
+			items:     test.DefaultItemDict,
 			predicate: func(_ int, item test.Item) bool { return item.Value < 100 },
 			wantKey: 0,
 			wantItem:  test.Item{},
@@ -124,7 +124,7 @@ func TestFindIfNotStruct(t *testing.T) {
 		// 	wantFound: true,
 		// },
 		"one-match": {
-			items:     test.ItemDict,
+			items:     test.DefaultItemDict,
 			predicate: func(_ int, item test.Item) bool { return item.Value < 60 },
 			wantKey: 40,
 			wantItem:  test.Item{Value: 87},
@@ -178,7 +178,7 @@ func TestFindIfNotStructPointer(t *testing.T) {
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.ItemPointerDict,
+			items:     test.DefaultItemPointerDict,
 			predicate: func(_ int, item *test.Item) bool { return item.Value < 100 },
 			wantKey: 0,
 			wantItem:  nil,
@@ -193,7 +193,7 @@ func TestFindIfNotStructPointer(t *testing.T) {
 		// 	wantFound: true,
 		// },
 		"one-match": {
-			items:     test.ItemPointerDict,
+			items:     test.DefaultItemPointerDict,
 			predicate: func(_ int, item *test.Item) bool { return item.Value < 60 },
 			wantKey:  40,
 			wantItem:  &test.Item{Value: 87},

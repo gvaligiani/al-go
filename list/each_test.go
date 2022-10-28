@@ -17,22 +17,22 @@ func TestEachInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items  []int64
-		wantNb int
+		items   []int64
+		wantSum int64
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
-			items:  nil,
-			wantNb: 0,
+			items:   nil,
+			wantSum: 0,
 		},
 		"empty": {
-			items:  test.EmptyInt64List,
-			wantNb: 0,
+			items:   test.EmptyInt64List,
+			wantSum: 0,
 		},
 		"all": {
-			items:  test.Int64List,
-			wantNb: 5,
+			items:   test.DefaultInt64List,
+			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
 
@@ -43,11 +43,11 @@ func TestEachInt64(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNb := 0
-		list.Each[int64](testCase.items, func(_ int, _ int64) { gotNb++ })
+		var gotSum int64
+		list.Each[int64](testCase.items, func(item int64) { gotSum += item })
 
 		// assert
-		require.Equalf(t, testCase.wantNb, gotNb, "wrong nb!")
+		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
 	})
 }
 
@@ -58,22 +58,22 @@ func TestEachStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items  []test.Item
-		wantNb int
+		items   []test.Item
+		wantSum int64
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
-			items:  nil,
-			wantNb: 0,
+			items:   nil,
+			wantSum: 0,
 		},
 		"empty": {
-			items:  test.EmptyItemList,
-			wantNb: 0,
+			items:   test.EmptyItemList,
+			wantSum: 0,
 		},
 		"all": {
-			items:  test.ItemList,
-			wantNb: 5,
+			items:   test.DefaultItemList,
+			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
 
@@ -84,11 +84,11 @@ func TestEachStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNb := 0
-		list.Each[test.Item](testCase.items, func(_ int, _ test.Item) { gotNb++ })
+		var gotSum int64
+		list.Each[test.Item](testCase.items, func(item test.Item) { gotSum += item.Value })
 
 		// assert
-		require.Equalf(t, testCase.wantNb, gotNb, "wrong nb!")
+		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
 	})
 }
 
@@ -99,22 +99,22 @@ func TestEachStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items  []*test.Item
-		wantNb int
+		items   []*test.Item
+		wantSum int64
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
-			items:  nil,
-			wantNb: 0,
+			items:   nil,
+			wantSum: 0,
 		},
 		"empty": {
-			items:  test.EmptyItemPointerList,
-			wantNb: 0,
+			items:   test.EmptyItemPointerList,
+			wantSum: 0,
 		},
 		"all": {
-			items:  test.ItemPointerList,
-			wantNb: 5,
+			items:   test.DefaultItemPointerList,
+			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
 
@@ -125,10 +125,10 @@ func TestEachStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNb := 0
-		list.Each[*test.Item](testCase.items, func(_ int, _ *test.Item) { gotNb++ })
+		var gotSum int64
+		list.Each[*test.Item](testCase.items, func(item *test.Item) { gotSum += item.Value })
 
 		// assert
-		require.Equalf(t, testCase.wantNb, gotNb, "wrong nb!")
+		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
 	})
 }
