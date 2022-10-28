@@ -22,15 +22,6 @@ func TestAnyOfInt64(t *testing.T) {
 		wantAnyOf bool
 	}
 
-	empty := []int64{}
-	items := []int64{
-		21,
-		12,
-		34,
-		87,
-		52,
-	}
-
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
@@ -38,22 +29,22 @@ func TestAnyOfInt64(t *testing.T) {
 			wantAnyOf: false,
 		},
 		"empty": {
-			items:     empty,
+			items:     test.EmptyInt64List,
 			predicate: func(i int64) bool { return i > 100 },
 			wantAnyOf: false,
 		},
 		"no-match": {
-			items:     items,
+			items:     test.Int64List,
 			predicate: func(i int64) bool { return i > 100 },
 			wantAnyOf: false,
 		},
 		"some-match": {
-			items:     items,
+			items:     test.Int64List,
 			predicate: func(i int64) bool { return i > 20 },
 			wantAnyOf: true,
 		},
 		"all-match": {
-			items:     items,
+			items:     test.Int64List,
 			predicate: func(i int64) bool { return i < 100 },
 			wantAnyOf: true,
 		},
@@ -79,49 +70,36 @@ func TestAnyOfStruct(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items     []Item
-		predicate func(Item) bool
+		items     []test.Item
+		predicate func(test.Item) bool
 		wantAnyOf bool
-	}
-
-	empty := []Item{}
-	items := []Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(i Item) bool { return i.value > 100 },
+			predicate: func(item test.Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"empty": {
-			items:     empty,
-			predicate: func(i Item) bool { return i.value > 100 },
+			items:     test.EmptyItemList,
+			predicate: func(item test.Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"no-match": {
-			items:     items,
-			predicate: func(i Item) bool { return i.value > 100 },
+			items:     test.ItemList,
+			predicate: func(item test.Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"some-match": {
-			items:     items,
-			predicate: func(i Item) bool { return i.value > 20 },
+			items:     test.ItemList,
+			predicate: func(item test.Item) bool { return item.Value > 20 },
 			wantAnyOf: true,
 		},
 		"all-match": {
-			items:     items,
-			predicate: func(i Item) bool { return i.value < 100 },
+			items:     test.ItemList,
+			predicate: func(item test.Item) bool { return item.Value < 100 },
 			wantAnyOf: true,
 		},
 	}
@@ -133,7 +111,7 @@ func TestAnyOfStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := list.AnyOf[Item](testCase.items, testCase.predicate)
+		gotAnyOf := list.AnyOf[test.Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
@@ -146,49 +124,36 @@ func TestAnyOfStructPointer(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items     []*Item
-		predicate func(*Item) bool
+		items     []*test.Item
+		predicate func(*test.Item) bool
 		wantAnyOf bool
-	}
-
-	empty := []*Item{}
-	items := []*Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(i *Item) bool { return i.value > 100 },
+			predicate: func(item *test.Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"empty": {
-			items:     empty,
-			predicate: func(i *Item) bool { return i.value > 100 },
+			items:     test.EmptyItemPointerList,
+			predicate: func(item *test.Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"no-match": {
-			items:     items,
-			predicate: func(i *Item) bool { return i.value > 100 },
+			items:     test.ItemPointerList,
+			predicate: func(item *test.Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"some-match": {
-			items:     items,
-			predicate: func(i *Item) bool { return i.value > 20 },
+			items:     test.ItemPointerList,
+			predicate: func(item *test.Item) bool { return item.Value > 20 },
 			wantAnyOf: true,
 		},
 		"all-match": {
-			items:     items,
-			predicate: func(i *Item) bool { return i.value < 100 },
+			items:     test.ItemPointerList,
+			predicate: func(item *test.Item) bool { return item.Value < 100 },
 			wantAnyOf: true,
 		},
 	}
@@ -200,7 +165,7 @@ func TestAnyOfStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := list.AnyOf[*Item](testCase.items, testCase.predicate)
+		gotAnyOf := list.AnyOf[*test.Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")

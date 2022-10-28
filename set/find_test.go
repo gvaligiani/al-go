@@ -22,15 +22,6 @@ func TestFindInt64(t *testing.T) {
 		wantFound bool
 	}
 
-	empty := map[int64]struct{}{}
-	items := map[int64]struct{}{
-		21: {},
-		12: {},
-		34: {},
-		87: {},
-		52: {},
-	}
-
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
@@ -38,17 +29,17 @@ func TestFindInt64(t *testing.T) {
 			wantFound: false,
 		},
 		"empty": {
-			items:     empty,
+			items:     test.EmptyInt64Set,
 			value:     34,
 			wantFound: false,
 		},
 		"found": {
-			items:     items,
+			items:     test.Int64Set,
 			value:     34,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     items,
+			items:     test.Int64Set,
 			value:     34,
 			wantFound: true,
 		},
@@ -74,44 +65,31 @@ func TestFindStruct(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int64
-	}
-
 	type TestCase struct {
-		items     map[Item]struct{}
-		value     Item
+		items     map[test.Item]struct{}
+		value     test.Item
 		wantFound bool
-	}
-
-	empty := map[Item]struct{}{}
-	items := map[Item]struct{}{
-		{value: 21}: {},
-		{value: 12}: {},
-		{value: 34}: {},
-		{value: 87}: {},
-		{value: 52}: {},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			value:     Item{value: 34},
+			value:     test.Item{Value: 34},
 			wantFound: false,
 		},
 		"empty": {
-			items:     empty,
-			value:     Item{value: 34},
+			items:     test.EmptyItemSet,
+			value:     test.Item{Value: 34},
 			wantFound: false,
 		},
 		"found": {
-			items:     items,
-			value:     Item{value: 34},
+			items:     test.ItemSet,
+			value:     test.Item{Value: 34},
 			wantFound: true,
 		},
 		"not-found": {
-			items:     items,
-			value:     Item{value: 99},
+			items:     test.ItemSet,
+			value:     test.Item{Value: 99},
 			wantFound: false,
 		},
 	}
@@ -123,7 +101,7 @@ func TestFindStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := set.Find[Item](testCase.items, testCase.value)
+		gotFound := set.Find[test.Item](testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
@@ -136,44 +114,31 @@ func TestFindStructPointer(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int64
-	}
-
 	type TestCase struct {
-		items     map[*Item]struct{}
-		value     *Item
+		items     map[*test.Item]struct{}
+		value     *test.Item
 		wantFound bool
-	}
-
-	empty := map[*Item]struct{}{}
-	items := map[*Item]struct{}{
-		{value: 21}: {},
-		{value: 12}: {},
-		{value: 34}: {},
-		{value: 87}: {},
-		{value: 52}: {},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			value:     &Item{value: 34},
+			value:     &test.Item{Value: 34},
 			wantFound: false,
 		},
 		"empty": {
-			items:     empty,
-			value:     &Item{value: 34},
+			items:     test.EmptyItemPointerSet,
+			value:     &test.Item{Value: 34},
 			wantFound: false,
 		},
 		"found": {
-			items:     items,
-			value:     &Item{value: 34},
+			items:     test.ItemPointerSet,
+			value:     &test.Item{Value: 34},
 			wantFound: true,
 		},
 		"not-found": {
-			items:     items,
-			value:     &Item{value: 99},
+			items:     test.ItemPointerSet,
+			value:     &test.Item{Value: 99},
 			wantFound: false,
 		},
 	}
@@ -185,7 +150,7 @@ func TestFindStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := set.Find[*Item](testCase.items, testCase.value)
+		gotFound := set.Find[*test.Item](testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")

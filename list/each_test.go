@@ -21,26 +21,17 @@ func TestEachInt64(t *testing.T) {
 		wantNb int
 	}
 
-	empty := []int64{}
-	items := []int64{
-		21,
-		12,
-		34,
-		87,
-		52,
-	}
-
 	testCases := map[string]TestCase{
 		"nil": {
 			items:  nil,
 			wantNb: 0,
 		},
 		"empty": {
-			items:  empty,
+			items:  test.EmptyInt64List,
 			wantNb: 0,
 		},
 		"all": {
-			items:  items,
+			items:  test.Int64List,
 			wantNb: 5,
 		},
 	}
@@ -66,22 +57,9 @@ func TestEachStruct(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items  []Item
+		items  []test.Item
 		wantNb int
-	}
-
-	empty := []Item{}
-	items := []Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
 	}
 
 	testCases := map[string]TestCase{
@@ -90,11 +68,11 @@ func TestEachStruct(t *testing.T) {
 			wantNb: 0,
 		},
 		"empty": {
-			items:  empty,
+			items:  test.EmptyItemList,
 			wantNb: 0,
 		},
 		"all": {
-			items:  items,
+			items:  test.ItemList,
 			wantNb: 5,
 		},
 	}
@@ -107,7 +85,7 @@ func TestEachStruct(t *testing.T) {
 
 		// execute
 		gotNb := 0
-		list.Each[Item](testCase.items, func(_ int, _ Item) { gotNb++ })
+		list.Each[test.Item](testCase.items, func(_ int, _ test.Item) { gotNb++ })
 
 		// assert
 		require.Equalf(t, testCase.wantNb, gotNb, "wrong nb!")
@@ -120,22 +98,9 @@ func TestEachStructPointer(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items  []*Item
+		items  []*test.Item
 		wantNb int
-	}
-
-	empty := []*Item{}
-	items := []*Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
 	}
 
 	testCases := map[string]TestCase{
@@ -144,11 +109,11 @@ func TestEachStructPointer(t *testing.T) {
 			wantNb: 0,
 		},
 		"empty": {
-			items:  empty,
+			items:  test.EmptyItemPointerList,
 			wantNb: 0,
 		},
 		"all": {
-			items:  items,
+			items:  test.ItemPointerList,
 			wantNb: 5,
 		},
 	}
@@ -161,7 +126,7 @@ func TestEachStructPointer(t *testing.T) {
 
 		// execute
 		gotNb := 0
-		list.Each[*Item](testCase.items, func(_ int, _ *Item) { gotNb++ })
+		list.Each[*test.Item](testCase.items, func(_ int, _ *test.Item) { gotNb++ })
 
 		// assert
 		require.Equalf(t, testCase.wantNb, gotNb, "wrong nb!")

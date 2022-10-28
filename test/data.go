@@ -1,50 +1,97 @@
 package test
 
 // int64
-
-type Int64SetAlias map[int64]struct{}
-
 var (
-	EmptyInt64Set = Int64SetAlias{}
-	Int64Set      = Int64SetAlias{
+	EmptyInt64Set = map[int64]struct{}{}
+	Int64Set      = map[int64]struct{}{
 		21: {},
 		12: {},
 		34: {},
 		87: {},
 		52: {},
 	}
-)
 
-// item
+	EmptyInt64Dict = map[int]int64{}
+	Int64Dict      = map[int]int64{
+		10: 21,
+		20: 12,
+		30: 34,
+		40: 87,
+		50: 52,
+	}
 
-type Item struct {
-	value int64
-}
-
-type ItemSetAlias map[Item]struct{}
-
-var (
-	EmptyItemSet = ItemSetAlias{}
-	ItemSet      = ItemSetAlias{
-		Item{value: 21}: {},
-		Item{value: 12}: {},
-		Item{value: 34}: {},
-		Item{value: 87}: {},
-		Item{value: 52}: {},
+	EmptyInt64List = []int64{}
+	Int64List      = []int64{
+		21,
+		12,
+		34,
+		87,
+		52,
 	}
 )
 
-// *Item
+// Item
 
-type ItemPointerSetAlias map[*Item]struct{}
+type Item struct {
+	Value int64
+}
 
 var (
-	EmptyItemPointerSet = ItemPointerSetAlias{}
-	ItemPointerSet      = ItemPointerSetAlias{
-		&Item{value: 21}: {},
-		&Item{value: 12}: {},
-		&Item{value: 34}: {},
-		&Item{value: 87}: {},
-		&Item{value: 52}: {},
+	EmptyItemSet = map[Item]struct{}{}
+	ItemSet      = map[Item]struct{}{
+		Item{Value: 21}: {},
+		Item{Value: 12}: {},
+		Item{Value: 34}: {},
+		Item{Value: 87}: {},
+		Item{Value: 52}: {},
+	}
+
+	EmptyItemDict = map[int]Item{}
+	ItemDict      = map[int]Item{
+		10: Item{Value: 21},
+		20: Item{Value: 12},
+		30: Item{Value: 34},
+		40: Item{Value: 87},
+		50: Item{Value: 52},
+	}
+
+	EmptyItemList = []Item{}
+	ItemList      = []Item{
+		Item{Value: 21},
+		Item{Value: 12},
+		Item{Value: 34},
+		Item{Value: 87},
+		Item{Value: 52},
+	}
+)
+
+// *test.Item
+
+var (
+	EmptyItemPointerSet = map[*Item]struct{}{}
+	ItemPointerSet      = map[*Item]struct{}{
+		&Item{Value: 21}: {},
+		&Item{Value: 12}: {},
+		&Item{Value: 34}: {},
+		&Item{Value: 87}: {},
+		&Item{Value: 52}: {},
+	}
+
+	EmptyItemPointerDict = map[int]*Item{}
+	ItemPointerDict      = map[int]*Item{
+		10: &Item{Value: 21},
+		20: &Item{Value: 12},
+		30: &Item{Value: 34},
+		40: &Item{Value: 87},
+		50: &Item{Value: 52},
+	}
+
+	EmptyItemPointerList = []*Item{}
+	ItemPointerList      = []*Item{
+		&Item{Value: 21},
+		&Item{Value: 12},
+		&Item{Value: 34},
+		&Item{Value: 87},
+		&Item{Value: 52},
 	}
 )

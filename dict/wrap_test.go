@@ -21,26 +21,17 @@ func TestWrapInt64(t *testing.T) {
 		wantSum int64
 	}
 
-	empty := map[int]int64{}
-	items := map[int]int64{
-		10: 21,
-		20: 12,
-		30: 34,
-		40: 87,
-		50: 52,
-	}
-
 	testCases := map[string]TestCase{
 		"nil": {
 			items:  nil,
 			wantSum: 0,
 		},
 		"empty": {
-			items:  empty,
+			items:  test.EmptyInt64Dict,
 			wantSum: 0,
 		},
 		"all": {
-			items:  items,
+			items:  test.Int64Dict,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -66,22 +57,9 @@ func TestWrapStruct(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int64
-	}
-
 	type TestCase struct {
-		items  map[int]Item
+		items  map[int]test.Item
 		wantSum int64
-	}
-
-	empty := map[int]Item{}
-	items := map[int]Item{
-		10: {value: 21},
-		20: {value: 12},
-		30: {value: 34},
-		40: {value: 87},
-		50: {value: 52},
 	}
 
 	testCases := map[string]TestCase{
@@ -90,11 +68,11 @@ func TestWrapStruct(t *testing.T) {
 			wantSum: 0,
 		},
 		"empty": {
-			items:  empty,
+			items:  test.EmptyItemDict,
 			wantSum: 0,
 		},
 		"all": {
-			items:  items,
+			items:  test.ItemDict,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -107,7 +85,7 @@ func TestWrapStruct(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		dict.Wrap[int, Item](testCase.items).Each(func(_ int, item Item) { gotSum += item.value })
+		dict.Wrap[int, test.Item](testCase.items).Each(func(_ int, item test.Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
@@ -120,22 +98,9 @@ func TestWrapStructPointer(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int64
-	}
-
 	type TestCase struct {
-		items  map[int]*Item
+		items  map[int]*test.Item
 		wantSum int64
-	}
-
-	empty := map[int]*Item{}
-	items := map[int]*Item{
-		10: {value: 21},
-		20: {value: 12},
-		30: {value: 34},
-		40: {value: 87},
-		50: {value: 52},
 	}
 
 	testCases := map[string]TestCase{
@@ -144,11 +109,11 @@ func TestWrapStructPointer(t *testing.T) {
 			wantSum: 0,
 		},
 		"empty": {
-			items:  empty,
+			items:  test.EmptyItemPointerDict,
 			wantSum: 0,
 		},
 		"all": {
-			items:  items,
+			items:  test.ItemPointerDict,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -161,7 +126,7 @@ func TestWrapStructPointer(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		dict.Wrap[int,*Item](testCase.items).Each(func(_ int, item *Item) { gotSum += item.value })
+		dict.Wrap[int,*test.Item](testCase.items).Each(func(_ int, item *test.Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")

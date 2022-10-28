@@ -23,15 +23,6 @@ func TestFindIfInt64(t *testing.T) {
 		wantFound bool
 	}
 
-	empty := []int64{}
-	items := []int64{
-		21,
-		12,
-		34,
-		87,
-		52,
-	}
-
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
@@ -40,25 +31,25 @@ func TestFindIfInt64(t *testing.T) {
 			wantFound: false,
 		},
 		"empty": {
-			items:     empty,
+			items:     test.EmptyInt64List,
 			predicate: func(i int64) bool { return i%10 == 3 },
 			wantItem:  0,
 			wantFound: false,
 		},
 		"no-match": {
-			items:     items,
+			items:     test.Int64List,
 			predicate: func(i int64) bool { return i%10 == 3 },
 			wantItem:  0,
 			wantFound: false,
 		},
 		"one-match": {
-			items:     items,
+			items:     test.Int64List,
 			predicate: func(i int64) bool { return i%10 == 4 },
 			wantItem:  34,
 			wantFound: true,
 		},
 		"two-matches": {
-			items:     items,
+			items:     test.Int64List,
 			predicate: func(i int64) bool { return i%10 == 2 },
 			wantItem:  12,
 			wantFound: true,
@@ -86,55 +77,42 @@ func TestFindIfStruct(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items     []Item
-		predicate func(Item) bool
-		wantItem  Item
+		items     []test.Item
+		predicate func(test.Item) bool
+		wantItem  test.Item
 		wantFound bool
-	}
-
-	empty := []Item{}
-	items := []Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(i Item) bool { return i.value%10 == 3 },
-			wantItem:  Item{},
+			predicate: func(item test.Item) bool { return item.Value%10 == 3 },
+			wantItem:  test.Item{},
 			wantFound: false,
 		},
 		"empty": {
-			items:     empty,
-			predicate: func(i Item) bool { return i.value%10 == 3 },
-			wantItem:  Item{},
+			items:     test.EmptyItemList,
+			predicate: func(item test.Item) bool { return item.Value%10 == 3 },
+			wantItem:  test.Item{},
 			wantFound: false,
 		},
 		"no-match": {
-			items:     items,
-			predicate: func(i Item) bool { return i.value%10 == 3 },
-			wantItem:  Item{},
+			items:     test.ItemList,
+			predicate: func(item test.Item) bool { return item.Value%10 == 3 },
+			wantItem:  test.Item{},
 			wantFound: false,
 		},
 		"one-match": {
-			items:     items,
-			predicate: func(i Item) bool { return i.value%10 == 4 },
-			wantItem:  Item{value: 34},
+			items:     test.ItemList,
+			predicate: func(item test.Item) bool { return item.Value%10 == 4 },
+			wantItem:  test.Item{Value: 34},
 			wantFound: true,
 		},
 		"two-matches": {
-			items:     items,
-			predicate: func(i Item) bool { return i.value%10 == 2 },
-			wantItem:  Item{value: 12},
+			items:     test.ItemList,
+			predicate: func(item test.Item) bool { return item.Value%10 == 2 },
+			wantItem:  test.Item{Value: 12},
 			wantFound: true,
 		},
 	}
@@ -146,7 +124,7 @@ func TestFindIfStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := list.FindIf[Item](testCase.items, testCase.predicate)
+		gotItem, gotFound := list.FindIf[test.Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
@@ -160,55 +138,42 @@ func TestFindIfStructPointer(t *testing.T) {
 	// test cases
 	//
 
-	type Item struct {
-		value int
-	}
-
 	type TestCase struct {
-		items     []*Item
-		predicate func(*Item) bool
-		wantItem  *Item
+		items     []*test.Item
+		predicate func(*test.Item) bool
+		wantItem  *test.Item
 		wantFound bool
-	}
-
-	empty := []*Item{}
-	items := []*Item{
-		{value: 21},
-		{value: 12},
-		{value: 34},
-		{value: 87},
-		{value: 52},
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(i *Item) bool { return i.value%10 == 3 },
+			predicate: func(item *test.Item) bool { return item.Value%10 == 3 },
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"empty": {
-			items:     empty,
-			predicate: func(i *Item) bool { return i.value%10 == 3 },
+			items:     test.EmptyItemPointerList,
+			predicate: func(item *test.Item) bool { return item.Value%10 == 3 },
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"no-match": {
-			items:     items,
-			predicate: func(i *Item) bool { return i.value%10 == 3 },
+			items:     test.ItemPointerList,
+			predicate: func(item *test.Item) bool { return item.Value%10 == 3 },
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"one-match": {
-			items:     items,
-			predicate: func(i *Item) bool { return i.value%10 == 4 },
-			wantItem:  &Item{value: 34},
+			items:     test.ItemPointerList,
+			predicate: func(item *test.Item) bool { return item.Value%10 == 4 },
+			wantItem:  &test.Item{Value: 34},
 			wantFound: true,
 		},
 		"two-matches": {
-			items:     items,
-			predicate: func(i *Item) bool { return i.value%10 == 2 },
-			wantItem:  &Item{value: 12},
+			items:     test.ItemPointerList,
+			predicate: func(item *test.Item) bool { return item.Value%10 == 2 },
+			wantItem:  &test.Item{Value: 12},
 			wantFound: true,
 		},
 	}
@@ -220,7 +185,7 @@ func TestFindIfStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := list.FindIf[*Item](testCase.items, testCase.predicate)
+		gotItem, gotFound := list.FindIf[*test.Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
