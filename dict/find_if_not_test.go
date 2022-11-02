@@ -33,14 +33,14 @@ func TestFindIfNotInt64(t *testing.T) {
 			wantFound: false,
 		},
 		"empty": {
-			items:     test.EmptyInt64Dict,
+			items:     EmptyInt64Dict,
 			predicate: func(_ int, i int64) bool { return i%10 == 3 },
 			wantKey: 0,
 			wantItem:  0,
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.DefaultInt64Dict,
+			items:     DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i < 100 },
 			wantKey: 0,
 			wantItem:  0,
@@ -48,14 +48,14 @@ func TestFindIfNotInt64(t *testing.T) {
 		},
 		// NOTE order could not be guarantee >>> expected 21, 12, 87, 52
 		// "some-match": {
-		// 	items:     test.DefaultInt64Dict,
+		// 	items:     DefaultInt64Dict,
 		// 	predicate: func(_ int, i int64) bool { return i%10 == 4 },
 		// 	wantKey:   10,
 		// 	wantItem:  21,
 		// 	wantFound: true,
 		// },
 		"one-match": {
-			items:     test.DefaultInt64Dict,
+			items:     DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i < 60 },
 			wantKey: 40,
 			wantItem:  87,
@@ -86,48 +86,48 @@ func TestFindIfNotStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]test.Item
-		predicate func(int, test.Item) bool
+		items     map[int]Item
+		predicate func(int, Item) bool
 		wantKey int
-		wantItem  test.Item
+		wantItem  Item
 		wantFound bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, item test.Item) bool { return item.Value%10 == 3 },
+			predicate: func(_ int, item Item) bool { return item.Value%10 == 3 },
 			wantKey: 0,
-			wantItem:  test.Item{},
+			wantItem:  Item{},
 			wantFound: false,
 		},
 		"empty": {
-			items:     test.EmptyItemDict,
-			predicate: func(_ int, item test.Item) bool { return item.Value%10 == 3 },
+			items:     EmptyItemDict,
+			predicate: func(_ int, item Item) bool { return item.Value%10 == 3 },
 			wantKey: 0,
-			wantItem:  test.Item{},
+			wantItem:  Item{},
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.DefaultItemDict,
-			predicate: func(_ int, item test.Item) bool { return item.Value < 100 },
+			items:     DefaultItemDict,
+			predicate: func(_ int, item Item) bool { return item.Value < 100 },
 			wantKey: 0,
-			wantItem:  test.Item{},
+			wantItem:  Item{},
 			wantFound: false,
 		},
 		// NOTE order could not be guarantee >>> expected 21, 12, 87, 52
 		// "some-match": {
-		// 	items:     test.ItemDict,
-		// 	predicate: func(_ int, item test.Item) bool { return item.Value%10 == 4 },
+		// 	items:     ItemDict,
+		// 	predicate: func(_ int, item Item) bool { return item.Value%10 == 4 },
 		// 	wantKey:   10,
-		// 	wantItem:  test.Item{Value: 21},
+		// 	wantItem:  Item{Value: 21},
 		// 	wantFound: true,
 		// },
 		"one-match": {
-			items:     test.DefaultItemDict,
-			predicate: func(_ int, item test.Item) bool { return item.Value < 60 },
+			items:     DefaultItemDict,
+			predicate: func(_ int, item Item) bool { return item.Value < 60 },
 			wantKey: 40,
-			wantItem:  test.Item{Value: 87},
+			wantItem:  Item{Value: 87},
 			wantFound: true,
 		},
 	}
@@ -139,7 +139,7 @@ func TestFindIfNotStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotKey, gotItem, gotFound := dict.FindIfNot[int, test.Item](testCase.items, testCase.predicate)
+		gotKey, gotItem, gotFound := dict.FindIfNot[int, Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantKey, gotKey, "wrong key!")
@@ -155,48 +155,48 @@ func TestFindIfNotStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]*test.Item
-		predicate func(int, *test.Item) bool
+		items     map[int]*Item
+		predicate func(int, *Item) bool
 		wantKey int
-		wantItem  *test.Item
+		wantItem  *Item
 		wantFound bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, item *test.Item) bool { return item.Value%10 == 3 },
+			predicate: func(_ int, item *Item) bool { return item.Value%10 == 3 },
 			wantKey: 0,
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"empty": {
-			items:     test.EmptyItemPointerDict,
-			predicate: func(_ int, item *test.Item) bool { return item.Value%10 == 3 },
+			items:     EmptyItemPointerDict,
+			predicate: func(_ int, item *Item) bool { return item.Value%10 == 3 },
 			wantKey: 0,
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"no-match": {
-			items:     test.DefaultItemPointerDict,
-			predicate: func(_ int, item *test.Item) bool { return item.Value < 100 },
+			items:     DefaultItemPointerDict,
+			predicate: func(_ int, item *Item) bool { return item.Value < 100 },
 			wantKey: 0,
 			wantItem:  nil,
 			wantFound: false,
 		},
 		// NOTE order could not be guarantee >>> expected 21, 12, 87, 52
 		// "some-match": {
-		// 	items:     test.ItemPointerDict,
-		// 	predicate: func(_ int, item *test.Item) bool { return item.Value%10 == 4 },
+		// 	items:     ItemPointerDict,
+		// 	predicate: func(_ int, item *Item) bool { return item.Value%10 == 4 },
 		//  wantKey:   10,
-		// 	wantItem:  &test.Item{Value: 21},
+		// 	wantItem:  &Item{Value: 21},
 		// 	wantFound: true,
 		// },
 		"one-match": {
-			items:     test.DefaultItemPointerDict,
-			predicate: func(_ int, item *test.Item) bool { return item.Value < 60 },
+			items:     DefaultItemPointerDict,
+			predicate: func(_ int, item *Item) bool { return item.Value < 60 },
 			wantKey:  40,
-			wantItem:  &test.Item{Value: 87},
+			wantItem:  &Item{Value: 87},
 			wantFound: true,
 		},
 	}
@@ -208,7 +208,7 @@ func TestFindIfNotStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotKey, gotItem, gotFound := dict.FindIfNot[int, *test.Item](testCase.items, testCase.predicate)
+		gotKey, gotItem, gotFound := dict.FindIfNot[int, *Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantKey, gotKey, "wrong key!")

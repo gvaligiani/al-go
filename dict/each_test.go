@@ -27,11 +27,11 @@ func TestEachInt64(t *testing.T) {
 			wantSum: 0,
 		},
 		"empty": {
-			items:  test.EmptyInt64Dict,
+			items:  EmptyInt64Dict,
 			wantSum: 0,
 		},
 		"all": {
-			items:  test.DefaultInt64Dict,
+			items:  DefaultInt64Dict,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -58,7 +58,7 @@ func TestEachStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items  map[int]test.Item
+		items  map[int]Item
 		wantSum int64
 	}
 
@@ -68,11 +68,11 @@ func TestEachStruct(t *testing.T) {
 			wantSum: 0,
 		},
 		"empty": {
-			items:  test.EmptyItemDict,
+			items:  EmptyItemDict,
 			wantSum: 0,
 		},
 		"all": {
-			items:  test.DefaultItemDict,
+			items:  DefaultItemDict,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -85,7 +85,7 @@ func TestEachStruct(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		dict.Each[int,test.Item](testCase.items, func(_ int, item test.Item) { gotSum += item.Value })
+		dict.Each[int,Item](testCase.items, func(_ int, item Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
@@ -99,7 +99,7 @@ func TestEachStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items  map[int]*test.Item
+		items  map[int]*Item
 		wantSum int64
 	}
 
@@ -109,11 +109,11 @@ func TestEachStructPointer(t *testing.T) {
 			wantSum: 0,
 		},
 		"empty": {
-			items:  test.EmptyItemPointerDict,
+			items:  EmptyItemPointerDict,
 			wantSum: 0,
 		},
 		"all": {
-			items:  test.DefaultItemPointerDict,
+			items:  DefaultItemPointerDict,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -126,7 +126,7 @@ func TestEachStructPointer(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		dict.Each[int, *test.Item](testCase.items, func(_ int, item *test.Item) { gotSum += item.Value })
+		dict.Each[int, *Item](testCase.items, func(_ int, item *Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")

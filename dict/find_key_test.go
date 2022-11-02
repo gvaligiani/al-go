@@ -29,17 +29,17 @@ func TestFindKeyInt64(t *testing.T) {
 			wantFound: false,
 		},
 		"empty": {
-			items:     test.EmptyInt64Dict,
+			items:     EmptyInt64Dict,
 			key:     30,
 			wantFound: false,
 		},
 		"found": {
-			items:     test.DefaultInt64Dict,
+			items:     DefaultInt64Dict,
 			key:     30,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     test.DefaultInt64Dict,
+			items:     DefaultInt64Dict,
 			key:     90,
 			wantFound: false,
 		},
@@ -66,7 +66,7 @@ func TestFindKeyStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]test.Item
+		items     map[int]Item
 		key     int
 		wantFound bool
 	}
@@ -78,17 +78,17 @@ func TestFindKeyStruct(t *testing.T) {
 			wantFound: false,
 		},
 		"empty": {
-			items:     test.EmptyItemDict,
+			items:     EmptyItemDict,
 			key:     30,
 			wantFound: false,
 		},
 		"found": {
-			items:     test.DefaultItemDict,
+			items:     DefaultItemDict,
 			key:     30,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     test.DefaultItemDict,
+			items:     DefaultItemDict,
 			key:     90,
 			wantFound: false,
 		},
@@ -101,7 +101,7 @@ func TestFindKeyStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := dict.FindKey[int,test.Item](testCase.items, testCase.key)
+		gotFound := dict.FindKey[int,Item](testCase.items, testCase.key)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
@@ -115,7 +115,7 @@ func TestFindKeyStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]*test.Item
+		items     map[int]*Item
 		key     int
 		wantFound bool
 	}
@@ -127,17 +127,17 @@ func TestFindKeyStructPointer(t *testing.T) {
 			wantFound: false,
 		},
 		"empty": {
-			items:     test.EmptyItemPointerDict,
+			items:     EmptyItemPointerDict,
 			key:     30,
 			wantFound: false,
 		},
 		"found": {
-			items:     test.DefaultItemPointerDict,
+			items:     DefaultItemPointerDict,
 			key:     30,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     test.DefaultItemPointerDict,
+			items:     DefaultItemPointerDict,
 			key:     90,
 			wantFound: false,
 		},
@@ -150,7 +150,7 @@ func TestFindKeyStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := dict.FindKey[int, *test.Item](testCase.items, testCase.key)
+		gotFound := dict.FindKey[int, *Item](testCase.items, testCase.key)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")

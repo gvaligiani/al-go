@@ -27,11 +27,11 @@ func TestWrapInt64(t *testing.T) {
 			wantSum: 0,
 		},
 		"empty": {
-			items:   test.EmptyInt64List,
+			items:   EmptyInt64List,
 			wantSum: 0,
 		},
 		"all": {
-			items:   test.DefaultInt64List,
+			items:   DefaultInt64List,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -58,7 +58,7 @@ func TestWrapStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items   []test.Item
+		items   []Item
 		wantSum int64
 	}
 
@@ -68,11 +68,11 @@ func TestWrapStruct(t *testing.T) {
 			wantSum: 0,
 		},
 		"empty": {
-			items:   test.EmptyItemList,
+			items:   EmptyItemList,
 			wantSum: 0,
 		},
 		"all": {
-			items:   test.DefaultItemList,
+			items:   DefaultItemList,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -85,7 +85,7 @@ func TestWrapStruct(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		list.Wrap[test.Item](testCase.items).Each(func(item test.Item) { gotSum += item.Value })
+		list.Wrap[Item](testCase.items).Each(func(item Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
@@ -99,7 +99,7 @@ func TestWrapStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items   []*test.Item
+		items   []*Item
 		wantSum int64
 	}
 
@@ -109,11 +109,11 @@ func TestWrapStructPointer(t *testing.T) {
 			wantSum: 0,
 		},
 		"empty": {
-			items:   test.EmptyItemPointerList,
+			items:   EmptyItemPointerList,
 			wantSum: 0,
 		},
 		"all": {
-			items:   test.DefaultItemPointerList,
+			items:   DefaultItemPointerList,
 			wantSum: 21 + 12 + 34 + 87 + 52,
 		},
 	}
@@ -126,7 +126,7 @@ func TestWrapStructPointer(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		list.Wrap[*test.Item](testCase.items).Each(func(item *test.Item) { gotSum += item.Value })
+		list.Wrap[*Item](testCase.items).Each(func(item *Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
