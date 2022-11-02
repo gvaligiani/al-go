@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/dict"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/dict"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestNoneOfInt64(t *testing.T) {
@@ -17,8 +17,8 @@ func TestNoneOfInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items      map[int]int64
-		predicate  func(int, int64) bool
+		items      dict.Dict[int, int64]
+		predicate  dict.Predicate[int, int64]
 		wantNoneOf bool
 	}
 
@@ -54,10 +54,10 @@ func TestNoneOfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := dict.NoneOf[int,int64](testCase.items, testCase.predicate)
+		gotNoneOf := dict.NoneOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")
@@ -71,8 +71,8 @@ func TestNoneOfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items      map[int]Item
-		predicate  func(int, Item) bool
+		items      dict.Dict[int, Item]
+		predicate  dict.Predicate[int, Item]
 		wantNoneOf bool
 	}
 
@@ -108,10 +108,10 @@ func TestNoneOfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := dict.NoneOf[int,Item](testCase.items, testCase.predicate)
+		gotNoneOf := dict.NoneOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")
@@ -125,8 +125,8 @@ func TestNoneOfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items      map[int]*Item
-		predicate  func(int, *Item) bool
+		items      dict.Dict[int, *Item]
+		predicate  dict.Predicate[int, *Item]
 		wantNoneOf bool
 	}
 
@@ -162,10 +162,10 @@ func TestNoneOfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := dict.NoneOf[int,*Item](testCase.items, testCase.predicate)
+		gotNoneOf := dict.NoneOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")

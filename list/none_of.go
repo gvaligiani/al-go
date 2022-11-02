@@ -1,6 +1,6 @@
 package list
 
-func NoneOf[T any](items []T, predicate func(T) bool) bool {
+func NoneOf[T any, L ~[]T](items L, predicate Predicate[T]) bool {
 	_, found := FindIf(items, predicate)
 	return !found
 }

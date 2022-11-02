@@ -1,4 +1,4 @@
-module github.com/gvaligiani/algo
+module github.com/gvaligiani/al.go
 
 go 1.19
 

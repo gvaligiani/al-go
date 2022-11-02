@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/list"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/list"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestNoneOfInt64(t *testing.T) {
@@ -18,7 +18,7 @@ func TestNoneOfInt64(t *testing.T) {
 
 	type TestCase struct {
 		items      []int64
-		predicate  func(int64) bool
+		predicate  list.Predicate[int64]
 		wantNoneOf bool
 	}
 
@@ -54,7 +54,7 @@ func TestNoneOfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNoneOf := list.NoneOf[int64](testCase.items, testCase.predicate)
@@ -108,7 +108,7 @@ func TestNoneOfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNoneOf := list.NoneOf[Item](testCase.items, testCase.predicate)
@@ -162,7 +162,7 @@ func TestNoneOfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotNoneOf := list.NoneOf[*Item](testCase.items, testCase.predicate)

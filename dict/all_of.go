@@ -1,6 +1,6 @@
 package dict
 
-func AllOf[K comparable,T any](items map[K]T, predicate func(K,T) bool) bool {
+func AllOf[K comparable, T any, M ~map[K]T](items M, predicate Predicate[K, T]) bool {
 	_, _, found := FindIfNot(items, predicate)
 	return !found
 }

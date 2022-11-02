@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/set"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/set"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestNoneOfInt64(t *testing.T) {
@@ -17,8 +17,8 @@ func TestNoneOfInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items      map[int64]struct{}
-		predicate  func(int64) bool
+		items      set.Set[int64]
+		predicate  set.Predicate[int64]
 		wantNoneOf bool
 	}
 
@@ -54,10 +54,10 @@ func TestNoneOfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := set.NoneOf[int64](testCase.items, testCase.predicate)
+		gotNoneOf := set.NoneOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")
@@ -71,7 +71,7 @@ func TestNoneOfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items      map[Item]struct{}
+		items      set.Set[Item]
 		predicate  func(Item) bool
 		wantNoneOf bool
 	}
@@ -108,10 +108,10 @@ func TestNoneOfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := set.NoneOf[Item](testCase.items, testCase.predicate)
+		gotNoneOf := set.NoneOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")
@@ -125,7 +125,7 @@ func TestNoneOfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items      map[*Item]struct{}
+		items      set.Set[*Item]
 		predicate  func(*Item) bool
 		wantNoneOf bool
 	}
@@ -162,10 +162,10 @@ func TestNoneOfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := set.NoneOf[*Item](testCase.items, testCase.predicate)
+		gotNoneOf := set.NoneOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")

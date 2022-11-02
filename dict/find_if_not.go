@@ -1,12 +1,5 @@
 package dict
 
-func FindIfNot[K comparable,T any](items map[K]T, predicate func(K,T) bool) (K, T, bool) {
-	for key, item := range items {
-		if !predicate(key,item) {
-			return key, item, true
-		}
-	}
-	var noKey K
-	var noValue T
-	return noKey, noValue, false
+func FindIfNot[K comparable, T any, M ~map[K]T](items M, predicate Predicate[K, T]) (K, T, bool) {
+	return FindIf(items, Not(predicate))
 }

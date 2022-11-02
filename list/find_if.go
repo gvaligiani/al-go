@@ -1,6 +1,6 @@
 package list
 
-func FindIf[T any](items []T, predicate func(T) bool) (T, bool) {
+func FindIf[T any, L ~[]T](items L, predicate Predicate[T]) (T, bool) {
 	for _, item := range items {
 		if predicate(item) {
 			return item, true

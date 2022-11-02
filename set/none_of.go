@@ -1,7 +1,7 @@
 package set
 
-import "github.com/gvaligiani/algo/dict"
+import "github.com/gvaligiani/al.go/dict"
 
-func NoneOf[T comparable](items map[T]struct{}, predicate func(T) bool) bool {
-	return dict.NoneOf[T,struct{}](items,func (item T, _ struct{}) bool { return predicate(item) })
+func NoneOf[T comparable, S ~map[T]struct{}](items S, predicate Predicate[T]) bool {
+	return dict.NoneOf(items, func(item T, _ struct{}) bool { return predicate(item) })
 }
