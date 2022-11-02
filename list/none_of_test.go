@@ -29,22 +29,22 @@ func TestNoneOfInt64(t *testing.T) {
 			wantNoneOf: true,
 		},
 		"empty": {
-			items:      test.EmptyInt64List,
+			items:      EmptyInt64List,
 			predicate:  func(i int64) bool { return i > 100 },
 			wantNoneOf: true,
 		},
 		"no-match": {
-			items:      test.DefaultInt64List,
+			items:      DefaultInt64List,
 			predicate:  func(i int64) bool { return i > 100 },
 			wantNoneOf: true,
 		},
 		"some-match": {
-			items:      test.DefaultInt64List,
+			items:      DefaultInt64List,
 			predicate:  func(i int64) bool { return i > 20 },
 			wantNoneOf: false,
 		},
 		"all-match": {
-			items:      test.DefaultInt64List,
+			items:      DefaultInt64List,
 			predicate:  func(i int64) bool { return i < 100 },
 			wantNoneOf: false,
 		},
@@ -71,35 +71,35 @@ func TestNoneOfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items      []test.Item
-		predicate  func(test.Item) bool
+		items      []Item
+		predicate  func(Item) bool
 		wantNoneOf bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:      nil,
-			predicate:  func(item test.Item) bool { return item.Value > 100 },
+			predicate:  func(item Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"empty": {
-			items:      test.EmptyItemList,
-			predicate:  func(item test.Item) bool { return item.Value > 100 },
+			items:      EmptyItemList,
+			predicate:  func(item Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"no-match": {
-			items:      test.DefaultItemList,
-			predicate:  func(item test.Item) bool { return item.Value > 100 },
+			items:      DefaultItemList,
+			predicate:  func(item Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"some-match": {
-			items:      test.DefaultItemList,
-			predicate:  func(item test.Item) bool { return item.Value > 20 },
+			items:      DefaultItemList,
+			predicate:  func(item Item) bool { return item.Value > 20 },
 			wantNoneOf: false,
 		},
 		"all-match": {
-			items:      test.DefaultItemList,
-			predicate:  func(item test.Item) bool { return item.Value < 100 },
+			items:      DefaultItemList,
+			predicate:  func(item Item) bool { return item.Value < 100 },
 			wantNoneOf: false,
 		},
 	}
@@ -111,7 +111,7 @@ func TestNoneOfStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := list.NoneOf[test.Item](testCase.items, testCase.predicate)
+		gotNoneOf := list.NoneOf[Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")
@@ -125,35 +125,35 @@ func TestNoneOfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items      []*test.Item
-		predicate  func(*test.Item) bool
+		items      []*Item
+		predicate  func(*Item) bool
 		wantNoneOf bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:      nil,
-			predicate:  func(item *test.Item) bool { return item.Value > 100 },
+			predicate:  func(item *Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"empty": {
-			items:      test.EmptyItemPointerList,
-			predicate:  func(item *test.Item) bool { return item.Value > 100 },
+			items:      EmptyItemPointerList,
+			predicate:  func(item *Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"no-match": {
-			items:      test.DefaultItemPointerList,
-			predicate:  func(item *test.Item) bool { return item.Value > 100 },
+			items:      DefaultItemPointerList,
+			predicate:  func(item *Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"some-match": {
-			items:      test.DefaultItemPointerList,
-			predicate:  func(item *test.Item) bool { return item.Value > 20 },
+			items:      DefaultItemPointerList,
+			predicate:  func(item *Item) bool { return item.Value > 20 },
 			wantNoneOf: false,
 		},
 		"all-match": {
-			items:      test.DefaultItemPointerList,
-			predicate:  func(item *test.Item) bool { return item.Value < 100 },
+			items:      DefaultItemPointerList,
+			predicate:  func(item *Item) bool { return item.Value < 100 },
 			wantNoneOf: false,
 		},
 	}
@@ -165,7 +165,7 @@ func TestNoneOfStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := list.NoneOf[*test.Item](testCase.items, testCase.predicate)
+		gotNoneOf := list.NoneOf[*Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")

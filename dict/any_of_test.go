@@ -29,22 +29,22 @@ func TestAnyOfInt64(t *testing.T) {
 			wantAnyOf: false,
 		},
 		"empty": {
-			items:     test.EmptyInt64Dict,
+			items:     EmptyInt64Dict,
 			predicate: func(_ int, i int64) bool { return i > 100 },
 			wantAnyOf: false,
 		},
 		"no-match": {
-			items:     test.DefaultInt64Dict,
+			items:     DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i > 100 },
 			wantAnyOf: false,
 		},
 		"some-match": {
-			items:     test.DefaultInt64Dict,
+			items:     DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i > 20 },
 			wantAnyOf: true,
 		},
 		"all-match": {
-			items:     test.DefaultInt64Dict,
+			items:     DefaultInt64Dict,
 			predicate: func(_ int, i int64) bool { return i < 100 },
 			wantAnyOf: true,
 		},
@@ -71,35 +71,35 @@ func TestAnyOfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]test.Item
-		predicate func(int, test.Item) bool
+		items     map[int]Item
+		predicate func(int, Item) bool
 		wantAnyOf bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, item test.Item) bool { return item.Value > 100 },
+			predicate: func(_ int, item Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"empty": {
-			items:     test.EmptyItemDict,
-			predicate: func(_ int, item test.Item) bool { return item.Value > 100 },
+			items:     EmptyItemDict,
+			predicate: func(_ int, item Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"no-match": {
-			items:     test.DefaultItemDict,
-			predicate: func(_ int, item test.Item) bool { return item.Value > 100 },
+			items:     DefaultItemDict,
+			predicate: func(_ int, item Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"some-match": {
-			items:     test.DefaultItemDict,
-			predicate: func(_ int, item test.Item) bool { return item.Value > 20 },
+			items:     DefaultItemDict,
+			predicate: func(_ int, item Item) bool { return item.Value > 20 },
 			wantAnyOf: true,
 		},
 		"all-match": {
-			items:     test.DefaultItemDict,
-			predicate: func(_ int, item test.Item) bool { return item.Value < 100 },
+			items:     DefaultItemDict,
+			predicate: func(_ int, item Item) bool { return item.Value < 100 },
 			wantAnyOf: true,
 		},
 	}
@@ -111,7 +111,7 @@ func TestAnyOfStruct(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := dict.AnyOf[int, test.Item](testCase.items, testCase.predicate)
+		gotAnyOf := dict.AnyOf[int, Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
@@ -125,35 +125,35 @@ func TestAnyOfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]*test.Item
-		predicate func(int, *test.Item) bool
+		items     map[int]*Item
+		predicate func(int, *Item) bool
 		wantAnyOf bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, item *test.Item) bool { return item.Value > 100 },
+			predicate: func(_ int, item *Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"empty": {
-			items:     test.EmptyItemPointerDict,
-			predicate: func(_ int, item *test.Item) bool { return item.Value > 100 },
+			items:     EmptyItemPointerDict,
+			predicate: func(_ int, item *Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"no-match": {
-			items:     test.DefaultItemPointerDict,
-			predicate: func(_ int, item *test.Item) bool { return item.Value > 100 },
+			items:     DefaultItemPointerDict,
+			predicate: func(_ int, item *Item) bool { return item.Value > 100 },
 			wantAnyOf: false,
 		},
 		"some-match": {
-			items:     test.DefaultItemPointerDict,
-			predicate: func(_ int, item *test.Item) bool { return item.Value > 20 },
+			items:     DefaultItemPointerDict,
+			predicate: func(_ int, item *Item) bool { return item.Value > 20 },
 			wantAnyOf: true,
 		},
 		"all-match": {
-			items:     test.DefaultItemPointerDict,
-			predicate: func(_ int, item *test.Item) bool { return item.Value < 100 },
+			items:     DefaultItemPointerDict,
+			predicate: func(_ int, item *Item) bool { return item.Value < 100 },
 			wantAnyOf: true,
 		},
 	}
@@ -165,7 +165,7 @@ func TestAnyOfStructPointer(t *testing.T) {
 	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := dict.AnyOf[int, *test.Item](testCase.items, testCase.predicate)
+		gotAnyOf := dict.AnyOf[int, *Item](testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
