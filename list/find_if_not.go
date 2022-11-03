@@ -1,11 +1,5 @@
 package list
 
-func FindIfNot[T any](items []T, predicate func(T) bool) (T, bool) {
-	for _, item := range items {
-		if !predicate(item) {
-			return item, true
-		}
-	}
-	var none T
-	return none, false
+func FindIfNot[T any, L ~[]T](items L, predicate Predicate[T]) (T, bool) {
+	return FindIf(items, Not(predicate))
 }

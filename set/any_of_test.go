@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/set"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/set"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestAnyOfInt64(t *testing.T) {
@@ -17,8 +17,8 @@ func TestAnyOfInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int64]struct{}
-		predicate func(int64) bool
+		items     set.Set[int64]
+		predicate set.Predicate[int64]
 		wantAnyOf bool
 	}
 
@@ -54,10 +54,10 @@ func TestAnyOfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := set.AnyOf[int64](testCase.items, testCase.predicate)
+		gotAnyOf := set.AnyOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
@@ -71,7 +71,7 @@ func TestAnyOfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[Item]struct{}
+		items     set.Set[Item]
 		predicate func(Item) bool
 		wantAnyOf bool
 	}
@@ -108,10 +108,10 @@ func TestAnyOfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := set.AnyOf[Item](testCase.items, testCase.predicate)
+		gotAnyOf := set.AnyOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
@@ -125,7 +125,7 @@ func TestAnyOfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[*Item]struct{}
+		items     set.Set[*Item]
 		predicate func(*Item) bool
 		wantAnyOf bool
 	}
@@ -162,10 +162,10 @@ func TestAnyOfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := set.AnyOf[*Item](testCase.items, testCase.predicate)
+		gotAnyOf := set.AnyOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")

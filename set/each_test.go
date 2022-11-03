@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/set"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/set"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestEachInt64(t *testing.T) {
@@ -17,7 +17,7 @@ func TestEachInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items   map[int64]struct{}
+		items   set.Set[int64]
 		wantSum int64
 	}
 
@@ -40,11 +40,11 @@ func TestEachInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		var gotSum int64
-		set.Each[int64](testCase.items, func(item int64) { gotSum += item })
+		set.Each(testCase.items, func(item int64) { gotSum += item })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
@@ -58,7 +58,7 @@ func TestEachStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items   map[Item]struct{}
+		items   set.Set[Item]
 		wantSum int64
 	}
 
@@ -81,11 +81,11 @@ func TestEachStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		var gotSum int64
-		set.Each[Item](testCase.items, func(item Item) { gotSum += item.Value })
+		set.Each(testCase.items, func(item Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
@@ -99,7 +99,7 @@ func TestEachStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items   map[*Item]struct{}
+		items   set.Set[*Item]
 		wantSum int64
 	}
 
@@ -122,11 +122,11 @@ func TestEachStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		var gotSum int64
-		set.Each[*Item](testCase.items, func(item *Item) { gotSum += item.Value })
+		set.Each(testCase.items, func(item *Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")

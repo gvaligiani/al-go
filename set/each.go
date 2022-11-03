@@ -1,7 +1,7 @@
 package set
 
-import "github.com/gvaligiani/algo/dict"
+import "github.com/gvaligiani/al.go/dict"
 
-func Each[T comparable](items map[T]struct{}, consumer func(T)) {
-	dict.Each[T,struct{}](items,func (item T, _ struct{}) { consumer(item) })
+func Each[T comparable, S ~map[T]struct{}](items S, consumer Consumer[T]) {
+	dict.Each(items, func(item T, _ struct{}) { consumer(item) })
 }

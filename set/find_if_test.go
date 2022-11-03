@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/set"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/set"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestFindIfInt64(t *testing.T) {
@@ -17,8 +17,8 @@ func TestFindIfInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int64]struct{}
-		predicate func(int64) bool
+		items     set.Set[int64]
+		predicate set.Predicate[int64]
 		wantItem  int64
 		wantFound bool
 	}
@@ -61,10 +61,10 @@ func TestFindIfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := set.FindIf[int64](testCase.items, testCase.predicate)
+		gotItem, gotFound := set.FindIf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
@@ -79,7 +79,7 @@ func TestFindIfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[Item]struct{}
+		items     set.Set[Item]
 		predicate func(Item) bool
 		wantItem  Item
 		wantFound bool
@@ -123,10 +123,10 @@ func TestFindIfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := set.FindIf[Item](testCase.items, testCase.predicate)
+		gotItem, gotFound := set.FindIf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
@@ -141,7 +141,7 @@ func TestFindIfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[*Item]struct{}
+		items     set.Set[*Item]
 		predicate func(*Item) bool
 		wantItem  *Item
 		wantFound bool
@@ -185,10 +185,10 @@ func TestFindIfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotItem, gotFound := set.FindIf[*Item](testCase.items, testCase.predicate)
+		gotItem, gotFound := set.FindIf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")

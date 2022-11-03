@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/list"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/list"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestFindInt64(t *testing.T) {
@@ -49,7 +49,7 @@ func TestFindInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotFound := list.Find[int64](testCase.items, testCase.value)
@@ -98,7 +98,7 @@ func TestFindStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotFound := list.Find[Item](testCase.items, testCase.value)
@@ -147,7 +147,7 @@ func TestFindStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotFound := list.Find[*Item](testCase.items, testCase.value)

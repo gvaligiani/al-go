@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/set"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/set"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestFindInt64(t *testing.T) {
@@ -17,7 +17,7 @@ func TestFindInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int64]struct{}
+		items     set.Set[int64]
 		value     int64
 		wantFound bool
 	}
@@ -49,10 +49,10 @@ func TestFindInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := set.Find[int64](testCase.items, testCase.value)
+		gotFound := set.Find(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
@@ -66,7 +66,7 @@ func TestFindStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[Item]struct{}
+		items     set.Set[Item]
 		value     Item
 		wantFound bool
 	}
@@ -98,10 +98,10 @@ func TestFindStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := set.Find[Item](testCase.items, testCase.value)
+		gotFound := set.Find(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
@@ -115,7 +115,7 @@ func TestFindStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[*Item]struct{}
+		items     set.Set[*Item]
 		value     *Item
 		wantFound bool
 	}
@@ -147,10 +147,10 @@ func TestFindStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := set.Find[*Item](testCase.items, testCase.value)
+		gotFound := set.Find(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")

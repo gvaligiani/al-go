@@ -1,7 +1,7 @@
 package set
 
-import "github.com/gvaligiani/algo/dict"
+import "github.com/gvaligiani/al.go/dict"
 
-func Find[T comparable](items map[T]struct{}, value T) bool {
-	return dict.FindKey[T,struct{}](items,value)
+func Find[T comparable, S ~map[T]struct{}](items S, value T) bool {
+	return dict.FindKey(items, value)
 }

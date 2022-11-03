@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/dict"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/dict"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestAllOfInt64(t *testing.T) {
@@ -17,8 +17,8 @@ func TestAllOfInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]int64
-		predicate func(int, int64) bool
+		items     dict.Dict[int, int64]
+		predicate dict.Predicate[int, int64]
 		wantAllOf bool
 	}
 
@@ -54,10 +54,10 @@ func TestAllOfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := dict.AllOf[int,int64](testCase.items, testCase.predicate)
+		gotAllOf := dict.AllOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
@@ -71,8 +71,8 @@ func TestAllOfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]Item
-		predicate func(int,Item) bool
+		items     dict.Dict[int, Item]
+		predicate dict.Predicate[int, Item]
 		wantAllOf bool
 	}
 
@@ -108,10 +108,10 @@ func TestAllOfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := dict.AllOf[int,Item](testCase.items, testCase.predicate)
+		gotAllOf := dict.AllOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
@@ -125,8 +125,8 @@ func TestAllOfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     map[int]*Item
-		predicate func(int,*Item) bool
+		items     dict.Dict[int, *Item]
+		predicate dict.Predicate[int, *Item]
 		wantAllOf bool
 	}
 
@@ -162,10 +162,10 @@ func TestAllOfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := dict.AllOf[int, *Item](testCase.items, testCase.predicate)
+		gotAllOf := dict.AllOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")

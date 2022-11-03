@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/algo/list"
-	"github.com/gvaligiani/algo/test"
+	"github.com/gvaligiani/al.go/list"
+	"github.com/gvaligiani/al.go/test"
 )
 
 func TestFindIfInt64(t *testing.T) {
@@ -18,7 +18,7 @@ func TestFindIfInt64(t *testing.T) {
 
 	type TestCase struct {
 		items     []int64
-		predicate func(int64) bool
+		predicate list.Predicate[int64]
 		wantItem  int64
 		wantFound bool
 	}
@@ -60,7 +60,7 @@ func TestFindIfInt64(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotItem, gotFound := list.FindIf[int64](testCase.items, testCase.predicate)
@@ -121,7 +121,7 @@ func TestFindIfStruct(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotItem, gotFound := list.FindIf[Item](testCase.items, testCase.predicate)
@@ -182,7 +182,7 @@ func TestFindIfStructPointer(t *testing.T) {
 	// run
 	//
 
-	test.RunTestCases[TestCase](t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
+	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
 		gotItem, gotFound := list.FindIf[*Item](testCase.items, testCase.predicate)

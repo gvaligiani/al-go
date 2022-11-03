@@ -1,6 +1,6 @@
 package list
 
-func Each[T any](items []T, consumer func(T)) {
+func Each[T any, L ~[]T](items L, consumer Consumer[T]) {
 	for _, item := range items {
 		consumer(item)
 	}
