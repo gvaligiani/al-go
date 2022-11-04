@@ -1,11 +1,11 @@
 package list
 
-func FindIf[T any, L ~[]T](items L, predicate Predicate[T]) (T, bool) {
+func FindIf[T any, L ~[]T](items L, predicate Predicate[T]) (int, T, bool) {
 	for index, item := range items {
 		if predicate(index, item) {
-			return item, true
+			return index, item, true
 		}
 	}
 	var none T
-	return none, false
+	return -1, none, false
 }

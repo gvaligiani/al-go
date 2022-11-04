@@ -60,15 +60,15 @@ func (l List[T]) Each(consumer Consumer[T]) {
 
 // find
 
-func (l List[T]) Find(value T) bool {
+func (l List[T]) Find(value T) (int, bool) {
 	return Find(l, value)
 }
 
-func (l List[T]) FindIf(predicate Predicate[T]) (T, bool) {
+func (l List[T]) FindIf(predicate Predicate[T]) (int, T, bool) {
 	return FindIf(l, predicate)
 }
 
-func (l List[T]) FindIfNot(predicate Predicate[T]) (T, bool) {
+func (l List[T]) FindIfNot(predicate Predicate[T]) (int, T, bool) {
 	return FindIfNot(l, predicate)
 }
 

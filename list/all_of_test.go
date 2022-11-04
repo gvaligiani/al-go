@@ -57,7 +57,7 @@ func TestAllOfInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := list.AllOf[int64](testCase.items, testCase.predicate)
+		gotAllOf := list.AllOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
@@ -111,7 +111,7 @@ func TestAllOfStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := list.AllOf[Item](testCase.items, testCase.predicate)
+		gotAllOf := list.AllOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
@@ -165,7 +165,7 @@ func TestAllOfStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAllOf := list.AllOf[*Item](testCase.items, testCase.predicate)
+		gotAllOf := list.AllOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAllOf, gotAllOf, "wrong all_of!")
