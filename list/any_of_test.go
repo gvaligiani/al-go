@@ -57,7 +57,7 @@ func TestAnyOfInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := list.AnyOf[int64](testCase.items, testCase.predicate)
+		gotAnyOf := list.AnyOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
@@ -111,7 +111,7 @@ func TestAnyOfStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := list.AnyOf[Item](testCase.items, testCase.predicate)
+		gotAnyOf := list.AnyOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")
@@ -165,7 +165,7 @@ func TestAnyOfStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotAnyOf := list.AnyOf[*Item](testCase.items, testCase.predicate)
+		gotAnyOf := list.AnyOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantAnyOf, gotAnyOf, "wrong any_of!")

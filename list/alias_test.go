@@ -39,14 +39,16 @@ func TestAlias(t *testing.T) {
 
 	// find
 
-	require.True(t, l.Find(Item{Value: 17}), "find 17")
-	require.False(t, l.Find(Item{Value: 15}), "find 15")
+	_, found := l.Find(Item{Value: 17})
+	require.True(t, found, "find 17")
+	_, found = l.Find(Item{Value: 15})
+	require.False(t, found, "find 15")
 
-	item, found := l.FindIf(func(_ int, i Item) bool { return i.Value%2 == 0 })
+	_, item, found := l.FindIf(func(_ int, i Item) bool { return i.Value%2 == 0 })
 	require.Equal(t, Item{Value: 12}, item, "odd item")
 	require.True(t, found, "found odd")
 
-	item, found = l.FindIfNot(func(_ int, i Item) bool { return i.Value%2 == 0 })
+	_, item, found = l.FindIfNot(func(_ int, i Item) bool { return i.Value%2 == 0 })
 	require.Equal(t, Item{Value: 17}, item, "even item")
 	require.True(t, found, "found even")
 

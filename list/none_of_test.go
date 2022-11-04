@@ -57,7 +57,7 @@ func TestNoneOfInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := list.NoneOf[int64](testCase.items, testCase.predicate)
+		gotNoneOf := list.NoneOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")
@@ -111,7 +111,7 @@ func TestNoneOfStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := list.NoneOf[Item](testCase.items, testCase.predicate)
+		gotNoneOf := list.NoneOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")
@@ -165,7 +165,7 @@ func TestNoneOfStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotNoneOf := list.NoneOf[*Item](testCase.items, testCase.predicate)
+		gotNoneOf := list.NoneOf(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantNoneOf, gotNoneOf, "wrong none_of!")
