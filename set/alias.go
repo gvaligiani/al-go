@@ -48,21 +48,21 @@ func (s Set[T]) IsEmpty() bool {
 	return len(s) == 0
 }
 
-func (s Set[T]) AllOf(predicate func(T) bool) bool {
+func (s Set[T]) AllOf(predicate Predicate[T]) bool {
 	return AllOf(s, predicate)
 }
 
-func (s Set[T]) AnyOf(predicate func(T) bool) bool {
+func (s Set[T]) AnyOf(predicate Predicate[T]) bool {
 	return AnyOf(s, predicate)
 }
 
-func (s Set[T]) NoneOf(predicate func(T) bool) bool {
+func (s Set[T]) NoneOf(predicate Predicate[T]) bool {
 	return NoneOf(s, predicate)
 }
 
 // each
 
-func (s Set[T]) Each(consumer func(T)) {
+func (s Set[T]) Each(consumer Consumer[T]) {
 	Each(s, consumer)
 }
 
@@ -72,11 +72,11 @@ func (s Set[T]) Find(value T) bool {
 	return Find(s, value)
 }
 
-func (s Set[T]) FindIf(predicate func(T) bool) (T, bool) {
+func (s Set[T]) FindIf(predicate Predicate[T]) (T, bool) {
 	return FindIf(s, predicate)
 }
 
-func (s Set[T]) FindIfNot(predicate func(T) bool) (T, bool) {
+func (s Set[T]) FindIfNot(predicate Predicate[T]) (T, bool) {
 	return FindIfNot(s, predicate)
 }
 
@@ -86,11 +86,11 @@ func (s Set[T]) Copy() Set[T] {
 	return Set[T](Copy(s))
 }
 
-func (s Set[T]) CopyIf(predicate func(T) bool) Set[T] {
+func (s Set[T]) CopyIf(predicate Predicate[T]) Set[T] {
 	return Set[T](CopyIf(s, predicate))
 }
 
-func (s Set[T]) CopyIfNot(predicate func(T) bool) Set[T] {
+func (s Set[T]) CopyIfNot(predicate Predicate[T]) Set[T] {
 	return Set[T](CopyIfNot(s, predicate))
 }
 
@@ -122,10 +122,10 @@ func (s *Set[T]) Clear() {
 	*s = Set[T]{}
 }
 
-func (s Set[T]) RemoveIf(predicate func(T) bool) {
+func (s Set[T]) RemoveIf(predicate Predicate[T]) {
 	RemoveIf(&s, predicate)
 }
 
-func (s Set[T]) KeepIf(predicate func(T) bool) {
+func (s Set[T]) KeepIf(predicate Predicate[T]) {
 	KeepIf(&s, predicate)
 }

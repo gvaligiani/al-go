@@ -1,6 +1,6 @@
 package set
 
-func RemoveIf[T comparable, S ~map[T]struct{}](items *S, predicate func(T) bool) {
+func RemoveIf[T comparable, S ~map[T]struct{}](items *S, predicate Predicate[T]) {
 	if len(*items) == 0 {
 		return
 	}

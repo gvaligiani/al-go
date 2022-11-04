@@ -26,31 +26,31 @@ func TestFindIfInt64(t *testing.T) {
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(i int64) bool { return i%10 == 3 },
+			predicate: func(_ int, i int64) bool { return i%10 == 3 },
 			wantItem:  0,
 			wantFound: false,
 		},
 		"empty": {
 			items:     EmptyInt64List,
-			predicate: func(i int64) bool { return i%10 == 3 },
+			predicate: func(_ int, i int64) bool { return i%10 == 3 },
 			wantItem:  0,
 			wantFound: false,
 		},
 		"no-match": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return i%10 == 3 },
+			predicate: func(_ int, i int64) bool { return i%10 == 3 },
 			wantItem:  0,
 			wantFound: false,
 		},
 		"one-match": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return i%10 == 4 },
+			predicate: func(_ int, i int64) bool { return i%10 == 4 },
 			wantItem:  34,
 			wantFound: true,
 		},
 		"two-matches": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return i%10 == 2 },
+			predicate: func(_ int, i int64) bool { return i%10 == 2 },
 			wantItem:  12,
 			wantFound: true,
 		},
@@ -78,8 +78,8 @@ func TestFindIfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     []Item
-		predicate func(Item) bool
+		items     list.List[Item]
+		predicate list.Predicate[Item]
 		wantItem  Item
 		wantFound bool
 	}
@@ -87,31 +87,31 @@ func TestFindIfStruct(t *testing.T) {
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(item Item) bool { return item.Value%10 == 3 },
+			predicate: func(_ int, item Item) bool { return item.Value%10 == 3 },
 			wantItem:  Item{},
 			wantFound: false,
 		},
 		"empty": {
 			items:     EmptyItemList,
-			predicate: func(item Item) bool { return item.Value%10 == 3 },
+			predicate: func(_ int, item Item) bool { return item.Value%10 == 3 },
 			wantItem:  Item{},
 			wantFound: false,
 		},
 		"no-match": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return item.Value%10 == 3 },
+			predicate: func(_ int, item Item) bool { return item.Value%10 == 3 },
 			wantItem:  Item{},
 			wantFound: false,
 		},
 		"one-match": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return item.Value%10 == 4 },
+			predicate: func(_ int, item Item) bool { return item.Value%10 == 4 },
 			wantItem:  Item{Value: 34},
 			wantFound: true,
 		},
 		"two-matches": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return item.Value%10 == 2 },
+			predicate: func(_ int, item Item) bool { return item.Value%10 == 2 },
 			wantItem:  Item{Value: 12},
 			wantFound: true,
 		},
@@ -139,8 +139,8 @@ func TestFindIfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     []*Item
-		predicate func(*Item) bool
+		items     list.List[*Item]
+		predicate list.Predicate[*Item]
 		wantItem  *Item
 		wantFound bool
 	}
@@ -148,31 +148,31 @@ func TestFindIfStructPointer(t *testing.T) {
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(item *Item) bool { return item.Value%10 == 3 },
+			predicate: func(_ int, item *Item) bool { return item.Value%10 == 3 },
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"empty": {
 			items:     EmptyItemPointerList,
-			predicate: func(item *Item) bool { return item.Value%10 == 3 },
+			predicate: func(_ int, item *Item) bool { return item.Value%10 == 3 },
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"no-match": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return item.Value%10 == 3 },
+			predicate: func(_ int, item *Item) bool { return item.Value%10 == 3 },
 			wantItem:  nil,
 			wantFound: false,
 		},
 		"one-match": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return item.Value%10 == 4 },
+			predicate: func(_ int, item *Item) bool { return item.Value%10 == 4 },
 			wantItem:  &Item{Value: 34},
 			wantFound: true,
 		},
 		"two-matches": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return item.Value%10 == 2 },
+			predicate: func(_ int, item *Item) bool { return item.Value%10 == 2 },
 			wantItem:  &Item{Value: 12},
 			wantFound: true,
 		},

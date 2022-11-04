@@ -66,7 +66,7 @@ func TestFindStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     []Item
+		items     list.List[Item]
 		value     Item
 		wantFound bool
 	}
@@ -115,7 +115,7 @@ func TestFindStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     []*Item
+		items     list.List[*Item]
 		value     *Item
 		wantFound bool
 	}

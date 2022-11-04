@@ -4,17 +4,25 @@ func RemoveIf[T any, L ~[]T](items *L, predicate Predicate[T]) {
 	if len(*items) == 0 {
 		return
 	}
+	// note:
+	//  - this method does not keep the original order of the list
+	//  - but it sends the right old index to the predicate
 	var empty T
 	size := len(*items)
-	nbRemoved := 0
-	for i := 0; i < size-nbRemoved; {
-		if predicate((*items)[i]) {
-			nbRemoved++
-			(*items)[i] = (*items)[size-nbRemoved]
-			(*items)[size-nbRemoved] = empty
+	index := 0
+	indexEnd := size - 1
+	for indexStart := 0; indexStart <= indexEnd; {
+		if predicate(index, (*items)[indexStart]) {
+			// move last element at current index
+			(*items)[indexStart] = (*items)[indexEnd]
+			(*items)[indexEnd] = empty
+			index = indexEnd
+			indexEnd--
 		} else {
-			i++
+			indexStart++
+			index = indexStart
 		}
 	}
-	(*items) = (*items)[:size-nbRemoved]
+	// reduce the list to the right size
+	(*items) = (*items)[:indexEnd+1]
 }
