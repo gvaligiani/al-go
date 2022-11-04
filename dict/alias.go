@@ -66,7 +66,7 @@ func (d Dict[K, T]) NoneOf(predicate Predicate[K, T]) bool {
 
 // each
 
-func (d Dict[K, T]) Each(consumer func(K, T)) {
+func (d Dict[K, T]) Each(consumer Consumer[K, T]) {
 	Each(d, consumer)
 }
 

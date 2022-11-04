@@ -24,22 +24,22 @@ func TestKeepIfInt64(t *testing.T) {
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(i int64) bool { return i%2 == 0 },
+			predicate: func(_ int, i int64) bool { return i%2 == 0 },
 			wantItems: nil,
 		},
 		"empty": {
 			items:     EmptyInt64List,
-			predicate: func(i int64) bool { return i%2 == 0 },
+			predicate: func(_ int, i int64) bool { return i%2 == 0 },
 			wantItems: EmptyInt64List,
 		},
 		"keep-none": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return false },
+			predicate: func(_ int, i int64) bool { return false },
 			wantItems: EmptyInt64List,
 		},
 		"keep-odd": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return i%2 == 0 },
+			predicate: func(_ int, i int64) bool { return i%2 == 0 },
 			wantItems: list.New[int64]( // list re-shuffled
 				52,
 				12,
@@ -48,7 +48,7 @@ func TestKeepIfInt64(t *testing.T) {
 		},
 		"keep-even": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return i%2 == 1 },
+			predicate: func(_ int, i int64) bool { return i%2 == 1 },
 			wantItems: list.New[int64](
 				21,
 				87,
@@ -56,7 +56,7 @@ func TestKeepIfInt64(t *testing.T) {
 		},
 		"keep-all": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return true },
+			predicate: func(_ int, i int64) bool { return true },
 			wantItems: DefaultInt64List,
 		},
 	}
@@ -91,22 +91,22 @@ func TestKeepIfStruct(t *testing.T) {
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(item Item) bool { return item.Value%2 == 0 },
+			predicate: func(_ int, item Item) bool { return item.Value%2 == 0 },
 			wantItems: nil,
 		},
 		"empty": {
 			items:     EmptyItemList,
-			predicate: func(item Item) bool { return item.Value%2 == 0 },
+			predicate: func(_ int, item Item) bool { return item.Value%2 == 0 },
 			wantItems: EmptyItemList,
 		},
 		"keep-none": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return false },
+			predicate: func(_ int, item Item) bool { return false },
 			wantItems: EmptyItemList,
 		},
 		"keep-odd": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return item.Value%2 == 0 },
+			predicate: func(_ int, item Item) bool { return item.Value%2 == 0 },
 			wantItems: list.New( // list re-shuffled
 				Item{Value: 52},
 				Item{Value: 12},
@@ -115,7 +115,7 @@ func TestKeepIfStruct(t *testing.T) {
 		},
 		"keep-even": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return item.Value%2 == 1 },
+			predicate: func(_ int, item Item) bool { return item.Value%2 == 1 },
 			wantItems: list.New(
 				Item{Value: 21},
 				Item{Value: 87},
@@ -123,7 +123,7 @@ func TestKeepIfStruct(t *testing.T) {
 		},
 		"keep-all": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return true },
+			predicate: func(_ int, item Item) bool { return true },
 			wantItems: DefaultItemList,
 		},
 	}
@@ -158,22 +158,22 @@ func TestKeepIfStructPointer(t *testing.T) {
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(item *Item) bool { return item.Value%2 == 0 },
+			predicate: func(_ int, item *Item) bool { return item.Value%2 == 0 },
 			wantItems: nil,
 		},
 		"empty": {
 			items:     EmptyItemPointerList,
-			predicate: func(item *Item) bool { return item.Value%2 == 0 },
+			predicate: func(_ int, item *Item) bool { return item.Value%2 == 0 },
 			wantItems: EmptyItemPointerList,
 		},
 		"keep-none": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return false },
+			predicate: func(_ int, item *Item) bool { return false },
 			wantItems: EmptyItemPointerList,
 		},
 		"keep-odd": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return item.Value%2 == 0 },
+			predicate: func(_ int, item *Item) bool { return item.Value%2 == 0 },
 			wantItems: list.New( // list re-shuffled
 				&Item{Value: 52},
 				&Item{Value: 12},
@@ -182,7 +182,7 @@ func TestKeepIfStructPointer(t *testing.T) {
 		},
 		"keep-even": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return item.Value%2 == 1 },
+			predicate: func(_ int, item *Item) bool { return item.Value%2 == 1 },
 			wantItems: list.New(
 				&Item{Value: 21},
 				&Item{Value: 87},
@@ -190,7 +190,7 @@ func TestKeepIfStructPointer(t *testing.T) {
 		},
 		"keep-all": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return true },
+			predicate: func(_ int, item *Item) bool { return true },
 			wantItems: DefaultItemPointerList,
 		},
 	}

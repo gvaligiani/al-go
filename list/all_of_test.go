@@ -25,27 +25,27 @@ func TestAllOfInt64(t *testing.T) {
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(i int64) bool { return i > 100 },
+			predicate: func(_ int, i int64) bool { return i > 100 },
 			wantAllOf: true,
 		},
 		"empty": {
 			items:     EmptyInt64List,
-			predicate: func(i int64) bool { return i > 100 },
+			predicate: func(_ int, i int64) bool { return i > 100 },
 			wantAllOf: true,
 		},
 		"no-match": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return i > 100 },
+			predicate: func(_ int, i int64) bool { return i > 100 },
 			wantAllOf: false,
 		},
 		"some-match": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return i > 20 },
+			predicate: func(_ int, i int64) bool { return i > 20 },
 			wantAllOf: false,
 		},
 		"all-match": {
 			items:     DefaultInt64List,
-			predicate: func(i int64) bool { return i < 100 },
+			predicate: func(_ int, i int64) bool { return i < 100 },
 			wantAllOf: true,
 		},
 	}
@@ -71,35 +71,35 @@ func TestAllOfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     []Item
-		predicate func(Item) bool
+		items     list.List[Item]
+		predicate list.Predicate[Item]
 		wantAllOf bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(item Item) bool { return item.Value > 100 },
+			predicate: func(_ int, item Item) bool { return item.Value > 100 },
 			wantAllOf: true,
 		},
 		"empty": {
 			items:     EmptyItemList,
-			predicate: func(item Item) bool { return item.Value > 100 },
+			predicate: func(_ int, item Item) bool { return item.Value > 100 },
 			wantAllOf: true,
 		},
 		"no-match": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return item.Value > 100 },
+			predicate: func(_ int, item Item) bool { return item.Value > 100 },
 			wantAllOf: false,
 		},
 		"some-match": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return item.Value > 20 },
+			predicate: func(_ int, item Item) bool { return item.Value > 20 },
 			wantAllOf: false,
 		},
 		"all-match": {
 			items:     DefaultItemList,
-			predicate: func(item Item) bool { return item.Value < 100 },
+			predicate: func(_ int, item Item) bool { return item.Value < 100 },
 			wantAllOf: true,
 		},
 	}
@@ -125,35 +125,35 @@ func TestAllOfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     []*Item
-		predicate func(*Item) bool
+		items     list.List[*Item]
+		predicate list.Predicate[*Item]
 		wantAllOf bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(item *Item) bool { return item.Value > 100 },
+			predicate: func(_ int, item *Item) bool { return item.Value > 100 },
 			wantAllOf: true,
 		},
 		"empty": {
 			items:     EmptyItemPointerList,
-			predicate: func(item *Item) bool { return item.Value > 100 },
+			predicate: func(_ int, item *Item) bool { return item.Value > 100 },
 			wantAllOf: true,
 		},
 		"no-match": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return item.Value > 100 },
+			predicate: func(_ int, item *Item) bool { return item.Value > 100 },
 			wantAllOf: false,
 		},
 		"some-match": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return item.Value > 20 },
+			predicate: func(_ int, item *Item) bool { return item.Value > 20 },
 			wantAllOf: false,
 		},
 		"all-match": {
 			items:     DefaultItemPointerList,
-			predicate: func(item *Item) bool { return item.Value < 100 },
+			predicate: func(_ int, item *Item) bool { return item.Value < 100 },
 			wantAllOf: true,
 		},
 	}

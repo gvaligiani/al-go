@@ -5,8 +5,8 @@ func CopyIf[T any, L ~[]T](items L, predicate Predicate[T]) L {
 		return nil
 	}
 	result := make(L, 0, len(items))
-	for _, item := range items {
-		if predicate(item) {
+	for index, item := range items {
+		if predicate(index, item) {
 			result = append(result, item)
 		}
 	}
