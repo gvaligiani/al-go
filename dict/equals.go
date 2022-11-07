@@ -1,8 +1,18 @@
 package dict
 
-import "reflect"
+import (
+	"github.com/gvaligiani/al.go/util"
+)
 
-func Equals[K comparable, T any, M ~map[K]T](left M, right M) bool {
+func Equal[K comparable, T comparable, M ~map[K]T](left M, right M) bool {
+	return EqualFn(left, right, util.Equal[T])
+}
+
+func DeepEqual[K comparable, T any, M ~map[K]T](left M, right M) bool {
+	return EqualFn(left, right, util.DeepEqual[T])
+}
+
+func EqualFn[K comparable, T any, M ~map[K]T](left M, right M, equal util.BiPredicate[T, T]) bool {
 	if left == nil && right == nil {
 		return true
 	}
@@ -14,7 +24,7 @@ func Equals[K comparable, T any, M ~map[K]T](left M, right M) bool {
 	}
 	for leftKey, leftItem := range left {
 		rightItem, found := right[leftKey]
-		if !found || !reflect.DeepEqual(leftItem, rightItem) {
+		if !found || !equal(leftItem, rightItem) {
 			return false
 		}
 	}

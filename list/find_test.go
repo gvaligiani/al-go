@@ -167,7 +167,7 @@ func TestFindStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.Find(testCase.items, testCase.value)
+		gotIndex, gotFound := list.DeepFind(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")

@@ -8,7 +8,7 @@ import (
 	"github.com/gvaligiani/al.go/dict"
 )
 
-func TestAlias(t *testing.T) {
+func TestDict(t *testing.T) {
 
 	// builder
 
@@ -69,17 +69,17 @@ func TestAlias(t *testing.T) {
 
 	odds := d.Copy()
 	odds.RemoveIf(func(_ int, item Item) bool { return item.Value%2 == 1 })
-	assertEquals(t, dict.Dict[int, Item]{20: {Value: 22}}, odds, "wrong odds")
+	assertEqual(t, dict.Dict[int, Item]{20: {Value: 22}}, odds, "wrong odds")
 
 	// keep if
 
 	evens := d.Copy()
 	evens.KeepIf(func(_ int, item Item) bool { return item.Value%2 == 1 })
-	assertEquals(t, dict.Dict[int, Item]{30: {Value: 17}}, evens, "wrong evens")
+	assertEqual(t, dict.Dict[int, Item]{30: {Value: 17}}, evens, "wrong evens")
 
 	// check source of copy
 
-	assertEquals(t, dict.Dict[int, Item]{20: {Value: 22}, 30: {Value: 17}}, d, "source of copy has been modified")
+	assertEqual(t, dict.Dict[int, Item]{20: {Value: 22}, 30: {Value: 17}}, d, "source of copy has been modified")
 
 	// clear
 

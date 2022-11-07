@@ -8,7 +8,7 @@ import (
 	"github.com/gvaligiani/al.go/set"
 )
 
-func TestAlias(t *testing.T) {
+func TestSet(t *testing.T) {
 
 	// builder
 
@@ -68,17 +68,17 @@ func TestAlias(t *testing.T) {
 
 	odds := s.Copy()
 	odds.RemoveIf(func(item Item) bool { return item.Value%2 == 1 })
-	assertEquals(t, set.New(Item{Value: 12}), odds, "wrong odds")
+	assertEqual(t, set.New(Item{Value: 12}), odds, "wrong odds")
 
 	// keep if
 
 	evens := s.Copy()
 	evens.KeepIf(func(item Item) bool { return item.Value%2 == 1 })
-	assertEquals(t, set.New(Item{Value: 11}), evens, "wrong evens")
+	assertEqual(t, set.New(Item{Value: 11}), evens, "wrong evens")
 
 	// check source of copy
 
-	assertEquals(t, set.New(Item{Value: 12}, Item{Value: 11}), s, "source of copy has been modified")
+	assertEqual(t, set.New(Item{Value: 12}, Item{Value: 11}), s, "source of copy has been modified")
 
 	// clear
 

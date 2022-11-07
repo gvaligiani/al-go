@@ -71,7 +71,7 @@ func TestCopyIfNotInt64(t *testing.T) {
 		gotItems := set.CopyIfNot(testCase.items, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -137,7 +137,7 @@ func TestCopyIfNotStruct(t *testing.T) {
 		gotItems := set.CopyIfNot(testCase.items, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -203,6 +203,6 @@ func TestCopyIfNotStructPointer(t *testing.T) {
 		gotItems := set.CopyIfNot(testCase.items, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertDeepEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }

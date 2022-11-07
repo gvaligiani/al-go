@@ -8,15 +8,15 @@ import (
 	"github.com/gvaligiani/al.go/list"
 )
 
-func TestAlias(t *testing.T) {
+func TestList(t *testing.T) {
 
 	// builder
 
-	l := list.New(
+	l := list.List[Item]{
 		Item{Value: 10},
 		Item{Value: 12},
 		Item{Value: 10}, // duplicate
-	)
+	}
 
 	// add
 
@@ -70,17 +70,17 @@ func TestAlias(t *testing.T) {
 
 	odds := l.Copy()
 	odds.RemoveIf(func(_ int, item Item) bool { return item.Value%2 == 1 })
-	assertEquals(t, list.New(Item{Value: 12}), odds, "wrong odds")
+	assertEqual(t, list.New(Item{Value: 12}), odds, "wrong odds")
 
 	// keep if
 
 	evens := l.Copy()
 	evens.KeepIf(func(_ int, item Item) bool { return item.Value%2 == 1 })
-	assertEquals(t, list.New(Item{Value: 17}, Item{Value: 17}), evens, "wrong evens")
+	assertEqual(t, list.New(Item{Value: 17}, Item{Value: 17}), evens, "wrong evens")
 
 	// check source of copy
 
-	assertEquals(t, list.New(Item{Value: 12}, Item{Value: 17}, Item{Value: 17}), l, "source of copy has been modified")
+	assertEqual(t, list.New(Item{Value: 12}, Item{Value: 17}, Item{Value: 17}), l, "source of copy has been modified")
 
 	// clear
 

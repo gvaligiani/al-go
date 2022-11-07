@@ -72,7 +72,7 @@ func TestKeepIfInt64(t *testing.T) {
 		list.KeepIf(&gotItems, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -139,7 +139,7 @@ func TestKeepIfStruct(t *testing.T) {
 		list.KeepIf(&gotItems, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -206,6 +206,6 @@ func TestKeepIfStructPointer(t *testing.T) {
 		list.KeepIf(&gotItems, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertDeepEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }

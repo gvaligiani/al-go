@@ -63,6 +63,13 @@ var (
 		&Item{Value: 87},
 		&Item{Value: 52},
 	}
+	SameItemPointerList = list.List[*Item]{
+		&Item{Value: 21},
+		&Item{Value: 12},
+		&Item{Value: 34},
+		&Item{Value: 87},
+		&Item{Value: 52},
+	}
 	OtherItemPointerList = list.List[*Item]{
 		&Item{Value: 21},
 		&Item{Value: 12},
@@ -74,8 +81,12 @@ var (
 
 // assert
 
-func assertEquals[T comparable, L ~[]T](t *testing.T, expected L, computed L, msg string) {
-	require.Truef(t, list.Equals(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
+func assertEqual[T comparable, L ~[]T](t *testing.T, expected L, computed L, msg string) {
+	require.Truef(t, list.Equal(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
+}
+
+func assertDeepEqual[T comparable, L ~[]T](t *testing.T, expected L, computed L, msg string) {
+	require.Truef(t, list.DeepEqual(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
 }
 
 // dump

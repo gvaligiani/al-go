@@ -64,6 +64,13 @@ var (
 		&Item{Value: 87},
 		&Item{Value: 52},
 	)
+	SameItemPointerSet = set.New(
+		&Item{Value: 21},
+		&Item{Value: 12},
+		&Item{Value: 34},
+		&Item{Value: 87},
+		&Item{Value: 52},
+	)
 	OtherItemPointerSet = set.New(
 		&Item{Value: 21},
 		&Item{Value: 12},
@@ -75,8 +82,12 @@ var (
 
 // assert
 
-func assertEquals[T comparable, S ~map[T]struct{}](t *testing.T, expected S, computed S, msg string) {
-	require.Truef(t, set.Equals(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
+func assertEqual[T comparable, S ~map[T]struct{}](t *testing.T, expected S, computed S, msg string) {
+	require.Truef(t, set.Equal(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
+}
+
+func assertDeepEqual[T comparable, S ~map[T]struct{}](t *testing.T, expected S, computed S, msg string) {
+	require.Truef(t, set.DeepEqual(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
 }
 
 // dump

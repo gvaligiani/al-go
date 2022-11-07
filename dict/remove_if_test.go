@@ -72,7 +72,7 @@ func TestRemoveIfInt64(t *testing.T) {
 		dict.RemoveIf(&gotItems, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -140,7 +140,7 @@ func TestRemoveIfStruct(t *testing.T) {
 		dict.RemoveIf(&gotItems, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -207,6 +207,6 @@ func TestRemoveIfStructPointer(t *testing.T) {
 		dict.RemoveIf(&gotItems, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertDeepEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
