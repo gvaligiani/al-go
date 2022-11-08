@@ -67,13 +67,15 @@ func TestSet(t *testing.T) {
 	// remove if
 
 	odds := s.Copy()
-	odds.RemoveIf(func(item Item) bool { return item.Value%2 == 1 })
+	updated := odds.RemoveIf(func(item Item) bool { return item.Value%2 == 1 })
+	require.Equal(t, true, updated, "wrong updated!")
 	assertEqual(t, set.New(Item{Value: 12}), odds, "wrong odds")
 
 	// keep if
 
 	evens := s.Copy()
-	evens.KeepIf(func(item Item) bool { return item.Value%2 == 1 })
+	updated = evens.KeepIf(func(item Item) bool { return item.Value%2 == 1 })
+	require.Equal(t, true, updated, "wrong updated!")
 	assertEqual(t, set.New(Item{Value: 11}), evens, "wrong evens")
 
 	// check source of copy
@@ -84,7 +86,10 @@ func TestSet(t *testing.T) {
 
 	require.Equal(t, 2, len(s), "len before clear")
 	require.False(t, s.IsEmpty(), "is_empty before clear")
-	s.Clear()
+	updated = s.Clear()
+	require.Equal(t, true, updated, "wrong updated!")
 	require.Equal(t, 0, len(s), "len after clear")
 	require.True(t, s.IsEmpty(), "is_empty after clear")
+	updated = s.Clear()
+	require.Equal(t, false, updated, "wrong updated!")
 }

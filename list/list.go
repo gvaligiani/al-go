@@ -1,6 +1,8 @@
 package list
 
-import "reflect"
+import (
+	"github.com/gvaligiani/al.go/util"
+)
 
 // alias
 
@@ -70,33 +72,36 @@ func (l List[T]) CopyIfNot(predicate Predicate[T]) List[T] {
 
 // modifier
 
-func (l *List[T]) Add(values ...T) bool {
-	*l = append(*l, values...)
+func (l *List[T]) Add(value T) bool {
+	*l = append(*l, value)
 	return true
 }
 
 func (l *List[T]) Remove(value T) bool {
-	newL := make([]T, 0, len(*l))
-	atLeastOneRemoved := false
-	for _, item := range *l {
-		if reflect.DeepEqual(item, value) {
-			atLeastOneRemoved = true
-		} else {
-			newL = append(newL, item)
-		}
+	if l == nil || len(*l) == 0 {
+		return false
 	}
-	*l = newL
-	return atLeastOneRemoved
+	return RemoveIf(l, func(_ int, t T) bool { return util.Equal(t, value) })
 }
 
-func (l *List[T]) Clear() {
+func (l *List[T]) Clear() bool {
+	if l == nil || len(*l) == 0 {
+		return false
+	}
 	*l = List[T]{}
+	return true
 }
 
-func (l *List[T]) RemoveIf(predicate Predicate[T]) {
-	RemoveIf(l, predicate)
+func (l *List[T]) RemoveIf(predicate Predicate[T]) bool {
+	if l == nil || len(*l) == 0 {
+		return false
+	}
+	return RemoveIf(l, predicate)
 }
 
-func (l *List[T]) KeepIf(predicate Predicate[T]) {
-	KeepIf(l, predicate)
+func (l *List[T]) KeepIf(predicate Predicate[T]) bool {
+	if l == nil || len(*l) == 0 {
+		return false
+	}
+	return KeepIf(l, predicate)
 }

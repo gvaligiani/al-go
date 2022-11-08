@@ -68,13 +68,15 @@ func TestDict(t *testing.T) {
 	// remove if
 
 	odds := d.Copy()
-	odds.RemoveIf(func(_ int, item Item) bool { return item.Value%2 == 1 })
+	updated := odds.RemoveIf(func(_ int, item Item) bool { return item.Value%2 == 1 })
+	require.Equal(t, true, updated, "wrong updated!")
 	assertEqual(t, dict.Dict[int, Item]{20: {Value: 22}}, odds, "wrong odds")
 
 	// keep if
 
 	evens := d.Copy()
-	evens.KeepIf(func(_ int, item Item) bool { return item.Value%2 == 1 })
+	updated = evens.KeepIf(func(_ int, item Item) bool { return item.Value%2 == 1 })
+	require.Equal(t, true, updated, "wrong updated!")
 	assertEqual(t, dict.Dict[int, Item]{30: {Value: 17}}, evens, "wrong evens")
 
 	// check source of copy
@@ -85,7 +87,10 @@ func TestDict(t *testing.T) {
 
 	require.Equal(t, 2, len(d), "len before clear")
 	require.False(t, d.IsEmpty(), "is_empty before clear")
-	d.Clear()
+	updated = d.Clear()
+	require.Equal(t, true, updated, "wrong updated!")
 	require.Equal(t, 0, len(d), "len after clear")
 	require.True(t, d.IsEmpty(), "is_empty after clear")
+	updated = d.Clear()
+	require.Equal(t, false, updated, "wrong updated!")
 }

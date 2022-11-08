@@ -1,8 +1,8 @@
 package dict
 
-func RemoveIf[K comparable, T any, M ~map[K]T](items *M, predicate Predicate[K, T]) {
+func RemoveIf[K comparable, T any, M ~map[K]T](items *M, predicate Predicate[K, T]) bool {
 	if len(*items) == 0 {
-		return
+		return false
 	}
 	keysToRemove := make([]K, 0, len(*items))
 	for key, item := range *items {
@@ -13,4 +13,5 @@ func RemoveIf[K comparable, T any, M ~map[K]T](items *M, predicate Predicate[K, 
 	for _, keyToRemove := range keysToRemove {
 		delete(*items, keyToRemove)
 	}
+	return len(keysToRemove) > 0
 }

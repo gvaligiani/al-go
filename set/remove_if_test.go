@@ -7,6 +7,7 @@ import (
 
 	"github.com/gvaligiani/al.go/set"
 	"github.com/gvaligiani/al.go/test"
+	"github.com/stretchr/testify/require"
 )
 
 func TestRemoveIfInt64(t *testing.T) {
@@ -16,38 +17,44 @@ func TestRemoveIfInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     set.Set[int64]
-		predicate set.Predicate[int64]
-		wantItems set.Set[int64]
+		items       set.Set[int64]
+		predicate   set.Predicate[int64]
+		wantUpdated bool
+		wantItems   set.Set[int64]
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
-			items:     nil,
-			predicate: func(i int64) bool { return i%2 == 0 },
-			wantItems: nil,
+			items:       nil,
+			predicate:   func(i int64) bool { return i%2 == 0 },
+			wantUpdated: false,
+			wantItems:   nil,
 		},
 		"empty": {
-			items:     EmptyInt64Set,
-			predicate: func(i int64) bool { return i%2 == 0 },
-			wantItems: EmptyInt64Set,
+			items:       EmptyInt64Set,
+			predicate:   func(i int64) bool { return i%2 == 0 },
+			wantUpdated: false,
+			wantItems:   EmptyInt64Set,
 		},
 		"remove-none": {
-			items:     DefaultInt64Set,
-			predicate: func(i int64) bool { return false },
-			wantItems: DefaultInt64Set,
+			items:       DefaultInt64Set,
+			predicate:   func(i int64) bool { return false },
+			wantUpdated: false,
+			wantItems:   DefaultInt64Set,
 		},
 		"remove-odd": {
-			items:     DefaultInt64Set,
-			predicate: func(i int64) bool { return i%2 == 0 },
+			items:       DefaultInt64Set,
+			predicate:   func(i int64) bool { return i%2 == 0 },
+			wantUpdated: true,
 			wantItems: set.New[int64](
 				21,
 				87,
 			),
 		},
 		"remove-even": {
-			items:     DefaultInt64Set,
-			predicate: func(i int64) bool { return i%2 == 1 },
+			items:       DefaultInt64Set,
+			predicate:   func(i int64) bool { return i%2 == 1 },
+			wantUpdated: true,
 			wantItems: set.New[int64](
 				12,
 				34,
@@ -55,9 +62,10 @@ func TestRemoveIfInt64(t *testing.T) {
 			),
 		},
 		"remove-all": {
-			items:     DefaultInt64Set,
-			predicate: func(i int64) bool { return true },
-			wantItems: EmptyInt64Set,
+			items:       DefaultInt64Set,
+			predicate:   func(i int64) bool { return true },
+			wantUpdated: true,
+			wantItems:   EmptyInt64Set,
 		},
 	}
 
@@ -69,9 +77,10 @@ func TestRemoveIfInt64(t *testing.T) {
 
 		// execute
 		gotItems := set.Copy(testCase.items)
-		set.RemoveIf(&gotItems, testCase.predicate)
+		gotUpdated := set.RemoveIf(&gotItems, testCase.predicate)
 
 		// assert
+		require.Equal(t, testCase.wantUpdated, gotUpdated, "wrong updated!")
 		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
@@ -83,38 +92,44 @@ func TestRemoveIfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     set.Set[Item]
-		predicate set.Predicate[Item]
-		wantItems set.Set[Item]
+		items       set.Set[Item]
+		predicate   set.Predicate[Item]
+		wantUpdated bool
+		wantItems   set.Set[Item]
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
-			items:     nil,
-			predicate: func(item Item) bool { return item.Value%2 == 0 },
-			wantItems: nil,
+			items:       nil,
+			predicate:   func(item Item) bool { return item.Value%2 == 0 },
+			wantUpdated: false,
+			wantItems:   nil,
 		},
 		"empty": {
-			items:     EmptyItemSet,
-			predicate: func(item Item) bool { return item.Value%2 == 0 },
-			wantItems: EmptyItemSet,
+			items:       EmptyItemSet,
+			predicate:   func(item Item) bool { return item.Value%2 == 0 },
+			wantUpdated: false,
+			wantItems:   EmptyItemSet,
 		},
 		"remove-none": {
-			items:     DefaultItemSet,
-			predicate: func(item Item) bool { return false },
-			wantItems: DefaultItemSet,
+			items:       DefaultItemSet,
+			predicate:   func(item Item) bool { return false },
+			wantUpdated: false,
+			wantItems:   DefaultItemSet,
 		},
 		"remove-odd": {
-			items:     DefaultItemSet,
-			predicate: func(item Item) bool { return item.Value%2 == 0 },
+			items:       DefaultItemSet,
+			predicate:   func(item Item) bool { return item.Value%2 == 0 },
+			wantUpdated: true,
 			wantItems: set.Set[Item]{
 				{Value: 21}: {},
 				{Value: 87}: {},
 			},
 		},
 		"remove-even": {
-			items:     DefaultItemSet,
-			predicate: func(item Item) bool { return item.Value%2 == 1 },
+			items:       DefaultItemSet,
+			predicate:   func(item Item) bool { return item.Value%2 == 1 },
+			wantUpdated: true,
 			wantItems: set.Set[Item]{
 				{Value: 12}: {},
 				{Value: 34}: {},
@@ -122,9 +137,10 @@ func TestRemoveIfStruct(t *testing.T) {
 			},
 		},
 		"remove-all": {
-			items:     DefaultItemSet,
-			predicate: func(item Item) bool { return true },
-			wantItems: EmptyItemSet,
+			items:       DefaultItemSet,
+			predicate:   func(item Item) bool { return true },
+			wantUpdated: true,
+			wantItems:   EmptyItemSet,
 		},
 	}
 
@@ -136,9 +152,10 @@ func TestRemoveIfStruct(t *testing.T) {
 
 		// execute
 		gotItems := set.Copy(testCase.items)
-		set.RemoveIf(&gotItems, testCase.predicate)
+		gotUpdated := set.RemoveIf(&gotItems, testCase.predicate)
 
 		// assert
+		require.Equal(t, testCase.wantUpdated, gotUpdated, "wrong updated!")
 		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
@@ -150,38 +167,44 @@ func TestRemoveIfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     set.Set[*Item]
-		predicate set.Predicate[*Item]
-		wantItems set.Set[*Item]
+		items       set.Set[*Item]
+		predicate   set.Predicate[*Item]
+		wantUpdated bool
+		wantItems   set.Set[*Item]
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
-			items:     nil,
-			predicate: func(item *Item) bool { return item.Value%2 == 0 },
-			wantItems: nil,
+			items:       nil,
+			predicate:   func(item *Item) bool { return item.Value%2 == 0 },
+			wantUpdated: false,
+			wantItems:   nil,
 		},
 		"empty": {
-			items:     EmptyItemPointerSet,
-			predicate: func(item *Item) bool { return item.Value%2 == 0 },
-			wantItems: EmptyItemPointerSet,
+			items:       EmptyItemPointerSet,
+			predicate:   func(item *Item) bool { return item.Value%2 == 0 },
+			wantUpdated: false,
+			wantItems:   EmptyItemPointerSet,
 		},
 		"remove-none": {
-			items:     DefaultItemPointerSet,
-			predicate: func(item *Item) bool { return false },
-			wantItems: DefaultItemPointerSet,
+			items:       DefaultItemPointerSet,
+			predicate:   func(item *Item) bool { return false },
+			wantUpdated: false,
+			wantItems:   DefaultItemPointerSet,
 		},
 		"remove-odd": {
-			items:     DefaultItemPointerSet,
-			predicate: func(item *Item) bool { return item.Value%2 == 0 },
+			items:       DefaultItemPointerSet,
+			predicate:   func(item *Item) bool { return item.Value%2 == 0 },
+			wantUpdated: true,
 			wantItems: set.New(
 				&Item{Value: 21},
 				&Item{Value: 87},
 			),
 		},
 		"remove-even": {
-			items:     DefaultItemPointerSet,
-			predicate: func(item *Item) bool { return item.Value%2 == 1 },
+			items:       DefaultItemPointerSet,
+			predicate:   func(item *Item) bool { return item.Value%2 == 1 },
+			wantUpdated: true,
 			wantItems: set.New(
 				&Item{Value: 12},
 				&Item{Value: 34},
@@ -189,9 +212,10 @@ func TestRemoveIfStructPointer(t *testing.T) {
 			),
 		},
 		"remove-all": {
-			items:     DefaultItemPointerSet,
-			predicate: func(item *Item) bool { return true },
-			wantItems: EmptyItemPointerSet,
+			items:       DefaultItemPointerSet,
+			predicate:   func(item *Item) bool { return true },
+			wantUpdated: true,
+			wantItems:   EmptyItemPointerSet,
 		},
 	}
 
@@ -203,9 +227,10 @@ func TestRemoveIfStructPointer(t *testing.T) {
 
 		// execute
 		gotItems := set.Copy(testCase.items)
-		set.RemoveIf(&gotItems, testCase.predicate)
+		gotUpdated := set.RemoveIf(&gotItems, testCase.predicate)
 
 		// assert
+		require.Equal(t, testCase.wantUpdated, gotUpdated, "wrong updated!")
 		assertDeepEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }

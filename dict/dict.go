@@ -93,6 +93,9 @@ func (d *Dict[K, T]) Add(key K, item T) bool {
 }
 
 func (d *Dict[K, T]) Remove(key K) bool {
+	if d == nil || len(*d) == 0 {
+		return false
+	}
 	if _, ok := (*d)[key]; ok {
 		delete(*d, key)
 		return true
@@ -100,14 +103,24 @@ func (d *Dict[K, T]) Remove(key K) bool {
 	return false
 }
 
-func (d *Dict[K, T]) Clear() {
+func (d *Dict[K, T]) Clear() bool {
+	if d == nil || len(*d) == 0 {
+		return false
+	}
 	*d = Dict[K, T]{}
+	return true
 }
 
-func (d *Dict[K, T]) RemoveIf(predicate Predicate[K, T]) {
-	RemoveIf(d, predicate)
+func (d *Dict[K, T]) RemoveIf(predicate Predicate[K, T]) bool {
+	if d == nil || len(*d) == 0 {
+		return false
+	}
+	return RemoveIf(d, predicate)
 }
 
-func (d *Dict[K, T]) KeepIf(predicate Predicate[K, T]) {
-	KeepIf(d, predicate)
+func (d *Dict[K, T]) KeepIf(predicate Predicate[K, T]) bool {
+	if d == nil || len(*d) == 0 {
+		return false
+	}
+	return KeepIf(d, predicate)
 }

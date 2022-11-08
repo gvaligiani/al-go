@@ -1,8 +1,8 @@
 package list
 
-func RemoveIf[T any, L ~[]T](items *L, predicate Predicate[T]) {
+func RemoveIf[T any, L ~[]T](items *L, predicate Predicate[T]) bool {
 	if len(*items) == 0 {
-		return
+		return false
 	}
 	// note:
 	//  - this method does not keep the original order of the list
@@ -25,4 +25,5 @@ func RemoveIf[T any, L ~[]T](items *L, predicate Predicate[T]) {
 	}
 	// reduce the list to the right size
 	(*items) = (*items)[:indexEnd+1]
+	return indexEnd < size-1
 }
