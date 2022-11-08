@@ -12,11 +12,10 @@ func TestSet(t *testing.T) {
 
 	// builder
 
-	s := set.New(
-		Item{Value: 10},
-		Item{Value: 12},
-		Item{Value: 10}, // duplicate
-	)
+	s := set.New[Item]().
+		With(Item{Value: 10}).
+		With(Item{Value: 12}).
+		With(Item{Value: 10}) // duplicate
 
 	// add
 

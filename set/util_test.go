@@ -12,7 +12,7 @@ import (
 
 // int64
 var (
-	EmptyInt64Set   = set.Set[int64]{}
+	EmptyInt64Set   = set.New[int64]()
 	DefaultInt64Set = set.New[int64](
 		21,
 		12,
@@ -36,7 +36,7 @@ type Item struct {
 }
 
 var (
-	EmptyItemSet   = set.Set[Item]{}
+	EmptyItemSet   = set.New[Item]()
 	DefaultItemSet = set.New(
 		Item{Value: 21},
 		Item{Value: 12},
@@ -56,7 +56,7 @@ var (
 // *Item
 
 var (
-	EmptyItemPointerSet   = set.Set[*Item]{}
+	EmptyItemPointerSet   = set.New[*Item]()
 	DefaultItemPointerSet = set.New(
 		&Item{Value: 21},
 		&Item{Value: 12},

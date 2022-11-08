@@ -9,10 +9,11 @@ type Dict[K comparable, V comparable] map[K]V
 // builder
 
 func New[K comparable, V comparable]() Dict[K, V] {
+	// TODO add capacity
 	return Dict[K, V]{}
 }
 
-func (d *Dict[K, V]) With(key K, value V) *Dict[K, V] {
+func (d Dict[K, V]) With(key K, value V) Dict[K, V] {
 	d.Add(key, value)
 	return d
 }

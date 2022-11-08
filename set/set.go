@@ -6,9 +6,15 @@ import "github.com/gvaligiani/al.go/util"
 
 type Set[V comparable] map[V]struct{}
 
+// TODO implement union
+// TODO implement diff
+// TODO implement intersection
+
 // builder
 
 func New[V comparable](values ...V) Set[V] {
+	// TODO add capacity
+	// TODO remove values
 	s := Set[V]{}
 	for _, v := range values {
 		s.Add(v)
@@ -16,7 +22,7 @@ func New[V comparable](values ...V) Set[V] {
 	return s
 }
 
-func (s *Set[V]) With(value V) *Set[V] {
+func (s Set[V]) With(value V) Set[V] {
 	s.Add(value)
 	return s
 }

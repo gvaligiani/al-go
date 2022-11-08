@@ -9,6 +9,7 @@ type DeepDict[K comparable, V any] map[K]V
 // builder
 
 func NewDeep[K comparable, V any]() DeepDict[K, V] {
+	// TODO add capacity
 	return DeepDict[K, V]{}
 }
 

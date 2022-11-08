@@ -11,21 +11,21 @@ import (
 
 // int64
 var (
-	EmptyInt64List   = list.List[int64]{}
-	DefaultInt64List = list.List[int64]{
+	EmptyInt64List   = list.New[int64]()
+	DefaultInt64List = list.New[int64](
 		21,
 		12,
 		34,
 		87,
 		52,
-	}
-	OtherInt64List = list.List[int64]{
+	)
+	OtherInt64List = list.New[int64](
 		21,
 		12,
 		87,
 		52,
 		69,
-	}
+	)
 )
 
 // Item
@@ -35,48 +35,48 @@ type Item struct {
 }
 
 var (
-	EmptyItemList   = list.List[Item]{}
-	DefaultItemList = list.List[Item]{
+	EmptyItemList   = list.New[Item]()
+	DefaultItemList = list.New(
 		Item{Value: 21},
 		Item{Value: 12},
 		Item{Value: 34},
 		Item{Value: 87},
 		Item{Value: 52},
-	}
-	OtherItemList = list.List[Item]{
+	)
+	OtherItemList = list.New(
 		Item{Value: 21},
 		Item{Value: 12},
 		Item{Value: 87},
 		Item{Value: 52},
 		Item{Value: 69},
-	}
+	)
 )
 
 // *Item
 
 var (
-	EmptyItemPointerList   = list.List[*Item]{}
-	DefaultItemPointerList = list.List[*Item]{
+	EmptyItemPointerList   = list.New[*Item]()
+	DefaultItemPointerList = list.New(
 		&Item{Value: 21},
 		&Item{Value: 12},
 		&Item{Value: 34},
 		&Item{Value: 87},
 		&Item{Value: 52},
-	}
-	SameItemPointerList = list.List[*Item]{
+	)
+	SameItemPointerList = list.New(
 		&Item{Value: 21},
 		&Item{Value: 12},
 		&Item{Value: 34},
 		&Item{Value: 87},
 		&Item{Value: 52},
-	}
-	OtherItemPointerList = list.List[*Item]{
+	)
+	OtherItemPointerList = list.New(
 		&Item{Value: 21},
 		&Item{Value: 12},
 		&Item{Value: 87},
 		&Item{Value: 52},
 		&Item{Value: 69},
-	}
+	)
 )
 
 // assert

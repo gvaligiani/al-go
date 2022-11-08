@@ -9,12 +9,14 @@ type List[V comparable] []V
 // builder
 
 func New[V comparable](values ...V) List[V] {
+	// TODO add capacity
+	// TODO remove values
 	l := make(List[V], 0, len(values))
 	l = append(l, values...)
 	return l
 }
 
-func (l *List[V]) With(value V) *List[V] {
+func (l List[V]) With(value V) List[V] {
 	l.Add(value)
 	return l
 }

@@ -12,11 +12,10 @@ func TestDeepList(t *testing.T) {
 
 	// builder
 
-	l := list.NewDeep(
-		&Item{Value: 10},
-		&Item{Value: 12},
-		&Item{Value: 10}, // duplicate
-	)
+	l := list.NewDeep[*Item]().
+		With(&Item{Value: 10}).
+		With(&Item{Value: 12}).
+		With(&Item{Value: 10}) // duplicate
 
 	// add
 

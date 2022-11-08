@@ -44,48 +44,45 @@ func (i *Item) String() string {
 }
 
 var (
-	EmptyItemDict   = dict.Dict[int, Item]{}
-	DefaultItemDict = dict.Dict[int, Item]{
-		10: {Value: 21},
-		20: {Value: 12},
-		30: {Value: 34},
-		40: {Value: 87},
-		50: {Value: 52},
-	}
-	OtherItemDict = dict.Dict[int, Item]{
-		10: {Value: 21},
-		20: {Value: 12},
-		40: {Value: 87},
-		50: {Value: 52},
-		60: {Value: 69},
-	}
+	EmptyItemDict   = dict.New[int, Item]()
+	DefaultItemDict = dict.New[int, Item]().
+			With(10, Item{Value: 21}).
+			With(20, Item{Value: 12}).
+			With(30, Item{Value: 34}).
+			With(40, Item{Value: 87}).
+			With(50, Item{Value: 52})
+	OtherItemDict = dict.New[int, Item]().
+			With(10, Item{Value: 21}).
+			With(20, Item{Value: 12}).
+			With(40, Item{Value: 87}).
+			With(50, Item{Value: 52}).
+			With(60, Item{Value: 69})
 )
 
 // *Item
 
 var (
-	EmptyItemPointerDict   = dict.Dict[int, *Item]{}
-	DefaultItemPointerDict = dict.Dict[int, *Item]{
-		10: {Value: 21},
-		20: {Value: 12},
-		30: {Value: 34},
-		40: {Value: 87},
-		50: {Value: 52},
-	}
-	SameItemPointerDict = dict.Dict[int, *Item]{
-		10: {Value: 21},
-		20: {Value: 12},
-		30: {Value: 34},
-		40: {Value: 87},
-		50: {Value: 52},
-	}
-	OtherItemPointerDict = dict.Dict[int, *Item]{
-		10: {Value: 21},
-		20: {Value: 12},
-		40: {Value: 87},
-		50: {Value: 52},
-		60: {Value: 69},
-	}
+	EmptyItemPointerDict   = dict.New[int, *Item]()
+	DefaultItemPointerDict = dict.New[int, *Item]().
+				With(10, &Item{Value: 21}).
+				With(20, &Item{Value: 12}).
+				With(30, &Item{Value: 34}).
+				With(40, &Item{Value: 87}).
+				With(50, &Item{Value: 52})
+
+	SameItemPointerDict = dict.New[int, *Item]().
+				With(10, &Item{Value: 21}).
+				With(20, &Item{Value: 12}).
+				With(30, &Item{Value: 34}).
+				With(40, &Item{Value: 87}).
+				With(50, &Item{Value: 52})
+
+	OtherItemPointerDict = dict.New[int, *Item]().
+				With(10, &Item{Value: 21}).
+				With(20, &Item{Value: 12}).
+				With(40, &Item{Value: 87}).
+				With(50, &Item{Value: 52}).
+				With(60, &Item{Value: 69})
 )
 
 // assert

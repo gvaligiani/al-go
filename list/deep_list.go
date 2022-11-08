@@ -9,12 +9,14 @@ type DeepList[V any] []V
 // builder
 
 func NewDeep[V any](values ...V) DeepList[V] {
+	// TODO remove values
+	// TODO add capacity
 	l := make(DeepList[V], 0, len(values))
 	l = append(l, values...)
 	return l
 }
 
-func (l *DeepList[V]) With(value V) *DeepList[V] {
+func (l DeepList[V]) With(value V) DeepList[V] {
 	l.Add(value)
 	return l
 }
@@ -120,6 +122,7 @@ func (l DeepList[V]) CopyIfNotIndex(predicate util.BiPredicate[int, V]) DeepList
 // modifier
 
 func (l *DeepList[V]) Add(value V) bool {
+	// TODO append multi value
 	*l = append(*l, value)
 	return true
 }

@@ -12,11 +12,10 @@ func TestList(t *testing.T) {
 
 	// builder
 
-	l := list.List[Item]{
-		Item{Value: 10},
-		Item{Value: 12},
-		Item{Value: 10}, // duplicate
-	}
+	l := list.New[Item]().
+		With(Item{Value: 10}).
+		With(Item{Value: 12}).
+		With(Item{Value: 10}) // duplicate
 
 	// add
 
