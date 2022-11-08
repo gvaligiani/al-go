@@ -68,18 +68,18 @@ func TestDeepDict(t *testing.T) {
 	odds := d.Copy()
 	updated := odds.RemoveIf(func(item *Item) bool { return item.Value%2 == 1 })
 	require.Equal(t, true, updated, "wrong updated!")
-	assertDeepEqual(t, dict.Dict[int, *Item]{20: {Value: 22}}, odds, "wrong odds")
+	assertDeepEqual(t, dict.DeepDict[int, *Item]{20: {Value: 22}}, odds, "wrong odds")
 
 	// keep if
 
 	evens := d.Copy()
 	updated = evens.KeepIf(func(item *Item) bool { return item.Value%2 == 1 })
 	require.Equal(t, true, updated, "wrong updated!")
-	assertDeepEqual(t, dict.Dict[int, *Item]{30: {Value: 17}}, evens, "wrong evens")
+	assertDeepEqual(t, dict.DeepDict[int, *Item]{30: {Value: 17}}, evens, "wrong evens")
 
 	// check source of copy
 
-	assertDeepEqual(t, dict.Dict[int, *Item]{20: {Value: 22}, 30: {Value: 17}}, d, "source of copy has been modified")
+	assertDeepEqual(t, dict.DeepDict[int, *Item]{20: {Value: 22}, 30: {Value: 17}}, d, "source of copy has been modified")
 
 	// clear
 

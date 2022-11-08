@@ -18,7 +18,7 @@ func TestAllOfInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     []int64
+		items     list.List[int64]
 		predicate util.Predicate[int64]
 		wantAllOf bool
 	}

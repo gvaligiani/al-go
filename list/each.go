@@ -2,12 +2,12 @@ package list
 
 import "github.com/gvaligiani/al.go/util"
 
-func Each[T any, L ~[]T](items L, consumer util.Consumer[T]) {
-	EachIndex(items, util.ConsumeOnSecondArg[int, T](consumer))
+func Each[V any, L ~[]V](l L, consumer util.Consumer[V]) {
+	EachIndex(l, util.ConsumeOnSecondArg[int](consumer))
 }
 
-func EachIndex[T any, L ~[]T](items L, consumer util.BiConsumer[int, T]) {
-	for index, item := range items {
-		consumer(index, item)
+func EachIndex[V any, L ~[]V](l L, consumer util.BiConsumer[int, V]) {
+	for i, v := range l {
+		consumer(i, v)
 	}
 }

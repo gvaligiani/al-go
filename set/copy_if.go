@@ -2,15 +2,15 @@ package set
 
 import "github.com/gvaligiani/al.go/util"
 
-func CopyIf[T comparable, S ~map[T]struct{}](items S, predicate util.Predicate[T]) S {
-	if items == nil {
+func CopyIf[V comparable, S ~map[V]struct{}](s S, predicate util.Predicate[V]) S {
+	if s == nil {
 		return nil
 	}
-	result := make(S, len(items))
-	for item := range items {
-		if predicate(item) {
-			result[item] = struct{}{}
+	copy := make(S, len(s))
+	for v := range s {
+		if predicate(v) {
+			copy[v] = struct{}{}
 		}
 	}
-	return result
+	return copy
 }

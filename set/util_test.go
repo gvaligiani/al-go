@@ -82,17 +82,17 @@ var (
 
 // assert
 
-func assertEqual[T comparable, S ~map[T]struct{}](t *testing.T, expected S, computed S, msg string) {
+func assertEqual[V comparable, S ~map[V]struct{}](t *testing.T, expected S, computed S, msg string) {
 	require.Truef(t, set.Equal(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
 }
 
-func assertDeepEqual[T comparable, S ~map[T]struct{}](t *testing.T, expected S, computed S, msg string) {
+func assertDeepEqual[V comparable, S ~map[V]struct{}](t *testing.T, expected S, computed S, msg string) {
 	require.Truef(t, set.DeepEqual(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
 }
 
 // dump
 
-func toString[T comparable, S ~map[T]struct{}](items S) string {
+func toString[V comparable, S ~map[V]struct{}](items S) string {
 	if items == nil {
 		return "<nil>"
 	}

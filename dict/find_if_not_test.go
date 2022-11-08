@@ -235,7 +235,7 @@ func TestFindKeyIfNotInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotKey, gotItem, gotFound := dict.FindKeyIfNot(testCase.items, testCase.predicate)
+		gotKey, gotItem, gotFound := dict.FindIfNotKey(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantKey, gotKey, "wrong key!")
@@ -303,7 +303,7 @@ func TestFindKeyIfNotStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotKey, gotItem, gotFound := dict.FindKeyIfNot(testCase.items, testCase.predicate)
+		gotKey, gotItem, gotFound := dict.FindIfNotKey(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantKey, gotKey, "wrong key!")
@@ -371,7 +371,7 @@ func TestFindKeyIfNotStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotKey, gotItem, gotFound := dict.FindKeyIfNot(testCase.items, testCase.predicate)
+		gotKey, gotItem, gotFound := dict.FindIfNotKey(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantKey, gotKey, "wrong key!")

@@ -2,18 +2,18 @@ package dict
 
 import "github.com/gvaligiani/al.go/util"
 
-func FindIf[K comparable, T any, M ~map[K]T](items M, predicate util.Predicate[T]) (T, bool) {
-	_, t, found := FindKeyIf(items, util.TestOnSecondArg[K, T](predicate))
+func FindIf[K comparable, V any, D ~map[K]V](d D, predicate util.Predicate[V]) (V, bool) {
+	_, t, found := FindIfKey(d, util.TestOnSecondArg[K](predicate))
 	return t, found
 }
 
-func FindKeyIf[K comparable, T any, M ~map[K]T](items M, predicate util.BiPredicate[K, T]) (K, T, bool) {
-	for key, item := range items {
-		if predicate(key, item) {
-			return key, item, true
+func FindIfKey[K comparable, V any, D ~map[K]V](d D, predicate util.BiPredicate[K, V]) (K, V, bool) {
+	for k, v := range d {
+		if predicate(k, v) {
+			return k, v, true
 		}
 	}
 	var noKey K
-	var noValue T
+	var noValue V
 	return noKey, noValue, false
 }

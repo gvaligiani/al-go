@@ -10,7 +10,7 @@ import (
 	"github.com/gvaligiani/al.go/test"
 )
 
-func TestFindKeyInt64(t *testing.T) {
+func TestFindByKeyInt64(t *testing.T) {
 
 	//
 	// test cases
@@ -59,7 +59,7 @@ func TestFindKeyInt64(t *testing.T) {
 	})
 }
 
-func TestFindKeyStruct(t *testing.T) {
+func TestFindByKeyStruct(t *testing.T) {
 
 	//
 	// test cases
@@ -108,7 +108,7 @@ func TestFindKeyStruct(t *testing.T) {
 	})
 }
 
-func TestFindKeyStructPointer(t *testing.T) {
+func TestFindByKeyStructPointer(t *testing.T) {
 
 	//
 	// test cases

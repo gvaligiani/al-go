@@ -5,6 +5,6 @@ import (
 	"github.com/gvaligiani/al.go/util"
 )
 
-func Each[T comparable, S ~map[T]struct{}](items S, consumer util.Consumer[T]) {
-	dict.EachKey(items, util.ConsumeOnFirstArg[T, struct{}](consumer))
+func Each[V comparable, S ~map[V]struct{}](s S, consumer util.Consumer[V]) {
+	dict.EachKey(s, util.ConsumeOnFirstArg[V, struct{}](consumer))
 }

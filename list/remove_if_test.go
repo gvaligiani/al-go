@@ -23,7 +23,7 @@ func TestCheckIndexes(t *testing.T) {
 	for i := 0; i < rand.Intn(100); i++ {
 		objs.Add(Obj{index: i, value: rand.Intn(10)})
 	}
-	objs.RemoveIndexIf(func(i int, o Obj) bool {
+	objs.RemoveIfIndex(func(i int, o Obj) bool {
 		require.Equal(t, i, o.index, "wrong index")
 		return o.value%2 == 1
 	})

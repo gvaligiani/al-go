@@ -5,7 +5,7 @@ import (
 	"github.com/gvaligiani/al.go/util"
 )
 
-func FindIf[T comparable, S ~map[T]struct{}](items S, predicate util.Predicate[T]) (T, bool) {
-	item, _, found := dict.FindKeyIf(items, util.TestOnFirstArg[T, struct{}](predicate))
-	return item, found
+func FindIf[V comparable, S ~map[V]struct{}](s S, predicate util.Predicate[V]) (V, bool) {
+	v, _, found := dict.FindIfKey(s, util.TestOnFirstArg[V, struct{}](predicate))
+	return v, found
 }

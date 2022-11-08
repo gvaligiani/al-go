@@ -39,10 +39,10 @@ func TestDeepList(t *testing.T) {
 
 	// find
 
-	index, found := l.FindIndex(&Item{Value: 12})
+	index, found := l.FindIndexFromValue(&Item{Value: 12})
 	require.Equal(t, 1, index, "index 12")
 	require.True(t, found, "find 12")
-	index, found = l.FindIndex(&Item{Value: 15})
+	index, found = l.FindIndexFromValue(&Item{Value: 15})
 	require.Equal(t, -1, index, "index 15")
 	require.False(t, found, "find 15")
 
@@ -50,7 +50,7 @@ func TestDeepList(t *testing.T) {
 	require.Equal(t, &Item{Value: 12}, item, "odd item")
 	require.True(t, found, "found odd")
 
-	index, item, found = l.FindIndexIfNot(func(_ int, i *Item) bool { return i.Value%2 == 0 })
+	index, item, found = l.FindIfNotIndex(func(_ int, i *Item) bool { return i.Value%2 == 0 })
 	require.Equal(t, &Item{Value: 17}, item, "even item")
 	require.True(t, found, "found even")
 

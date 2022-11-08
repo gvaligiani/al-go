@@ -57,7 +57,7 @@ func TestFindIndexInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.FindIndexOf(testCase.items, testCase.value)
+		gotIndex, gotFound := list.FindIndexFromValue(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")
@@ -112,7 +112,7 @@ func TestFindIndexStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.FindIndexOf(testCase.items, testCase.value)
+		gotIndex, gotFound := list.FindIndexFromValue(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")
@@ -167,7 +167,7 @@ func TestFindIndexStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.DeepFindIndexOf(testCase.items, testCase.value)
+		gotIndex, gotFound := list.DeepFindIndexFromValue(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")

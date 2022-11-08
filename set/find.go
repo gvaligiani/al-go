@@ -5,15 +5,15 @@ import (
 	"github.com/gvaligiani/al.go/util"
 )
 
-func Find[T comparable, S ~map[T]struct{}](items S, value T) bool {
-	_, found := items[value]
+func Find[V comparable, S ~map[V]struct{}](s S, v V) bool {
+	_, found := s[v]
 	return found
 }
 
-func DeepFind[T comparable, S ~map[T]struct{}](items S, value T) bool {
-	return FindFn(items, value, util.DeepEqual[T])
+func DeepFind[V comparable, S ~map[V]struct{}](s S, v V) bool {
+	return FindFn(s, v, util.DeepEqual[V])
 }
 
-func FindFn[T comparable, S ~map[T]struct{}](items S, value T, equal util.BiPredicate[T, T]) bool {
-	return dict.FindKeyFn(items, value, equal)
+func FindFn[V comparable, S ~map[V]struct{}](s S, v V, equal util.BiPredicate[V, V]) bool {
+	return dict.FindKeyFn(s, v, equal)
 }

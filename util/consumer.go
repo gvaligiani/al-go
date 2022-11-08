@@ -2,33 +2,33 @@ package util
 
 // alias
 
-type Consumer[T any] func(T)
-type BiConsumer[T any, U any] func(T, U)
+type Consumer[V any] func(V)
+type BiConsumer[U any, V any] func(U, V)
 
 // consumer <-> bi-consumer
 
-func ConsumeWithDefaultFirstArg[T any, U any](consumer BiConsumer[T, U]) Consumer[T] {
-	return func(t T) {
-		var u U
-		consumer(t, u)
-	}
-}
-
-func ConsumeOnFirstArg[T any, U any](consumer Consumer[T]) BiConsumer[T, U] {
-	return func(t T, _ U) {
-		consumer(t)
-	}
-}
-
-func ConsumeWithDefaultSecondArg[T any, U any](consumer BiConsumer[T, U]) Consumer[U] {
+func ConsumeWithDefaultFirstArg[U any, V any](consumer BiConsumer[U, V]) Consumer[U] {
 	return func(u U) {
-		var t T
-		consumer(t, u)
+		var v V
+		consumer(u, v)
 	}
 }
 
-func ConsumeOnSecondArg[T any, U any](consumer Consumer[U]) BiConsumer[T, U] {
-	return func(_ T, u U) {
+func ConsumeOnFirstArg[U any, V any](consumer Consumer[U]) BiConsumer[U, V] {
+	return func(u U, _ V) {
 		consumer(u)
+	}
+}
+
+func ConsumeWithDefaultSecondArg[U any, V any](consumer BiConsumer[U, V]) Consumer[V] {
+	return func(v V) {
+		var u U
+		consumer(u, v)
+	}
+}
+
+func ConsumeOnSecondArg[U any, V any](consumer Consumer[V]) BiConsumer[U, V] {
+	return func(_ U, v V) {
+		consumer(v)
 	}
 }

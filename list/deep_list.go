@@ -4,13 +4,18 @@ import "github.com/gvaligiani/al.go/util"
 
 // alias
 
-type DeepList[T any] []T
+type DeepList[V any] []V
 
 // builder
 
-func NewDeep[T any](values ...T) DeepList[T] {
-	l := make(DeepList[T], 0, len(values))
+func NewDeep[V any](values ...V) DeepList[V] {
+	l := make(DeepList[V], 0, len(values))
 	l = append(l, values...)
+	return l
+}
+
+func (l *DeepList[V]) With(value V) *DeepList[V] {
+	l.Add(value)
 	return l
 }
 
@@ -18,130 +23,131 @@ func NewDeep[T any](values ...T) DeepList[T] {
 
 // state
 
-func (l DeepList[T]) IsEmpty() bool {
+func (l DeepList[V]) IsEmpty() bool {
 	return len(l) == 0
 }
 
-func (l DeepList[T]) AllOf(predicate util.Predicate[T]) bool {
+func (l DeepList[V]) AllOf(predicate util.Predicate[V]) bool {
 	return AllOf(l, predicate)
 }
 
-func (l DeepList[T]) AllIndexOf(predicate util.BiPredicate[int, T]) bool {
+func (l DeepList[V]) AllIndexOf(predicate util.BiPredicate[int, V]) bool {
 	return AllIndexOf(l, predicate)
 }
 
-func (l DeepList[T]) AnyOf(predicate util.Predicate[T]) bool {
+func (l DeepList[V]) AnyOf(predicate util.Predicate[V]) bool {
 	return AnyOf(l, predicate)
 }
 
-func (l DeepList[T]) AnyIndexOf(predicate util.BiPredicate[int, T]) bool {
+func (l DeepList[V]) AnyIndexOf(predicate util.BiPredicate[int, V]) bool {
 	return AnyIndexOf(l, predicate)
 }
 
-func (l DeepList[T]) NoneOf(predicate util.Predicate[T]) bool {
+func (l DeepList[V]) NoneOf(predicate util.Predicate[V]) bool {
 	return NoneOf(l, predicate)
 }
 
-func (l DeepList[T]) NoIndexOf(predicate util.BiPredicate[int, T]) bool {
+func (l DeepList[V]) NoIndexOf(predicate util.BiPredicate[int, V]) bool {
 	return NoIndexOf(l, predicate)
 }
 
 // each
 
-func (l DeepList[T]) Each(consumer util.Consumer[T]) {
+func (l DeepList[V]) Each(consumer util.Consumer[V]) {
 	Each(l, consumer)
 }
 
-func (l DeepList[T]) EachIndex(consumer util.BiConsumer[int, T]) {
+func (l DeepList[V]) EachIndex(consumer util.BiConsumer[int, V]) {
 	EachIndex(l, consumer)
 }
 
 // find
 
-func (l DeepList[T]) Find(value T) bool {
+func (l DeepList[V]) FindIndex(index int) bool {
+	return FindIndex(l, index)
+}
+
+func (l DeepList[V]) FindValueFromIndex(index int) (V, bool) {
+	return FindValueFromIndex(l, index)
+}
+
+func (l DeepList[V]) Find(value V) bool {
 	return DeepFind(l, value)
 }
 
-func (l DeepList[T]) FindIndex(value T) (int, bool) {
-	return DeepFindIndexOf(l, value)
+func (l DeepList[V]) FindIndexFromValue(value V) (int, bool) {
+	return DeepFindIndexFromValue(l, value)
 }
 
-func (l DeepList[T]) FindIf(predicate util.Predicate[T]) (T, bool) {
+func (l DeepList[V]) FindIf(predicate util.Predicate[V]) (V, bool) {
 	return FindIf(l, predicate)
 }
 
-func (l DeepList[T]) FindIndexIf(predicate util.BiPredicate[int, T]) (int, T, bool) {
-	return FindIndexIf(l, predicate)
+func (l DeepList[V]) FindIfIndex(predicate util.BiPredicate[int, V]) (int, V, bool) {
+	return FindIfIndex(l, predicate)
 }
 
-func (l DeepList[T]) FindIfNot(predicate util.Predicate[T]) (T, bool) {
+func (l DeepList[V]) FindIfNot(predicate util.Predicate[V]) (V, bool) {
 	return FindIfNot(l, predicate)
 }
 
-func (l DeepList[T]) FindIndexIfNot(predicate util.BiPredicate[int, T]) (int, T, bool) {
-	return FindIndexIfNot(l, predicate)
+func (l DeepList[V]) FindIfNotIndex(predicate util.BiPredicate[int, V]) (int, V, bool) {
+	return FindIfNotIndex(l, predicate)
 }
 
 // copy
 
-func (l DeepList[T]) Copy() DeepList[T] {
-	return DeepList[T](Copy(l))
+func (l DeepList[V]) Copy() DeepList[V] {
+	return DeepList[V](Copy(l))
 }
 
-func (l DeepList[T]) CopyIf(predicate util.Predicate[T]) DeepList[T] {
-	return DeepList[T](CopyIf(l, predicate))
+func (l DeepList[V]) CopyIf(predicate util.Predicate[V]) DeepList[V] {
+	return DeepList[V](CopyIf(l, predicate))
 }
 
-func (l DeepList[T]) CopyIfNot(predicate util.Predicate[T]) DeepList[T] {
-	return DeepList[T](CopyIfNot(l, predicate))
+func (l DeepList[V]) CopyIfIndex(predicate util.BiPredicate[int, V]) DeepList[V] {
+	return DeepList[V](CopyIfIndex(l, predicate))
+}
+
+func (l DeepList[V]) CopyIfNot(predicate util.Predicate[V]) DeepList[V] {
+	return DeepList[V](CopyIfNot(l, predicate))
+}
+
+func (l DeepList[V]) CopyIfNotIndex(predicate util.BiPredicate[int, V]) DeepList[V] {
+	return DeepList[V](CopyIfNotIndex(l, predicate))
 }
 
 // modifier
 
-func (l *DeepList[T]) Add(value T) bool {
+func (l *DeepList[V]) Add(value V) bool {
 	*l = append(*l, value)
 	return true
 }
 
-func (l *DeepList[T]) Remove(value T) bool {
-	if l == nil || len(*l) == 0 {
-		return false
-	}
-	return RemoveIf(l, func(t T) bool { return util.DeepEqual(t, value) })
+func (l *DeepList[V]) Remove(value V) bool {
+	return RemoveIf(l, func(v V) bool { return util.DeepEqual(v, value) })
 }
 
-func (l *DeepList[T]) Clear() bool {
+func (l *DeepList[V]) Clear() bool {
 	if l == nil || len(*l) == 0 {
 		return false
 	}
-	*l = DeepList[T]{}
+	*l = DeepList[V]{}
 	return true
 }
 
-func (l *DeepList[T]) RemoveIf(predicate util.Predicate[T]) bool {
-	if l == nil || len(*l) == 0 {
-		return false
-	}
+func (l *DeepList[V]) RemoveIf(predicate util.Predicate[V]) bool {
 	return RemoveIf(l, predicate)
 }
 
-func (l *DeepList[T]) RemoveIndexIf(predicate util.BiPredicate[int, T]) bool {
-	if l == nil || len(*l) == 0 {
-		return false
-	}
-	return RemoveIndexIf(l, predicate)
+func (l *DeepList[V]) RemoveIfIndex(predicate util.BiPredicate[int, V]) bool {
+	return RemoveIfIndex(l, predicate)
 }
 
-func (l *DeepList[T]) KeepIf(predicate util.Predicate[T]) bool {
-	if l == nil || len(*l) == 0 {
-		return false
-	}
+func (l *DeepList[V]) KeepIf(predicate util.Predicate[V]) bool {
 	return KeepIf(l, predicate)
 }
 
-func (l *DeepList[T]) KeepIndexIf(predicate util.BiPredicate[int, T]) bool {
-	if l == nil || len(*l) == 0 {
-		return false
-	}
-	return KeepIndexIf(l, predicate)
+func (l *DeepList[V]) KeepIfIndex(predicate util.BiPredicate[int, V]) bool {
+	return KeepIfIndex(l, predicate)
 }

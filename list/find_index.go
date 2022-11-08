@@ -4,35 +4,35 @@ import (
 	"github.com/gvaligiani/al.go/util"
 )
 
-func FindIndex[T comparable, L ~[]T](items L, index int) bool {
-	if 0 <= index && index < len(items) {
+func FindIndex[V any, L ~[]V](l L, index int) bool {
+	if 0 <= index && index < len(l) {
 		return true
 	}
 	return false
 }
 
-func DeepFindIndex[T any, L ~[]T](items L, index int) bool {
-	return FindIndexFn(items, index, util.DeepEqual[int])
+func DeepFindIndex[V any, L ~[]V](l L, index int) bool {
+	return FindIndexFn(l, index, util.DeepEqual[int])
 }
 
-func FindIndexFn[T any, L ~[]T](items L, index int, equal util.BiPredicate[int, int]) bool {
-	_, _, found := FindIndexIf(items, func(i int, _ T) bool { return equal(i, index) })
+func FindIndexFn[V any, L ~[]V](l L, index int, equal util.BiPredicate[int, int]) bool {
+	_, _, found := FindIfIndex(l, func(i int, _ V) bool { return equal(i, index) })
 	return found
 }
 
-func FindValueAt[T comparable, L ~[]T](items L, index int) (T, bool) {
-	if 0 <= index && index < len(items) {
-		return items[index], true
+func FindValueFromIndex[V any, L ~[]V](l L, index int) (V, bool) {
+	if 0 <= index && index < len(l) {
+		return l[index], true
 	}
-	var noValue T
+	var noValue V
 	return noValue, false
 }
 
-func DeepFindValueAt[T any, L ~[]T](items L, index int) (T, bool) {
-	return FindValueAtFn(items, index, util.DeepEqual[int])
+func DeepFindValueFromIndex[V any, L ~[]V](l L, index int) (V, bool) {
+	return FindValueFromIndexFn(l, index, util.DeepEqual[int])
 }
 
-func FindValueAtFn[T any, L ~[]T](items L, index int, equal util.BiPredicate[int, int]) (T, bool) {
-	_, value, found := FindIndexIf(items, func(i int, _ T) bool { return equal(i, index) })
+func FindValueFromIndexFn[V any, L ~[]V](l L, index int, equal util.BiPredicate[int, int]) (V, bool) {
+	_, value, found := FindIfIndex(l, func(i int, _ V) bool { return equal(i, index) })
 	return value, found
 }

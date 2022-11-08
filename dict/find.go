@@ -4,28 +4,28 @@ import (
 	"github.com/gvaligiani/al.go/util"
 )
 
-func Find[K comparable, T comparable, M ~map[K]T](items M, value T) bool {
-	return FindFn(items, value, util.Equal[T])
+func Find[K comparable, V comparable, D ~map[K]V](d D, value V) bool {
+	return FindFn(d, value, util.Equal[V])
 }
 
-func DeepFind[K comparable, T any, M ~map[K]T](items M, value T) bool {
-	return FindFn(items, value, util.DeepEqual[T])
+func DeepFind[K comparable, V any, D ~map[K]V](d D, value V) bool {
+	return FindFn(d, value, util.DeepEqual[V])
 }
 
-func FindFn[K comparable, T any, M ~map[K]T](items M, value T, equal util.BiPredicate[T, T]) bool {
-	_, found := FindIf(items, func(item T) bool { return equal(item, value) })
+func FindFn[K comparable, V any, D ~map[K]V](d D, value V, equal util.BiPredicate[V, V]) bool {
+	_, found := FindIf(d, func(v V) bool { return equal(v, value) })
 	return found
 }
 
-func FindKeyOf[K comparable, T comparable, M ~map[K]T](items M, value T) (K, bool) {
-	return FindKeyOfFn(items, value, util.Equal[T])
+func FindKeyFromValue[K comparable, V comparable, D ~map[K]V](d D, value V) (K, bool) {
+	return FindKeyFromValueFn(d, value, util.Equal[V])
 }
 
-func DeepFindKeyOf[K comparable, T any, M ~map[K]T](items M, value T) (K, bool) {
-	return FindKeyOfFn(items, value, util.DeepEqual[T])
+func DeepFindKeyFromValue[K comparable, V any, D ~map[K]V](d D, value V) (K, bool) {
+	return FindKeyFromValueFn(d, value, util.DeepEqual[V])
 }
 
-func FindKeyOfFn[K comparable, T any, M ~map[K]T](items M, value T, equal util.BiPredicate[T, T]) (K, bool) {
-	key, _, found := FindKeyIf(items, func(key K, item T) bool { return equal(item, value) })
+func FindKeyFromValueFn[K comparable, V any, D ~map[K]V](d D, value V, equal util.BiPredicate[V, V]) (K, bool) {
+	key, _, found := FindIfKey(d, func(_ K, v V) bool { return equal(v, value) })
 	return key, found
 }

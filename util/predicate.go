@@ -2,75 +2,75 @@ package util
 
 // alias
 
-type Predicate[T any] func(T) bool
-type BiPredicate[T any, U any] func(T, U) bool
+type Predicate[V any] func(V) bool
+type BiPredicate[U any, V any] func(U, V) bool
 
 // predicate <-> not predicate
 
-func Not[T any](predicate Predicate[T]) Predicate[T] {
-	return func(t T) bool {
-		return !predicate(t)
+func Not[V any](predicate Predicate[V]) Predicate[V] {
+	return func(v V) bool {
+		return !predicate(v)
 	}
 }
 
-func BiNot[T any, U any](predicate BiPredicate[T, U]) BiPredicate[T, U] {
-	return func(t T, u U) bool {
-		return !predicate(t, u)
+func BiNot[U any, V any](predicate BiPredicate[U, V]) BiPredicate[U, V] {
+	return func(u U, v V) bool {
+		return !predicate(u, v)
 	}
 }
 
 // true predicate
 
-func True[T any]() Predicate[T] {
-	return func(_ T) bool {
+func True[V any]() Predicate[V] {
+	return func(_ V) bool {
 		return true
 	}
 }
 
-func BiTrue[T any, U any]() BiPredicate[T, U] {
-	return func(_ T, _ U) bool {
+func BiTrue[U any, V any]() BiPredicate[U, V] {
+	return func(_ U, _ V) bool {
 		return true
 	}
 }
 
 // false predicate
 
-func False[T any]() Predicate[T] {
-	return func(_ T) bool {
+func False[V any]() Predicate[V] {
+	return func(_ V) bool {
 		return false
 	}
 }
 
-func BiFalse[T any, U any]() BiPredicate[T, U] {
-	return func(_ T, _ U) bool {
+func BiFalse[U any, V any]() BiPredicate[U, V] {
+	return func(_ U, _ V) bool {
 		return false
 	}
 }
 
 // predicate <-> bi-predicate
 
-func TestWithDefaultFirstArg[T any, U any](predicate BiPredicate[T, U]) Predicate[T] {
-	return func(t T) bool {
-		var u U
-		return predicate(t, u)
-	}
-}
-
-func TestOnFirstArg[T any, U any](predicate Predicate[T]) BiPredicate[T, U] {
-	return func(t T, _ U) bool {
-		return predicate(t)
-	}
-}
-
-func TestWithDefaultSecondArg[T any, U any](predicate BiPredicate[T, U]) Predicate[U] {
+func TestWithDefaultFirstArg[U any, V any](predicate BiPredicate[U, V]) Predicate[U] {
 	return func(u U) bool {
-		var t T
-		return predicate(t, u)
+		var v V
+		return predicate(u, v)
 	}
 }
 
-func TestOnSecondArg[T any, U any](predicate Predicate[U]) BiPredicate[T, U] {
-	return func(_ T, u U) bool {
+func TestOnFirstArg[U any, V any](predicate Predicate[U]) BiPredicate[U, V] {
+	return func(u U, _ V) bool {
 		return predicate(u)
+	}
+}
+
+func TestWithDefaultSecondArg[U any, V any](predicate BiPredicate[U, V]) Predicate[U] {
+	return func(u U) bool {
+		var v V
+		return predicate(u, v)
+	}
+}
+
+func TestOnSecondArg[U any, V any](predicate Predicate[V]) BiPredicate[U, V] {
+	return func(_ U, v V) bool {
+		return predicate(v)
 	}
 }

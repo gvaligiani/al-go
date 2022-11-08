@@ -2,17 +2,17 @@ package list
 
 import "github.com/gvaligiani/al.go/util"
 
-func FindIf[T any, L ~[]T](items L, predicate util.Predicate[T]) (T, bool) {
-	_, t, found := FindIndexIf(items, util.TestOnSecondArg[int, T](predicate))
+func FindIf[V any, L ~[]V](l L, predicate util.Predicate[V]) (V, bool) {
+	_, t, found := FindIfIndex(l, util.TestOnSecondArg[int](predicate))
 	return t, found
 }
 
-func FindIndexIf[T any, L ~[]T](items L, predicate util.BiPredicate[int, T]) (int, T, bool) {
-	for index, item := range items {
-		if predicate(index, item) {
-			return index, item, true
+func FindIfIndex[V any, L ~[]V](l L, predicate util.BiPredicate[int, V]) (int, V, bool) {
+	for i, v := range l {
+		if predicate(i, v) {
+			return i, v, true
 		}
 	}
-	var none T
+	var none V
 	return -1, none, false
 }

@@ -2,10 +2,10 @@ package dict
 
 import "github.com/gvaligiani/al.go/util"
 
-func FindIfNot[K comparable, T any, M ~map[K]T](items M, predicate util.Predicate[T]) (T, bool) {
-	return FindIf(items, util.Not(predicate))
+func FindIfNot[K comparable, V any, D ~map[K]V](d D, predicate util.Predicate[V]) (V, bool) {
+	return FindIf(d, util.Not(predicate))
 }
 
-func FindKeyIfNot[K comparable, T any, M ~map[K]T](items M, predicate util.BiPredicate[K, T]) (K, T, bool) {
-	return FindKeyIf(items, util.BiNot(predicate))
+func FindIfNotKey[K comparable, V any, D ~map[K]V](d D, predicate util.BiPredicate[K, V]) (K, V, bool) {
+	return FindIfKey(d, util.BiNot(predicate))
 }

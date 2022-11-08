@@ -2,12 +2,12 @@ package dict
 
 import "github.com/gvaligiani/al.go/util"
 
-func AnyOf[K comparable, T any, M ~map[K]T](items M, predicate util.Predicate[T]) bool {
-	_, found := FindIf(items, predicate)
+func AnyOf[K comparable, V any, D ~map[K]V](d D, predicate util.Predicate[V]) bool {
+	_, found := FindIf(d, predicate)
 	return found
 }
 
-func AnyKeyOf[K comparable, T any, M ~map[K]T](items M, predicate util.BiPredicate[K, T]) bool {
-	_, _, found := FindKeyIf(items, predicate)
+func AnyKeyOf[K comparable, V any, D ~map[K]V](d D, predicate util.BiPredicate[K, V]) bool {
+	_, _, found := FindIfKey(d, predicate)
 	return found
 }

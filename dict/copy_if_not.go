@@ -2,10 +2,10 @@ package dict
 
 import "github.com/gvaligiani/al.go/util"
 
-func CopyIfNot[K comparable, T any, M ~map[K]T](m M, predicate util.Predicate[T]) M {
-	return CopyIf(m, util.Not(predicate))
+func CopyIfNot[K comparable, V any, D ~map[K]V](d D, predicate util.Predicate[V]) D {
+	return CopyIf(d, util.Not(predicate))
 }
 
-func CopyKeyIfNot[K comparable, T any, M ~map[K]T](m M, predicate util.BiPredicate[K, T]) M {
-	return CopyKeyIf(m, util.BiNot(predicate))
+func CopyIfNotKey[K comparable, V any, D ~map[K]V](d D, predicate util.BiPredicate[K, V]) D {
+	return CopyIfKey(d, util.BiNot(predicate))
 }

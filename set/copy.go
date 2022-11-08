@@ -2,6 +2,6 @@ package set
 
 import "github.com/gvaligiani/al.go/util"
 
-func Copy[T comparable, S ~map[T]struct{}](items S) S {
-	return CopyIf(items, util.True[T]())
+func Copy[V comparable, S ~map[V]struct{}](s S) S {
+	return CopyIf(s, util.True[V]())
 }

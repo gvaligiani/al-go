@@ -4,12 +4,12 @@ package util
 // consumer
 //
 
-type Supplier[T any] func() T
-type BiSupplier[T any, U any] func() (T, U)
+type Supplier[V any] func() V
+type BiSupplier[U any, V any] func() (U, V)
 
 //
 // transformer
 //
 
-type Transformer[T any, O any] func(T) O
-type BiTransformer[T any, U any, O any] func(T, U) O
+type Transformer[V any, O any] func(V) O
+type BiTransformer[U any, V any, O any] func(U, V) O

@@ -253,7 +253,7 @@ func TestFindIndexIfNotInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotItem, gotFound := list.FindIndexIfNot(testCase.items, testCase.predicate)
+		gotIndex, gotItem, gotFound := list.FindIfNotIndex(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")
@@ -321,7 +321,7 @@ func TestFindIndexIfNotStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotItem, gotFound := list.FindIndexIfNot(testCase.items, testCase.predicate)
+		gotIndex, gotItem, gotFound := list.FindIfNotIndex(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")
@@ -389,7 +389,7 @@ func TestFindIndexIfNotStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotItem, gotFound := list.FindIndexIfNot(testCase.items, testCase.predicate)
+		gotIndex, gotItem, gotFound := list.FindIfNotIndex(testCase.items, testCase.predicate)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")

@@ -5,6 +5,6 @@ import (
 	"github.com/gvaligiani/al.go/util"
 )
 
-func AnyOf[T comparable, S ~map[T]struct{}](items S, predicate util.Predicate[T]) bool {
-	return dict.AnyKeyOf(items, util.TestOnFirstArg[T, struct{}](predicate))
+func AnyOf[V comparable, S ~map[V]struct{}](s S, predicate util.Predicate[V]) bool {
+	return dict.AnyKeyOf(s, util.TestOnFirstArg[V, struct{}](predicate))
 }

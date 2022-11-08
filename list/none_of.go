@@ -2,12 +2,12 @@ package list
 
 import "github.com/gvaligiani/al.go/util"
 
-func NoneOf[T any, L ~[]T](items L, predicate util.Predicate[T]) bool {
-	_, found := FindIf(items, predicate)
+func NoneOf[V any, L ~[]V](l L, predicate util.Predicate[V]) bool {
+	_, found := FindIf(l, predicate)
 	return !found
 }
 
-func NoIndexOf[T any, L ~[]T](items L, predicate util.BiPredicate[int, T]) bool {
-	_, _, found := FindIndexIf(items, predicate)
+func NoIndexOf[V any, L ~[]V](l L, predicate util.BiPredicate[int, V]) bool {
+	_, _, found := FindIfIndex(l, predicate)
 	return !found
 }

@@ -2,6 +2,6 @@ package dict
 
 import "github.com/gvaligiani/al.go/util"
 
-func Copy[K comparable, T any, M ~map[K]T](items M) M {
-	return CopyIf(items, util.True[T]())
+func Copy[K comparable, V any, D ~map[K]V](d D) D {
+	return CopyIf(d, util.True[V]())
 }
