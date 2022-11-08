@@ -7,6 +7,7 @@ import (
 
 	"github.com/gvaligiani/al.go/set"
 	"github.com/gvaligiani/al.go/test"
+	"github.com/gvaligiani/al.go/util"
 	"github.com/stretchr/testify/require"
 )
 
@@ -18,7 +19,7 @@ func TestRemoveIfInt64(t *testing.T) {
 
 	type TestCase struct {
 		items       set.Set[int64]
-		predicate   set.Predicate[int64]
+		predicate   util.Predicate[int64]
 		wantUpdated bool
 		wantItems   set.Set[int64]
 	}
@@ -93,7 +94,7 @@ func TestRemoveIfStruct(t *testing.T) {
 
 	type TestCase struct {
 		items       set.Set[Item]
-		predicate   set.Predicate[Item]
+		predicate   util.Predicate[Item]
 		wantUpdated bool
 		wantItems   set.Set[Item]
 	}
@@ -168,7 +169,7 @@ func TestRemoveIfStructPointer(t *testing.T) {
 
 	type TestCase struct {
 		items       set.Set[*Item]
-		predicate   set.Predicate[*Item]
+		predicate   util.Predicate[*Item]
 		wantUpdated bool
 		wantItems   set.Set[*Item]
 	}

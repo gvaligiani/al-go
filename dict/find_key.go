@@ -14,6 +14,6 @@ func DeepFindKey[K comparable, T any, M ~map[K]T](items M, key K) bool {
 }
 
 func FindKeyFn[K comparable, T any, M ~map[K]T](items M, key K, equal util.BiPredicate[K, K]) bool {
-	_, _, found := FindIf(items, func(k K, _ T) bool { return equal(k, key) })
+	_, _, found := FindKeyIf(items, func(k K, _ T) bool { return equal(k, key) })
 	return found
 }

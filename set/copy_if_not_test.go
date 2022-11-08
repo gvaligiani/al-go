@@ -7,6 +7,7 @@ import (
 
 	"github.com/gvaligiani/al.go/set"
 	"github.com/gvaligiani/al.go/test"
+	"github.com/gvaligiani/al.go/util"
 )
 
 func TestCopyIfNotInt64(t *testing.T) {
@@ -17,7 +18,7 @@ func TestCopyIfNotInt64(t *testing.T) {
 
 	type TestCase struct {
 		items     set.Set[int64]
-		predicate set.Predicate[int64]
+		predicate util.Predicate[int64]
 		wantItems set.Set[int64]
 	}
 

@@ -1,6 +1,8 @@
 package set
 
-func RemoveIf[T comparable, S ~map[T]struct{}](items *S, predicate Predicate[T]) bool {
+import "github.com/gvaligiani/al.go/util"
+
+func RemoveIf[T comparable, S ~map[T]struct{}](items *S, predicate util.Predicate[T]) bool {
 	if len(*items) == 0 {
 		return false
 	}

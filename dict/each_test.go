@@ -16,6 +16,8 @@ func TestEachInt64(t *testing.T) {
 	// test cases
 	//
 
+	type Key int
+	type Value int64
 	type TestCase struct {
 		items   dict.Dict[int, int64]
 		wantSum int64
@@ -44,7 +46,7 @@ func TestEachInt64(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		dict.Each(testCase.items, func(_ int, item int64) { gotSum += item })
+		dict.Each(testCase.items, func(item int64) { gotSum += item })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
@@ -85,7 +87,7 @@ func TestEachStruct(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		dict.Each(testCase.items, func(_ int, item Item) { gotSum += item.Value })
+		dict.Each(testCase.items, func(item Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
@@ -126,7 +128,7 @@ func TestEachStructPointer(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		dict.Each(testCase.items, func(_ int, item *Item) { gotSum += item.Value })
+		dict.Each(testCase.items, func(item *Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")

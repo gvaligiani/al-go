@@ -8,6 +8,7 @@ import (
 
 	"github.com/gvaligiani/al.go/set"
 	"github.com/gvaligiani/al.go/test"
+	"github.com/gvaligiani/al.go/util"
 )
 
 func TestFindIfNotInt64(t *testing.T) {
@@ -18,7 +19,7 @@ func TestFindIfNotInt64(t *testing.T) {
 
 	type TestCase struct {
 		items     set.Set[int64]
-		predicate set.Predicate[int64]
+		predicate util.Predicate[int64]
 		wantItem  int64
 		wantFound bool
 	}

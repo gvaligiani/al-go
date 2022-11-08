@@ -1,5 +1,7 @@
 package set
 
+import "github.com/gvaligiani/al.go/util"
+
 // alias
 
 type Set[T comparable] map[T]struct{}
@@ -30,21 +32,21 @@ func (s Set[T]) IsEmpty() bool {
 	return len(s) == 0
 }
 
-func (s Set[T]) AllOf(predicate Predicate[T]) bool {
+func (s Set[T]) AllOf(predicate util.Predicate[T]) bool {
 	return AllOf(s, predicate)
 }
 
-func (s Set[T]) AnyOf(predicate Predicate[T]) bool {
+func (s Set[T]) AnyOf(predicate util.Predicate[T]) bool {
 	return AnyOf(s, predicate)
 }
 
-func (s Set[T]) NoneOf(predicate Predicate[T]) bool {
+func (s Set[T]) NoneOf(predicate util.Predicate[T]) bool {
 	return NoneOf(s, predicate)
 }
 
 // each
 
-func (s Set[T]) Each(consumer Consumer[T]) {
+func (s Set[T]) Each(consumer util.Consumer[T]) {
 	Each(s, consumer)
 }
 
@@ -54,11 +56,11 @@ func (s Set[T]) Find(value T) bool {
 	return Find(s, value)
 }
 
-func (s Set[T]) FindIf(predicate Predicate[T]) (T, bool) {
+func (s Set[T]) FindIf(predicate util.Predicate[T]) (T, bool) {
 	return FindIf(s, predicate)
 }
 
-func (s Set[T]) FindIfNot(predicate Predicate[T]) (T, bool) {
+func (s Set[T]) FindIfNot(predicate util.Predicate[T]) (T, bool) {
 	return FindIfNot(s, predicate)
 }
 
@@ -68,11 +70,11 @@ func (s Set[T]) Copy() Set[T] {
 	return Set[T](Copy(s))
 }
 
-func (s Set[T]) CopyIf(predicate Predicate[T]) Set[T] {
+func (s Set[T]) CopyIf(predicate util.Predicate[T]) Set[T] {
 	return Set[T](CopyIf(s, predicate))
 }
 
-func (s Set[T]) CopyIfNot(predicate Predicate[T]) Set[T] {
+func (s Set[T]) CopyIfNot(predicate util.Predicate[T]) Set[T] {
 	return Set[T](CopyIfNot(s, predicate))
 }
 
@@ -108,14 +110,14 @@ func (s *Set[T]) Clear() bool {
 	return true
 }
 
-func (s *Set[T]) RemoveIf(predicate Predicate[T]) bool {
+func (s *Set[T]) RemoveIf(predicate util.Predicate[T]) bool {
 	if s == nil || len(*s) == 0 {
 		return false
 	}
 	return RemoveIf(s, predicate)
 }
 
-func (s *Set[T]) KeepIf(predicate Predicate[T]) bool {
+func (s *Set[T]) KeepIf(predicate util.Predicate[T]) bool {
 	if s == nil || len(*s) == 0 {
 		return false
 	}

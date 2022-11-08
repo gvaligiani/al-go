@@ -1,7 +1,10 @@
 package set
 
-import "github.com/gvaligiani/al.go/dict"
+import (
+	"github.com/gvaligiani/al.go/dict"
+	"github.com/gvaligiani/al.go/util"
+)
 
-func Each[T comparable, S ~map[T]struct{}](items S, consumer Consumer[T]) {
-	dict.Each(items, func(item T, _ struct{}) { consumer(item) })
+func Each[T comparable, S ~map[T]struct{}](items S, consumer util.Consumer[T]) {
+	dict.EachKey(items, util.ConsumeOnFirstArg[T, struct{}](consumer))
 }

@@ -1,20 +1,6 @@
 package util
 
 //
-// predicate
-//
-
-type Predicate[T any] func(T) bool
-type BiPredicate[T any, U any] func(T, U) bool
-
-//
-// consumer
-//
-
-type Consumer[T any] func(T)
-type BiConsumer[T any, U any] func(T, U)
-
-//
 // consumer
 //
 
