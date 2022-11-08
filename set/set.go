@@ -90,7 +90,7 @@ func (s *Set[T]) Add(item T) bool {
 }
 
 func (s *Set[T]) Remove(item T) bool {
-	if s == nil {
+	if s == nil || len(*s) == 0 {
 		return false
 	}
 	if _, ok := (*s)[item]; ok {
@@ -100,14 +100,24 @@ func (s *Set[T]) Remove(item T) bool {
 	return false
 }
 
-func (s *Set[T]) Clear() {
+func (s *Set[T]) Clear() bool {
+	if s == nil || len(*s) == 0 {
+		return false
+	}
 	*s = Set[T]{}
+	return true
 }
 
-func (s Set[T]) RemoveIf(predicate Predicate[T]) {
-	RemoveIf(&s, predicate)
+func (s *Set[T]) RemoveIf(predicate Predicate[T]) bool {
+	if s == nil || len(*s) == 0 {
+		return false
+	}
+	return RemoveIf(s, predicate)
 }
 
-func (s Set[T]) KeepIf(predicate Predicate[T]) {
-	KeepIf(&s, predicate)
+func (s *Set[T]) KeepIf(predicate Predicate[T]) bool {
+	if s == nil || len(*s) == 0 {
+		return false
+	}
+	return KeepIf(s, predicate)
 }

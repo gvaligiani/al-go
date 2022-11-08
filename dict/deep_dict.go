@@ -100,14 +100,24 @@ func (d *DeepDict[K, T]) Remove(key K) bool {
 	return false
 }
 
-func (d *DeepDict[K, T]) Clear() {
+func (d *DeepDict[K, T]) Clear() bool {
+	if d == nil || len(*d) == 0 {
+		return false
+	}
 	*d = DeepDict[K, T]{}
+	return true
 }
 
-func (d *DeepDict[K, T]) RemoveIf(predicate Predicate[K, T]) {
-	RemoveIf(d, predicate)
+func (d *DeepDict[K, T]) RemoveIf(predicate Predicate[K, T]) bool {
+	if d == nil || len(*d) == 0 {
+		return false
+	}
+	return RemoveIf(d, predicate)
 }
 
-func (d *DeepDict[K, T]) KeepIf(predicate Predicate[K, T]) {
-	KeepIf(d, predicate)
+func (d *DeepDict[K, T]) KeepIf(predicate Predicate[K, T]) bool {
+	if d == nil || len(*d) == 0 {
+		return false
+	}
+	return KeepIf(d, predicate)
 }

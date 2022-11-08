@@ -69,24 +69,29 @@ func TestDeepList(t *testing.T) {
 	// remove if
 
 	odds := l.Copy()
-	odds.RemoveIf(func(_ int, item *Item) bool { return item.Value%2 == 1 })
+	updated := odds.RemoveIf(func(_ int, item *Item) bool { return item.Value%2 == 1 })
+	require.Equal(t, true, updated, "wrong updated!")
 	assertDeepEqual(t, list.NewDeep(&Item{Value: 12}), odds, "wrong odds")
 
 	// keep if
 
 	evens := l.Copy()
-	evens.KeepIf(func(_ int, item *Item) bool { return item.Value%2 == 1 })
+	updated = evens.KeepIf(func(_ int, item *Item) bool { return item.Value%2 == 1 })
+	require.Equal(t, true, updated, "wrong updated!")
 	assertDeepEqual(t, list.NewDeep(&Item{Value: 17}, &Item{Value: 17}), evens, "wrong evens")
 
 	// check source of copy
 
-	assertDeepEqual(t, list.NewDeep(&Item{Value: 12}, &Item{Value: 17}, &Item{Value: 17}), l, "source of copy has been modified")
+	assertDeepEqual(t, list.NewDeep(&Item{Value: 17}, &Item{Value: 12}, &Item{Value: 17}), l, "source of copy has been modified")
 
 	// clear
 
 	require.Equal(t, 3, len(l), "len before clear")
 	require.False(t, l.IsEmpty(), "is_empty before clear")
-	l.Clear()
+	updated = l.Clear()
+	require.Equal(t, true, updated, "wrong updated!")
 	require.Equal(t, 0, len(l), "len after clear")
 	require.True(t, l.IsEmpty(), "is_empty after clear")
+	updated = l.Clear()
+	require.Equal(t, false, updated, "wrong updated!")
 }

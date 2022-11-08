@@ -7,6 +7,7 @@ import (
 
 	"github.com/gvaligiani/al.go/list"
 	"github.com/gvaligiani/al.go/test"
+	"github.com/stretchr/testify/require"
 )
 
 func TestKeepIfInt64(t *testing.T) {
@@ -16,30 +17,35 @@ func TestKeepIfInt64(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     list.List[int64]
-		predicate list.Predicate[int64]
-		wantItems list.List[int64]
+		items       list.List[int64]
+		predicate   list.Predicate[int64]
+		wantUpdated bool
+		wantItems   list.List[int64]
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
-			items:     nil,
-			predicate: func(_ int, i int64) bool { return i%2 == 0 },
-			wantItems: nil,
+			items:       nil,
+			predicate:   func(_ int, i int64) bool { return i%2 == 0 },
+			wantUpdated: false,
+			wantItems:   nil,
 		},
 		"empty": {
-			items:     EmptyInt64List,
-			predicate: func(_ int, i int64) bool { return i%2 == 0 },
-			wantItems: EmptyInt64List,
+			items:       EmptyInt64List,
+			predicate:   func(_ int, i int64) bool { return i%2 == 0 },
+			wantUpdated: false,
+			wantItems:   EmptyInt64List,
 		},
 		"keep-none": {
-			items:     DefaultInt64List,
-			predicate: func(_ int, i int64) bool { return false },
-			wantItems: EmptyInt64List,
+			items:       DefaultInt64List,
+			predicate:   func(_ int, i int64) bool { return false },
+			wantUpdated: true,
+			wantItems:   EmptyInt64List,
 		},
 		"keep-odd": {
-			items:     DefaultInt64List,
-			predicate: func(_ int, i int64) bool { return i%2 == 0 },
+			items:       DefaultInt64List,
+			predicate:   func(_ int, i int64) bool { return i%2 == 0 },
+			wantUpdated: true,
 			wantItems: list.New[int64]( // list re-shuffled
 				52,
 				12,
@@ -47,17 +53,19 @@ func TestKeepIfInt64(t *testing.T) {
 			),
 		},
 		"keep-even": {
-			items:     DefaultInt64List,
-			predicate: func(_ int, i int64) bool { return i%2 == 1 },
+			items:       DefaultInt64List,
+			predicate:   func(_ int, i int64) bool { return i%2 == 1 },
+			wantUpdated: true,
 			wantItems: list.New[int64](
 				21,
 				87,
 			),
 		},
 		"keep-all": {
-			items:     DefaultInt64List,
-			predicate: func(_ int, i int64) bool { return true },
-			wantItems: DefaultInt64List,
+			items:       DefaultInt64List,
+			predicate:   func(_ int, i int64) bool { return true },
+			wantUpdated: false,
+			wantItems:   DefaultInt64List,
 		},
 	}
 
@@ -69,9 +77,10 @@ func TestKeepIfInt64(t *testing.T) {
 
 		// execute
 		gotItems := list.Copy(testCase.items)
-		list.KeepIf(&gotItems, testCase.predicate)
+		gotUpdated := list.KeepIf(&gotItems, testCase.predicate)
 
 		// assert
+		require.Equal(t, testCase.wantUpdated, gotUpdated, "wrong updated!")
 		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
@@ -83,30 +92,35 @@ func TestKeepIfStruct(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     list.List[Item]
-		predicate list.Predicate[Item]
-		wantItems list.List[Item]
+		items       list.List[Item]
+		predicate   list.Predicate[Item]
+		wantUpdated bool
+		wantItems   list.List[Item]
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
-			items:     nil,
-			predicate: func(_ int, item Item) bool { return item.Value%2 == 0 },
-			wantItems: nil,
+			items:       nil,
+			predicate:   func(_ int, item Item) bool { return item.Value%2 == 0 },
+			wantUpdated: false,
+			wantItems:   nil,
 		},
 		"empty": {
-			items:     EmptyItemList,
-			predicate: func(_ int, item Item) bool { return item.Value%2 == 0 },
-			wantItems: EmptyItemList,
+			items:       EmptyItemList,
+			predicate:   func(_ int, item Item) bool { return item.Value%2 == 0 },
+			wantUpdated: false,
+			wantItems:   EmptyItemList,
 		},
 		"keep-none": {
-			items:     DefaultItemList,
-			predicate: func(_ int, item Item) bool { return false },
-			wantItems: EmptyItemList,
+			items:       DefaultItemList,
+			predicate:   func(_ int, item Item) bool { return false },
+			wantUpdated: true,
+			wantItems:   EmptyItemList,
 		},
 		"keep-odd": {
-			items:     DefaultItemList,
-			predicate: func(_ int, item Item) bool { return item.Value%2 == 0 },
+			items:       DefaultItemList,
+			predicate:   func(_ int, item Item) bool { return item.Value%2 == 0 },
+			wantUpdated: true,
 			wantItems: list.New( // list re-shuffled
 				Item{Value: 52},
 				Item{Value: 12},
@@ -114,17 +128,19 @@ func TestKeepIfStruct(t *testing.T) {
 			),
 		},
 		"keep-even": {
-			items:     DefaultItemList,
-			predicate: func(_ int, item Item) bool { return item.Value%2 == 1 },
+			items:       DefaultItemList,
+			predicate:   func(_ int, item Item) bool { return item.Value%2 == 1 },
+			wantUpdated: true,
 			wantItems: list.New(
 				Item{Value: 21},
 				Item{Value: 87},
 			),
 		},
 		"keep-all": {
-			items:     DefaultItemList,
-			predicate: func(_ int, item Item) bool { return true },
-			wantItems: DefaultItemList,
+			items:       DefaultItemList,
+			predicate:   func(_ int, item Item) bool { return true },
+			wantUpdated: false,
+			wantItems:   DefaultItemList,
 		},
 	}
 
@@ -136,9 +152,10 @@ func TestKeepIfStruct(t *testing.T) {
 
 		// execute
 		gotItems := list.Copy(testCase.items)
-		list.KeepIf(&gotItems, testCase.predicate)
+		gotUpdated := list.KeepIf(&gotItems, testCase.predicate)
 
 		// assert
+		require.Equal(t, testCase.wantUpdated, gotUpdated, "wrong updated!")
 		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
@@ -150,30 +167,35 @@ func TestKeepIfStructPointer(t *testing.T) {
 	//
 
 	type TestCase struct {
-		items     list.List[*Item]
-		predicate list.Predicate[*Item]
-		wantItems list.List[*Item]
+		items       list.List[*Item]
+		predicate   list.Predicate[*Item]
+		wantUpdated bool
+		wantItems   list.List[*Item]
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
-			items:     nil,
-			predicate: func(_ int, item *Item) bool { return item.Value%2 == 0 },
-			wantItems: nil,
+			items:       nil,
+			predicate:   func(_ int, item *Item) bool { return item.Value%2 == 0 },
+			wantUpdated: false,
+			wantItems:   nil,
 		},
 		"empty": {
-			items:     EmptyItemPointerList,
-			predicate: func(_ int, item *Item) bool { return item.Value%2 == 0 },
-			wantItems: EmptyItemPointerList,
+			items:       EmptyItemPointerList,
+			predicate:   func(_ int, item *Item) bool { return item.Value%2 == 0 },
+			wantUpdated: false,
+			wantItems:   EmptyItemPointerList,
 		},
 		"keep-none": {
-			items:     DefaultItemPointerList,
-			predicate: func(_ int, item *Item) bool { return false },
-			wantItems: EmptyItemPointerList,
+			items:       DefaultItemPointerList,
+			predicate:   func(_ int, item *Item) bool { return false },
+			wantUpdated: true,
+			wantItems:   EmptyItemPointerList,
 		},
 		"keep-odd": {
-			items:     DefaultItemPointerList,
-			predicate: func(_ int, item *Item) bool { return item.Value%2 == 0 },
+			items:       DefaultItemPointerList,
+			predicate:   func(_ int, item *Item) bool { return item.Value%2 == 0 },
+			wantUpdated: true,
 			wantItems: list.New( // list re-shuffled
 				&Item{Value: 52},
 				&Item{Value: 12},
@@ -181,17 +203,19 @@ func TestKeepIfStructPointer(t *testing.T) {
 			),
 		},
 		"keep-even": {
-			items:     DefaultItemPointerList,
-			predicate: func(_ int, item *Item) bool { return item.Value%2 == 1 },
+			items:       DefaultItemPointerList,
+			predicate:   func(_ int, item *Item) bool { return item.Value%2 == 1 },
+			wantUpdated: true,
 			wantItems: list.New(
 				&Item{Value: 21},
 				&Item{Value: 87},
 			),
 		},
 		"keep-all": {
-			items:     DefaultItemPointerList,
-			predicate: func(_ int, item *Item) bool { return true },
-			wantItems: DefaultItemPointerList,
+			items:       DefaultItemPointerList,
+			predicate:   func(_ int, item *Item) bool { return true },
+			wantUpdated: false,
+			wantItems:   DefaultItemPointerList,
 		},
 	}
 
@@ -203,9 +227,10 @@ func TestKeepIfStructPointer(t *testing.T) {
 
 		// execute
 		gotItems := list.Copy(testCase.items)
-		list.KeepIf(&gotItems, testCase.predicate)
+		gotUpdated := list.KeepIf(&gotItems, testCase.predicate)
 
 		// assert
+		require.Equal(t, testCase.wantUpdated, gotUpdated, "wrong updated!")
 		assertDeepEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
