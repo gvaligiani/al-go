@@ -10,7 +10,7 @@ import (
 	"github.com/gvaligiani/al.go/test"
 )
 
-func TestEqualsInt64(t *testing.T) {
+func TestEqualInt64(t *testing.T) {
 
 	//
 	// test cases
@@ -79,14 +79,14 @@ func TestEqualsInt64(t *testing.T) {
 		// execute
 		left := testCase.left.Copy()
 		right := testCase.right.Copy()
-		gotEquals := list.Equals(left, right)
+		gotEquals := list.Equal(left, right)
 
 		// assert
 		require.Equalf(t, testCase.wantEquals, gotEquals, "wrong equals!")
 	})
 }
 
-func TestEqualsStruct(t *testing.T) {
+func TestEqualStruct(t *testing.T) {
 
 	//
 	// test cases
@@ -155,14 +155,14 @@ func TestEqualsStruct(t *testing.T) {
 		// execute
 		left := testCase.left.Copy()
 		right := testCase.right.Copy()
-		gotEquals := list.Equals(left, right)
+		gotEquals := list.Equal(left, right)
 
 		// assert
 		require.Equalf(t, testCase.wantEquals, gotEquals, "wrong equals!")
 	})
 }
 
-func TestEqualsStructPointer(t *testing.T) {
+func TestDeepEqualStructPointer(t *testing.T) {
 
 	//
 	// test cases
@@ -231,7 +231,7 @@ func TestEqualsStructPointer(t *testing.T) {
 		// execute
 		left := testCase.left.Copy()
 		right := testCase.right.Copy()
-		gotEquals := list.Equals(left, right)
+		gotEquals := list.DeepEqual(left, right)
 
 		// assert
 		require.Equalf(t, testCase.wantEquals, gotEquals, "wrong equals!")

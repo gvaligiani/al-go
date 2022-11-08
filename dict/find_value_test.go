@@ -150,7 +150,7 @@ func TestFindValueStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := dict.FindValue(testCase.items, testCase.value)
+		gotFound := dict.DeepFindValue(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")

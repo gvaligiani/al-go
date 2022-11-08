@@ -45,7 +45,7 @@ func TestCopyInt64(t *testing.T) {
 		gotItems := set.Copy(testCase.items)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -85,7 +85,7 @@ func TestCopyStruct(t *testing.T) {
 		gotItems := set.Copy(testCase.items)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -111,7 +111,7 @@ func TestCopyStructPointer(t *testing.T) {
 		},
 		"default": {
 			items:     DefaultItemPointerSet,
-			wantItems: DefaultItemPointerSet,
+			wantItems: SameItemPointerSet,
 		},
 	}
 
@@ -125,6 +125,6 @@ func TestCopyStructPointer(t *testing.T) {
 		gotItems := set.Copy(testCase.items)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertDeepEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }

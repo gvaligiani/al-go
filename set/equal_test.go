@@ -79,7 +79,7 @@ func TestEqualsInt64(t *testing.T) {
 		// execute
 		left := testCase.left.Copy()
 		right := testCase.right.Copy()
-		gotEquals := set.Equals(left, right)
+		gotEquals := set.Equal(left, right)
 
 		// assert
 		require.Equalf(t, testCase.wantEquals, gotEquals, "wrong equals!")
@@ -155,7 +155,7 @@ func TestEqualsStruct(t *testing.T) {
 		// execute
 		left := testCase.left.Copy()
 		right := testCase.right.Copy()
-		gotEquals := set.Equals(left, right)
+		gotEquals := set.Equal(left, right)
 
 		// assert
 		require.Equalf(t, testCase.wantEquals, gotEquals, "wrong equals!")
@@ -231,7 +231,7 @@ func TestEqualsStructPointer(t *testing.T) {
 		// execute
 		left := testCase.left.Copy()
 		right := testCase.right.Copy()
-		gotEquals := set.Equals(left, right)
+		gotEquals := set.Equal(left, right)
 
 		// assert
 		require.Equalf(t, testCase.wantEquals, gotEquals, "wrong equals!")

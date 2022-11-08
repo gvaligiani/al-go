@@ -77,7 +77,7 @@ func TestEqualsInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotEquals := dict.Equals(testCase.left, testCase.right)
+		gotEquals := dict.Equal(testCase.left, testCase.right)
 
 		// assert
 		require.Equalf(t, testCase.wantEquals, gotEquals, "wrong equals!")
@@ -151,7 +151,7 @@ func TestEqualsStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotEquals := dict.Equals(testCase.left, testCase.right)
+		gotEquals := dict.Equal(testCase.left, testCase.right)
 
 		// assert
 		require.Equalf(t, testCase.wantEquals, gotEquals, "wrong equals!")
@@ -225,7 +225,7 @@ func TestEqualsStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotEquals := dict.Equals(testCase.left, testCase.right)
+		gotEquals := dict.Equal(testCase.left, testCase.right)
 
 		// assert
 		require.Equalf(t, testCase.wantEquals, gotEquals, "wrong equals!")

@@ -72,6 +72,13 @@ var (
 		40: {Value: 87},
 		50: {Value: 52},
 	}
+	SameItemPointerDict = dict.Dict[int, *Item]{
+		10: {Value: 21},
+		20: {Value: 12},
+		30: {Value: 34},
+		40: {Value: 87},
+		50: {Value: 52},
+	}
 	OtherItemPointerDict = dict.Dict[int, *Item]{
 		10: {Value: 21},
 		20: {Value: 12},
@@ -83,8 +90,12 @@ var (
 
 // assert
 
-func assertEquals[K comparable, T any](t *testing.T, expected map[K]T, computed map[K]T, msg string) {
-	require.Truef(t, dict.Equals(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
+func assertEqual[K comparable, T comparable](t *testing.T, expected map[K]T, computed map[K]T, msg string) {
+	require.Truef(t, dict.Equal(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
+}
+
+func assertDeepEqual[K comparable, T any](t *testing.T, expected map[K]T, computed map[K]T, msg string) {
+	require.Truef(t, dict.DeepEqual(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
 }
 
 // dump

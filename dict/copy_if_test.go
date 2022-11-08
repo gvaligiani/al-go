@@ -71,7 +71,7 @@ func TestCopyIfInt64(t *testing.T) {
 		gotItems := dict.CopyIf(testCase.items, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -137,7 +137,7 @@ func TestCopyIfStruct(t *testing.T) {
 		gotItems := dict.CopyIf(testCase.items, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
 
@@ -203,6 +203,6 @@ func TestCopyIfStructPointer(t *testing.T) {
 		gotItems := dict.CopyIf(testCase.items, testCase.predicate)
 
 		// assert
-		assertEquals(t, testCase.wantItems, gotItems, "wrong items!")
+		assertDeepEqual(t, testCase.wantItems, gotItems, "wrong items!")
 	})
 }
