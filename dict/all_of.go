@@ -1,6 +1,13 @@
 package dict
 
-func AllOf[K comparable, T any, M ~map[K]T](items M, predicate Predicate[K, T]) bool {
-	_, _, found := FindIfNot(items, predicate)
+import "github.com/gvaligiani/al.go/util"
+
+func AllOf[K comparable, V any, D ~map[K]V](d D, predicate util.Predicate[V]) bool {
+	_, found := FindIfNot(d, predicate)
+	return !found
+}
+
+func AllKeyOf[K comparable, V any, D ~map[K]V](d D, predicate util.BiPredicate[K, V]) bool {
+	_, _, found := FindIfNotKey(d, predicate)
 	return !found
 }

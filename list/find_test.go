@@ -57,7 +57,7 @@ func TestFindInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.Find(testCase.items, testCase.value)
+		gotIndex, gotFound := list.FindIndexFromValue(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")
@@ -112,7 +112,7 @@ func TestFindStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.Find(testCase.items, testCase.value)
+		gotIndex, gotFound := list.FindIndexFromValue(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")
@@ -167,7 +167,7 @@ func TestFindStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.DeepFind(testCase.items, testCase.value)
+		gotIndex, gotFound := list.DeepFindIndexFromValue(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")

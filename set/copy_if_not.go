@@ -1,5 +1,7 @@
 package set
 
-func CopyIfNot[T comparable, S ~map[T]struct{}](items S, predicate Predicate[T]) S {
-	return CopyIf(items, Not(predicate))
+import "github.com/gvaligiani/al.go/util"
+
+func CopyIfNot[V comparable, S ~map[V]struct{}](s S, predicate util.Predicate[V]) S {
+	return CopyIf(s, util.Not(predicate))
 }

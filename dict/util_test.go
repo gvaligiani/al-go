@@ -90,28 +90,28 @@ var (
 
 // assert
 
-func assertEqual[K comparable, T comparable](t *testing.T, expected map[K]T, computed map[K]T, msg string) {
+func assertEqual[K comparable, V comparable, D ~map[K]V](t *testing.T, expected D, computed D, msg string) {
 	require.Truef(t, dict.Equal(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
 }
 
-func assertDeepEqual[K comparable, T any](t *testing.T, expected map[K]T, computed map[K]T, msg string) {
+func assertDeepEqual[K comparable, V any, D ~map[K]V](t *testing.T, expected D, computed D, msg string) {
 	require.Truef(t, dict.DeepEqual(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
 }
 
 // dump
 
-func toString[K comparable, T any](items map[K]T) string {
-	if items == nil {
+func toString[K comparable, V any, D ~map[K]V](d D) string {
+	if d == nil {
 		return "<nil>"
 	}
 	var sb strings.Builder
 	sb.WriteString("map[")
 	first := true
-	for key, item := range items {
+	for k, v := range d {
 		if first {
-			sb.WriteString(fmt.Sprintf("%v:%v", key, item))
+			sb.WriteString(fmt.Sprintf("%v:%v", k, v))
 		} else {
-			sb.WriteString(fmt.Sprintf(" %v:%v", key, item))
+			sb.WriteString(fmt.Sprintf(" %v:%v", k, v))
 		}
 		first = false
 	}

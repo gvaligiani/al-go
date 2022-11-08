@@ -1,7 +1,10 @@
 package set
 
-import "github.com/gvaligiani/al.go/dict"
+import (
+	"github.com/gvaligiani/al.go/dict"
+	"github.com/gvaligiani/al.go/util"
+)
 
-func AnyOf[T comparable, S ~map[T]struct{}](items S, predicate Predicate[T]) bool {
-	return dict.AnyOf(items, func(item T, _ struct{}) bool { return predicate(item) })
+func AnyOf[V comparable, S ~map[V]struct{}](s S, predicate util.Predicate[V]) bool {
+	return dict.AnyKeyOf(s, util.TestOnFirstArg[V, struct{}](predicate))
 }

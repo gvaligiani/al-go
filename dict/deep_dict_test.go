@@ -31,23 +31,21 @@ func TestDeepDict(t *testing.T) {
 
 	// predicate
 
-	require.True(t, d.AllOf(func(_ int, i *Item) bool { return i.Value < 30 }), "all_of")
-	require.False(t, d.AllOf(func(_ int, i *Item) bool { return i.Value < 10 }), "all_of")
-	require.True(t, d.NoneOf(func(_ int, i *Item) bool { return i.Value < 10 }), "none_of")
-	require.False(t, d.AnyOf(func(_ int, i *Item) bool { return i.Value < 10 }), "any_of")
+	require.True(t, d.AllOf(func(i *Item) bool { return i.Value < 30 }), "all_of")
+	require.False(t, d.AllOf(func(i *Item) bool { return i.Value < 10 }), "all_of")
+	require.True(t, d.NoneOf(func(i *Item) bool { return i.Value < 10 }), "none_of")
+	require.False(t, d.AnyOf(func(i *Item) bool { return i.Value < 10 }), "any_of")
 
 	// find
 
 	require.True(t, d.FindKey(30), "find 30")
 	require.False(t, d.FindKey(50), "find 50")
 
-	key, item, found := d.FindIf(func(_ int, i *Item) bool { return i.Value%2 == 0 })
-	require.Equal(t, 20, key, "odd key")
+	item, found := d.FindIf(func(i *Item) bool { return i.Value%2 == 0 })
 	require.Equal(t, &Item{Value: 22}, item, "odd item")
 	require.True(t, found, "found odd")
 
-	key, item, found = d.FindIfNot(func(_ int, i *Item) bool { return i.Value%2 == 0 })
-	require.Equal(t, 30, key, "even key")
+	item, found = d.FindIfNot(func(i *Item) bool { return i.Value%2 == 0 })
 	require.Equal(t, &Item{Value: 17}, item, "even item")
 	require.True(t, found, "found even")
 
@@ -56,7 +54,7 @@ func TestDeepDict(t *testing.T) {
 	var sum int64
 
 	sum = 0
-	d.Each(func(_ int, i *Item) { sum += i.Value })
+	d.Each(func(i *Item) { sum += i.Value })
 	require.Equal(t, int64(22+17), sum, "sum - each")
 
 	sum = 0
@@ -68,20 +66,20 @@ func TestDeepDict(t *testing.T) {
 	// remove if
 
 	odds := d.Copy()
-	updated := odds.RemoveIf(func(_ int, item *Item) bool { return item.Value%2 == 1 })
+	updated := odds.RemoveIf(func(item *Item) bool { return item.Value%2 == 1 })
 	require.Equal(t, true, updated, "wrong updated!")
-	assertDeepEqual(t, dict.Dict[int, *Item]{20: {Value: 22}}, odds, "wrong odds")
+	assertDeepEqual(t, dict.DeepDict[int, *Item]{20: {Value: 22}}, odds, "wrong odds")
 
 	// keep if
 
 	evens := d.Copy()
-	updated = evens.KeepIf(func(_ int, item *Item) bool { return item.Value%2 == 1 })
+	updated = evens.KeepIf(func(item *Item) bool { return item.Value%2 == 1 })
 	require.Equal(t, true, updated, "wrong updated!")
-	assertDeepEqual(t, dict.Dict[int, *Item]{30: {Value: 17}}, evens, "wrong evens")
+	assertDeepEqual(t, dict.DeepDict[int, *Item]{30: {Value: 17}}, evens, "wrong evens")
 
 	// check source of copy
 
-	assertDeepEqual(t, dict.Dict[int, *Item]{20: {Value: 22}, 30: {Value: 17}}, d, "source of copy has been modified")
+	assertDeepEqual(t, dict.DeepDict[int, *Item]{20: {Value: 22}, 30: {Value: 17}}, d, "source of copy has been modified")
 
 	// clear
 

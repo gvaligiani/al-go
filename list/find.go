@@ -4,15 +4,28 @@ import (
 	"github.com/gvaligiani/al.go/util"
 )
 
-func Find[T comparable, L ~[]T](items L, value T) (int, bool) {
-	return FindFn(items, value, util.Equal[T])
+func Find[V comparable, L ~[]V](l L, value V) bool {
+	return FindFn(l, value, util.Equal[V])
 }
 
-func DeepFind[T any, L ~[]T](items L, value T) (int, bool) {
-	return FindFn(items, value, util.DeepEqual[T])
+func DeepFind[V any, L ~[]V](l L, value V) bool {
+	return FindFn(l, value, util.DeepEqual[V])
 }
 
-func FindFn[T any, L ~[]T](items L, value T, equal util.BiPredicate[T, T]) (int, bool) {
-	index, _, found := FindIf(items, func(_ int, item T) bool { return equal(item, value) })
+func FindFn[V any, L ~[]V](l L, value V, equal util.BiPredicate[V, V]) bool {
+	_, found := FindIf(l, func(v V) bool { return equal(v, value) })
+	return found
+}
+
+func FindIndexFromValue[V comparable, L ~[]V](l L, value V) (int, bool) {
+	return FindIndexFromValueFn(l, value, util.Equal[V])
+}
+
+func DeepFindIndexFromValue[V any, L ~[]V](l L, value V) (int, bool) {
+	return FindIndexFromValueFn(l, value, util.DeepEqual[V])
+}
+
+func FindIndexFromValueFn[V any, L ~[]V](l L, value V, equal util.BiPredicate[V, V]) (int, bool) {
+	index, _, found := FindIfIndex(l, func(_ int, v V) bool { return equal(v, value) })
 	return index, found
 }

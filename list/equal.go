@@ -4,15 +4,15 @@ import (
 	"github.com/gvaligiani/al.go/util"
 )
 
-func Equal[T comparable, L ~[]T](left L, right L) bool {
-	return EqualFn(left, right, util.Equal[T])
+func Equal[V comparable, L ~[]V](left L, right L) bool {
+	return EqualFn(left, right, util.Equal[V])
 }
 
-func DeepEqual[T any, L ~[]T](left L, right L) bool {
-	return EqualFn(left, right, util.DeepEqual[T])
+func DeepEqual[V any, L ~[]V](left L, right L) bool {
+	return EqualFn(left, right, util.DeepEqual[V])
 }
 
-func EqualFn[T any, L ~[]T](left L, right L, equal util.BiPredicate[T, T]) bool {
+func EqualFn[V any, L ~[]V](left L, right L, equal util.BiPredicate[V, V]) bool {
 	if left == nil && right == nil {
 		return true
 	}
@@ -22,9 +22,9 @@ func EqualFn[T any, L ~[]T](left L, right L, equal util.BiPredicate[T, T]) bool 
 	if len(left) != len(right) {
 		return false
 	}
-	for leftIndex, leftItem := range left {
-		rightItem := right[leftIndex]
-		if !equal(leftItem, rightItem) {
+	for i, leftValue := range left {
+		rightValue := right[i]
+		if !equal(leftValue, rightValue) {
 			return false
 		}
 	}

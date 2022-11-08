@@ -81,28 +81,28 @@ var (
 
 // assert
 
-func assertEqual[T comparable, L ~[]T](t *testing.T, expected L, computed L, msg string) {
+func assertEqual[V comparable, L ~[]V](t *testing.T, expected L, computed L, msg string) {
 	require.Truef(t, list.Equal(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
 }
 
-func assertDeepEqual[T comparable, L ~[]T](t *testing.T, expected L, computed L, msg string) {
+func assertDeepEqual[V comparable, L ~[]V](t *testing.T, expected L, computed L, msg string) {
 	require.Truef(t, list.DeepEqual(expected, computed), "%s \n expected: %s \n computed: %s \n", msg, toString(expected), toString(computed))
 }
 
 // dump
 
-func toString[T comparable, L ~[]T](items L) string {
-	if items == nil {
+func toString[V comparable, L ~[]V](l L) string {
+	if l == nil {
 		return "<nil>"
 	}
 	var sb strings.Builder
 	sb.WriteString("list[")
 	first := true
-	for _, item := range items {
+	for _, v := range l {
 		if first {
-			sb.WriteString(fmt.Sprintf("%v", item))
+			sb.WriteString(fmt.Sprintf("%v", v))
 		} else {
-			sb.WriteString(fmt.Sprintf(" %v", item))
+			sb.WriteString(fmt.Sprintf(" %v", v))
 		}
 		first = false
 	}

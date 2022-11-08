@@ -28,27 +28,29 @@ func TestDeepList(t *testing.T) {
 	require.True(t, l.Remove(&Item{Value: 10}), "remove 10")
 	require.False(t, l.Remove(&Item{Value: 10}), "remove 10 twice")
 
-	// list = 12, 17, 17
+	// list = 17, 12, 17 ( order re-shuffled during remove )
 
 	// predicate
 
-	require.True(t, l.AllOf(func(_ int, i *Item) bool { return i.Value < 20 }), "all_of")
-	require.False(t, l.AllOf(func(_ int, i *Item) bool { return i.Value < 10 }), "all_of")
-	require.True(t, l.NoneOf(func(_ int, i *Item) bool { return i.Value < 10 }), "none_of")
-	require.False(t, l.AnyOf(func(_ int, i *Item) bool { return i.Value < 10 }), "any_of")
+	require.True(t, l.AllOf(func(i *Item) bool { return i.Value < 20 }), "all_of")
+	require.False(t, l.AllOf(func(i *Item) bool { return i.Value < 10 }), "all_of")
+	require.True(t, l.NoneOf(func(i *Item) bool { return i.Value < 10 }), "none_of")
+	require.False(t, l.AnyOf(func(i *Item) bool { return i.Value < 10 }), "any_of")
 
 	// find
 
-	_, found := l.Find(&Item{Value: 17})
-	require.True(t, found, "find 17")
-	_, found = l.Find(&Item{Value: 15})
+	index, found := l.FindIndexFromValue(&Item{Value: 12})
+	require.Equal(t, 1, index, "index 12")
+	require.True(t, found, "find 12")
+	index, found = l.FindIndexFromValue(&Item{Value: 15})
+	require.Equal(t, -1, index, "index 15")
 	require.False(t, found, "find 15")
 
-	_, item, found := l.FindIf(func(_ int, i *Item) bool { return i.Value%2 == 0 })
+	item, found := l.FindIf(func(i *Item) bool { return i.Value%2 == 0 })
 	require.Equal(t, &Item{Value: 12}, item, "odd item")
 	require.True(t, found, "found odd")
 
-	_, item, found = l.FindIfNot(func(_ int, i *Item) bool { return i.Value%2 == 0 })
+	index, item, found = l.FindIfNotIndex(func(_ int, i *Item) bool { return i.Value%2 == 0 })
 	require.Equal(t, &Item{Value: 17}, item, "even item")
 	require.True(t, found, "found even")
 
@@ -57,7 +59,7 @@ func TestDeepList(t *testing.T) {
 	var sum int64
 
 	sum = 0
-	l.Each(func(_ int, i *Item) { sum += i.Value })
+	l.Each(func(i *Item) { sum += i.Value })
 	require.Equal(t, int64(12+17+17), sum, "sum")
 
 	sum = 0
@@ -69,14 +71,14 @@ func TestDeepList(t *testing.T) {
 	// remove if
 
 	odds := l.Copy()
-	updated := odds.RemoveIf(func(_ int, item *Item) bool { return item.Value%2 == 1 })
+	updated := odds.RemoveIf(func(item *Item) bool { return item.Value%2 == 1 })
 	require.Equal(t, true, updated, "wrong updated!")
 	assertDeepEqual(t, list.NewDeep(&Item{Value: 12}), odds, "wrong odds")
 
 	// keep if
 
 	evens := l.Copy()
-	updated = evens.KeepIf(func(_ int, item *Item) bool { return item.Value%2 == 1 })
+	updated = evens.KeepIf(func(item *Item) bool { return item.Value%2 == 1 })
 	require.Equal(t, true, updated, "wrong updated!")
 	assertDeepEqual(t, list.NewDeep(&Item{Value: 17}, &Item{Value: 17}), evens, "wrong evens")
 

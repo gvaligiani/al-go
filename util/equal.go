@@ -2,10 +2,10 @@ package util
 
 import "reflect"
 
-func Equal[T comparable](left T, right T) bool {
+func Equal[V comparable](left V, right V) bool {
 	return left == right
 }
 
-func DeepEqual[T any](left T, right T) bool {
+func DeepEqual[V any](left V, right V) bool {
 	return reflect.DeepEqual(left, right)
 }

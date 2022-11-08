@@ -1,5 +1,11 @@
 package dict
 
-func FindIfNot[K comparable, T any, M ~map[K]T](items M, predicate Predicate[K, T]) (K, T, bool) {
-	return FindIf(items, Not(predicate))
+import "github.com/gvaligiani/al.go/util"
+
+func FindIfNot[K comparable, V any, D ~map[K]V](d D, predicate util.Predicate[V]) (V, bool) {
+	return FindIf(d, util.Not(predicate))
+}
+
+func FindIfNotKey[K comparable, V any, D ~map[K]V](d D, predicate util.BiPredicate[K, V]) (K, V, bool) {
+	return FindIfKey(d, util.BiNot(predicate))
 }

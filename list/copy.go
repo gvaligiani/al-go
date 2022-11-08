@@ -1,5 +1,7 @@
 package list
 
-func Copy[T any, L ~[]T](items L) L {
-	return CopyIf(items, True[T]())
+import "github.com/gvaligiani/al.go/util"
+
+func Copy[V any, L ~[]V](l L) L {
+	return CopyIf(l, util.True[V]())
 }

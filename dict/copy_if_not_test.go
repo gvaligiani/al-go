@@ -7,6 +7,7 @@ import (
 
 	"github.com/gvaligiani/al.go/dict"
 	"github.com/gvaligiani/al.go/test"
+	"github.com/gvaligiani/al.go/util"
 )
 
 func TestCopyIfNotInt64(t *testing.T) {
@@ -17,29 +18,29 @@ func TestCopyIfNotInt64(t *testing.T) {
 
 	type TestCase struct {
 		items     dict.Dict[int, int64]
-		predicate dict.Predicate[int, int64]
+		predicate util.Predicate[int64]
 		wantItems dict.Dict[int, int64]
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, i int64) bool { return i%2 == 0 },
+			predicate: func(i int64) bool { return i%2 == 0 },
 			wantItems: nil,
 		},
 		"empty": {
 			items:     EmptyInt64Dict,
-			predicate: func(_ int, i int64) bool { return i%2 == 0 },
+			predicate: func(i int64) bool { return i%2 == 0 },
 			wantItems: EmptyInt64Dict,
 		},
 		"remove-none": {
 			items:     DefaultInt64Dict,
-			predicate: func(_ int, i int64) bool { return false },
+			predicate: func(i int64) bool { return false },
 			wantItems: DefaultInt64Dict,
 		},
 		"remove-odd": {
 			items:     DefaultInt64Dict,
-			predicate: func(_ int, i int64) bool { return i%2 == 0 },
+			predicate: func(i int64) bool { return i%2 == 0 },
 			wantItems: dict.Dict[int, int64]{
 				10: 21,
 				40: 87,
@@ -47,7 +48,7 @@ func TestCopyIfNotInt64(t *testing.T) {
 		},
 		"remove-even": {
 			items:     DefaultInt64Dict,
-			predicate: func(_ int, i int64) bool { return i%2 == 1 },
+			predicate: func(i int64) bool { return i%2 == 1 },
 			wantItems: dict.Dict[int, int64]{
 				20: 12,
 				30: 34,
@@ -56,7 +57,7 @@ func TestCopyIfNotInt64(t *testing.T) {
 		},
 		"remove-all": {
 			items:     DefaultInt64Dict,
-			predicate: func(_ int, i int64) bool { return true },
+			predicate: func(i int64) bool { return true },
 			wantItems: EmptyInt64Dict,
 		},
 	}
@@ -83,29 +84,29 @@ func TestCopyIfNotStruct(t *testing.T) {
 
 	type TestCase struct {
 		items     dict.Dict[int, Item]
-		predicate dict.Predicate[int, Item]
+		predicate util.Predicate[Item]
 		wantItems dict.Dict[int, Item]
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, item Item) bool { return item.Value%2 == 0 },
+			predicate: func(item Item) bool { return item.Value%2 == 0 },
 			wantItems: nil,
 		},
 		"empty": {
 			items:     EmptyItemDict,
-			predicate: func(_ int, item Item) bool { return item.Value%2 == 0 },
+			predicate: func(item Item) bool { return item.Value%2 == 0 },
 			wantItems: EmptyItemDict,
 		},
 		"remove-none": {
 			items:     DefaultItemDict,
-			predicate: func(_ int, item Item) bool { return false },
+			predicate: func(item Item) bool { return false },
 			wantItems: DefaultItemDict,
 		},
 		"remove-odd": {
 			items:     DefaultItemDict,
-			predicate: func(_ int, item Item) bool { return item.Value%2 == 0 },
+			predicate: func(item Item) bool { return item.Value%2 == 0 },
 			wantItems: dict.Dict[int, Item]{
 				10: {Value: 21},
 				40: {Value: 87},
@@ -113,7 +114,7 @@ func TestCopyIfNotStruct(t *testing.T) {
 		},
 		"remove-even": {
 			items:     DefaultItemDict,
-			predicate: func(_ int, item Item) bool { return item.Value%2 == 1 },
+			predicate: func(item Item) bool { return item.Value%2 == 1 },
 			wantItems: dict.Dict[int, Item]{
 				20: {Value: 12},
 				30: {Value: 34},
@@ -122,7 +123,7 @@ func TestCopyIfNotStruct(t *testing.T) {
 		},
 		"remove-all": {
 			items:     DefaultItemDict,
-			predicate: func(_ int, item Item) bool { return true },
+			predicate: func(item Item) bool { return true },
 			wantItems: EmptyItemDict,
 		},
 	}
@@ -149,29 +150,29 @@ func TestCopyIfNotStructPointer(t *testing.T) {
 
 	type TestCase struct {
 		items     dict.Dict[int, *Item]
-		predicate dict.Predicate[int, *Item]
+		predicate util.Predicate[*Item]
 		wantItems dict.Dict[int, *Item]
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			predicate: func(_ int, item *Item) bool { return item.Value%2 == 0 },
+			predicate: func(item *Item) bool { return item.Value%2 == 0 },
 			wantItems: nil,
 		},
 		"empty": {
 			items:     EmptyItemPointerDict,
-			predicate: func(_ int, item *Item) bool { return item.Value%2 == 0 },
+			predicate: func(item *Item) bool { return item.Value%2 == 0 },
 			wantItems: EmptyItemPointerDict,
 		},
 		"remove-none": {
 			items:     DefaultItemPointerDict,
-			predicate: func(_ int, item *Item) bool { return false },
+			predicate: func(item *Item) bool { return false },
 			wantItems: DefaultItemPointerDict,
 		},
 		"remove-odd": {
 			items:     DefaultItemPointerDict,
-			predicate: func(_ int, item *Item) bool { return item.Value%2 == 0 },
+			predicate: func(item *Item) bool { return item.Value%2 == 0 },
 			wantItems: dict.Dict[int, *Item]{
 				10: {Value: 21},
 				40: {Value: 87},
@@ -179,7 +180,7 @@ func TestCopyIfNotStructPointer(t *testing.T) {
 		},
 		"remove-even": {
 			items:     DefaultItemPointerDict,
-			predicate: func(_ int, item *Item) bool { return item.Value%2 == 1 },
+			predicate: func(item *Item) bool { return item.Value%2 == 1 },
 			wantItems: dict.Dict[int, *Item]{
 				20: {Value: 12},
 				30: {Value: 34},
@@ -188,7 +189,7 @@ func TestCopyIfNotStructPointer(t *testing.T) {
 		},
 		"remove-all": {
 			items:     DefaultItemPointerDict,
-			predicate: func(_ int, item *Item) bool { return true },
+			predicate: func(item *Item) bool { return true },
 			wantItems: EmptyItemPointerDict,
 		},
 	}

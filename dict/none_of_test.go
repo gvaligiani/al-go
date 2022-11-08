@@ -8,6 +8,7 @@ import (
 
 	"github.com/gvaligiani/al.go/dict"
 	"github.com/gvaligiani/al.go/test"
+	"github.com/gvaligiani/al.go/util"
 )
 
 func TestNoneOfInt64(t *testing.T) {
@@ -18,34 +19,34 @@ func TestNoneOfInt64(t *testing.T) {
 
 	type TestCase struct {
 		items      dict.Dict[int, int64]
-		predicate  dict.Predicate[int, int64]
+		predicate  util.Predicate[int64]
 		wantNoneOf bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:      nil,
-			predicate:  func(_ int, i int64) bool { return i > 100 },
+			predicate:  func(i int64) bool { return i > 100 },
 			wantNoneOf: true,
 		},
 		"empty": {
 			items:      EmptyInt64Dict,
-			predicate:  func(_ int, i int64) bool { return i > 100 },
+			predicate:  func(i int64) bool { return i > 100 },
 			wantNoneOf: true,
 		},
 		"no-match": {
 			items:      DefaultInt64Dict,
-			predicate:  func(_ int, i int64) bool { return i > 100 },
+			predicate:  func(i int64) bool { return i > 100 },
 			wantNoneOf: true,
 		},
 		"some-match": {
 			items:      DefaultInt64Dict,
-			predicate:  func(_ int, i int64) bool { return i > 20 },
+			predicate:  func(i int64) bool { return i > 20 },
 			wantNoneOf: false,
 		},
 		"all-match": {
 			items:      DefaultInt64Dict,
-			predicate:  func(_ int, i int64) bool { return i < 100 },
+			predicate:  func(i int64) bool { return i < 100 },
 			wantNoneOf: false,
 		},
 	}
@@ -72,34 +73,34 @@ func TestNoneOfStruct(t *testing.T) {
 
 	type TestCase struct {
 		items      dict.Dict[int, Item]
-		predicate  dict.Predicate[int, Item]
+		predicate  util.Predicate[Item]
 		wantNoneOf bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:      nil,
-			predicate:  func(_ int, item Item) bool { return item.Value > 100 },
+			predicate:  func(item Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"empty": {
 			items:      EmptyItemDict,
-			predicate:  func(_ int, item Item) bool { return item.Value > 100 },
+			predicate:  func(item Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"no-match": {
 			items:      DefaultItemDict,
-			predicate:  func(_ int, item Item) bool { return item.Value > 100 },
+			predicate:  func(item Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"some-match": {
 			items:      DefaultItemDict,
-			predicate:  func(_ int, item Item) bool { return item.Value > 20 },
+			predicate:  func(item Item) bool { return item.Value > 20 },
 			wantNoneOf: false,
 		},
 		"all-match": {
 			items:      DefaultItemDict,
-			predicate:  func(_ int, item Item) bool { return item.Value < 100 },
+			predicate:  func(item Item) bool { return item.Value < 100 },
 			wantNoneOf: false,
 		},
 	}
@@ -126,34 +127,34 @@ func TestNoneOfStructPointer(t *testing.T) {
 
 	type TestCase struct {
 		items      dict.Dict[int, *Item]
-		predicate  dict.Predicate[int, *Item]
+		predicate  util.Predicate[*Item]
 		wantNoneOf bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:      nil,
-			predicate:  func(_ int, item *Item) bool { return item.Value > 100 },
+			predicate:  func(item *Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"empty": {
 			items:      EmptyItemPointerDict,
-			predicate:  func(_ int, item *Item) bool { return item.Value > 100 },
+			predicate:  func(item *Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"no-match": {
 			items:      DefaultItemPointerDict,
-			predicate:  func(_ int, item *Item) bool { return item.Value > 100 },
+			predicate:  func(item *Item) bool { return item.Value > 100 },
 			wantNoneOf: true,
 		},
 		"some-match": {
 			items:      DefaultItemPointerDict,
-			predicate:  func(_ int, item *Item) bool { return item.Value > 20 },
+			predicate:  func(item *Item) bool { return item.Value > 20 },
 			wantNoneOf: false,
 		},
 		"all-match": {
 			items:      DefaultItemPointerDict,
-			predicate:  func(_ int, item *Item) bool { return item.Value < 100 },
+			predicate:  func(item *Item) bool { return item.Value < 100 },
 			wantNoneOf: false,
 		},
 	}

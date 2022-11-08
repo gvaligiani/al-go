@@ -10,7 +10,7 @@ import (
 	"github.com/gvaligiani/al.go/test"
 )
 
-func TestFindByKeyInt64(t *testing.T) {
+func TestFindValueInt64(t *testing.T) {
 
 	//
 	// test cases
@@ -18,29 +18,29 @@ func TestFindByKeyInt64(t *testing.T) {
 
 	type TestCase struct {
 		items     dict.Dict[int, int64]
-		key       int
+		value     int64
 		wantFound bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			key:       30,
+			value:     34,
 			wantFound: false,
 		},
 		"empty": {
 			items:     EmptyInt64Dict,
-			key:       30,
+			value:     34,
 			wantFound: false,
 		},
 		"found": {
 			items:     DefaultInt64Dict,
-			key:       30,
+			value:     34,
 			wantFound: true,
 		},
 		"not-found": {
 			items:     DefaultInt64Dict,
-			key:       90,
+			value:     99,
 			wantFound: false,
 		},
 	}
@@ -52,14 +52,14 @@ func TestFindByKeyInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := dict.FindKey(testCase.items, testCase.key)
+		gotFound := dict.Find(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
-func TestFindByKeyStruct(t *testing.T) {
+func TestFindValueStruct(t *testing.T) {
 
 	//
 	// test cases
@@ -67,29 +67,29 @@ func TestFindByKeyStruct(t *testing.T) {
 
 	type TestCase struct {
 		items     dict.Dict[int, Item]
-		key       int
+		value     Item
 		wantFound bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			key:       30,
+			value:     Item{Value: 34},
 			wantFound: false,
 		},
 		"empty": {
 			items:     EmptyItemDict,
-			key:       30,
+			value:     Item{Value: 34},
 			wantFound: false,
 		},
 		"found": {
 			items:     DefaultItemDict,
-			key:       30,
+			value:     Item{Value: 34},
 			wantFound: true,
 		},
 		"not-found": {
 			items:     DefaultItemDict,
-			key:       90,
+			value:     Item{Value: 99},
 			wantFound: false,
 		},
 	}
@@ -101,14 +101,14 @@ func TestFindByKeyStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := dict.FindKey(testCase.items, testCase.key)
+		gotFound := dict.Find(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
-func TestFindByKeyStructPointer(t *testing.T) {
+func TestFindValueStructPointer(t *testing.T) {
 
 	//
 	// test cases
@@ -116,29 +116,29 @@ func TestFindByKeyStructPointer(t *testing.T) {
 
 	type TestCase struct {
 		items     dict.Dict[int, *Item]
-		key       int
+		value     *Item
 		wantFound bool
 	}
 
 	testCases := map[string]TestCase{
 		"nil": {
 			items:     nil,
-			key:       30,
+			value:     &Item{Value: 34},
 			wantFound: false,
 		},
 		"empty": {
 			items:     EmptyItemPointerDict,
-			key:       30,
+			value:     &Item{Value: 34},
 			wantFound: false,
 		},
 		"found": {
 			items:     DefaultItemPointerDict,
-			key:       30,
+			value:     &Item{Value: 34},
 			wantFound: true,
 		},
 		"not-found": {
 			items:     DefaultItemPointerDict,
-			key:       90,
+			value:     &Item{Value: 99},
 			wantFound: false,
 		},
 	}
@@ -150,7 +150,7 @@ func TestFindByKeyStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotFound := dict.FindKey(testCase.items, testCase.key)
+		gotFound := dict.DeepFind(testCase.items, testCase.value)
 
 		// assert
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
