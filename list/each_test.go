@@ -44,7 +44,7 @@ func TestEachInt64(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		list.Each(testCase.items, func(_ int, item int64) { gotSum += item })
+		list.Each(testCase.items, func(item int64) { gotSum += item })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
@@ -85,7 +85,7 @@ func TestEachStruct(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		list.Each(testCase.items, func(_ int, item Item) { gotSum += item.Value })
+		list.Each(testCase.items, func(item Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")
@@ -126,7 +126,7 @@ func TestEachStructPointer(t *testing.T) {
 
 		// execute
 		var gotSum int64
-		list.Each(testCase.items, func(_ int, item *Item) { gotSum += item.Value })
+		list.Each(testCase.items, func(item *Item) { gotSum += item.Value })
 
 		// assert
 		require.Equalf(t, testCase.wantSum, gotSum, "wrong sum!")

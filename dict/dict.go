@@ -76,8 +76,16 @@ func (d Dict[K, T]) FindKey(key K) bool {
 	return FindKey(d, key)
 }
 
-func (d Dict[K, T]) FindValue(value T) bool {
-	return FindValue(d, value)
+func (d Dict[K, T]) FindValueOf(key K) (T, bool) {
+	return FindValueOf(d, key)
+}
+
+func (d Dict[K, T]) Find(value T) bool {
+	return Find(d, value)
+}
+
+func (d Dict[K, T]) FindKeyOf(value T) (K, bool) {
+	return FindKeyOf(d, value)
 }
 
 func (d Dict[K, T]) FindIf(predicate util.Predicate[T]) (T, bool) {

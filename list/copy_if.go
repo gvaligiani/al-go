@@ -1,13 +1,19 @@
 package list
 
-func CopyIf[T any, L ~[]T](items L, predicate Predicate[T]) L {
-	if items == nil {
+import "github.com/gvaligiani/al.go/util"
+
+func CopyIf[T any, L ~[]T](l L, predicate util.Predicate[T]) L {
+	return CopyIndexIf(l, util.TestOnSecondArg[int, T](predicate))
+}
+
+func CopyIndexIf[T any, L ~[]T](l L, predicate util.BiPredicate[int, T]) L {
+	if l == nil {
 		return nil
 	}
-	result := make(L, 0, len(items))
-	for index, item := range items {
-		if predicate(index, item) {
-			result = append(result, item)
+	result := make(L, 0, len(l))
+	for index, t := range l {
+		if predicate(index, t) {
+			result = append(result, t)
 		}
 	}
 	return result

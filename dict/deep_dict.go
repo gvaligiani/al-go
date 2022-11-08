@@ -76,8 +76,16 @@ func (d DeepDict[K, T]) FindKey(key K) bool {
 	return FindKey(d, key)
 }
 
-func (d DeepDict[K, T]) FindValue(value T) bool {
-	return DeepFindValue(d, value)
+func (d DeepDict[K, T]) FindValueOf(key K) (T, bool) {
+	return FindValueOf(d, key)
+}
+
+func (d DeepDict[K, T]) Find(value T) bool {
+	return DeepFind(d, value)
+}
+
+func (d DeepDict[K, T]) FindKeyOf(value T) (K, bool) {
+	return DeepFindKeyOf(d, value)
 }
 
 func (d DeepDict[K, T]) FindIf(predicate util.Predicate[T]) (T, bool) {

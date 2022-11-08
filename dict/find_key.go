@@ -17,3 +17,17 @@ func FindKeyFn[K comparable, T any, M ~map[K]T](items M, key K, equal util.BiPre
 	_, _, found := FindKeyIf(items, func(k K, _ T) bool { return equal(k, key) })
 	return found
 }
+
+func FindValueOf[K comparable, T any, M ~map[K]T](items M, key K) (T, bool) {
+	value, found := items[key]
+	return value, found
+}
+
+func DeepFindValueOf[K comparable, T any, M ~map[K]T](items M, key K) (T, bool) {
+	return FindValueOfFn(items, key, util.DeepEqual[K])
+}
+
+func FindValueOfFn[K comparable, T any, M ~map[K]T](items M, key K, equal util.BiPredicate[K, K]) (T, bool) {
+	_, value, found := FindKeyIf(items, func(k K, _ T) bool { return equal(k, key) })
+	return value, found
+}

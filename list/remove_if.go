@@ -1,6 +1,12 @@
 package list
 
-func RemoveIf[T any, L ~[]T](items *L, predicate Predicate[T]) bool {
+import "github.com/gvaligiani/al.go/util"
+
+func RemoveIf[T any, L ~[]T](items *L, predicate util.Predicate[T]) bool {
+	return RemoveIndexIf(items, util.TestOnSecondArg[int, T](predicate))
+}
+
+func RemoveIndexIf[T any, L ~[]T](items *L, predicate util.BiPredicate[int, T]) bool {
 	if len(*items) == 0 {
 		return false
 	}

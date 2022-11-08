@@ -1,4 +1,4 @@
-package list_test
+package dict_test
 
 import (
 	"testing"
@@ -6,20 +6,19 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"github.com/gvaligiani/al.go/list"
+	"github.com/gvaligiani/al.go/dict"
 	"github.com/gvaligiani/al.go/test"
 )
 
-func TestFindInt64(t *testing.T) {
+func TestFindValueInt64(t *testing.T) {
 
 	//
 	// test cases
 	//
 
 	type TestCase struct {
-		items     []int64
+		items     dict.Dict[int, int64]
 		value     int64
-		wantIndex int
 		wantFound bool
 	}
 
@@ -27,25 +26,21 @@ func TestFindInt64(t *testing.T) {
 		"nil": {
 			items:     nil,
 			value:     34,
-			wantIndex: -1,
 			wantFound: false,
 		},
 		"empty": {
-			items:     EmptyInt64List,
+			items:     EmptyInt64Dict,
 			value:     34,
-			wantIndex: -1,
 			wantFound: false,
 		},
 		"found": {
-			items:     DefaultInt64List,
+			items:     DefaultInt64Dict,
 			value:     34,
-			wantIndex: 2,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     DefaultInt64List,
+			items:     DefaultInt64Dict,
 			value:     99,
-			wantIndex: -1,
 			wantFound: false,
 		},
 	}
@@ -57,24 +52,22 @@ func TestFindInt64(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.FindIndexOf(testCase.items, testCase.value)
+		gotFound := dict.Find(testCase.items, testCase.value)
 
 		// assert
-		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
-func TestFindStruct(t *testing.T) {
+func TestFindValueStruct(t *testing.T) {
 
 	//
 	// test cases
 	//
 
 	type TestCase struct {
-		items     list.List[Item]
+		items     dict.Dict[int, Item]
 		value     Item
-		wantIndex int
 		wantFound bool
 	}
 
@@ -82,25 +75,21 @@ func TestFindStruct(t *testing.T) {
 		"nil": {
 			items:     nil,
 			value:     Item{Value: 34},
-			wantIndex: -1,
 			wantFound: false,
 		},
 		"empty": {
-			items:     EmptyItemList,
+			items:     EmptyItemDict,
 			value:     Item{Value: 34},
-			wantIndex: -1,
 			wantFound: false,
 		},
 		"found": {
-			items:     DefaultItemList,
+			items:     DefaultItemDict,
 			value:     Item{Value: 34},
-			wantIndex: 2,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     DefaultItemList,
+			items:     DefaultItemDict,
 			value:     Item{Value: 99},
-			wantIndex: -1,
 			wantFound: false,
 		},
 	}
@@ -112,24 +101,22 @@ func TestFindStruct(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.FindIndexOf(testCase.items, testCase.value)
+		gotFound := dict.Find(testCase.items, testCase.value)
 
 		// assert
-		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
 
-func TestFindStructPointer(t *testing.T) {
+func TestFindValueStructPointer(t *testing.T) {
 
 	//
 	// test cases
 	//
 
 	type TestCase struct {
-		items     list.List[*Item]
+		items     dict.Dict[int, *Item]
 		value     *Item
-		wantIndex int
 		wantFound bool
 	}
 
@@ -137,25 +124,21 @@ func TestFindStructPointer(t *testing.T) {
 		"nil": {
 			items:     nil,
 			value:     &Item{Value: 34},
-			wantIndex: -1,
 			wantFound: false,
 		},
 		"empty": {
-			items:     EmptyItemPointerList,
+			items:     EmptyItemPointerDict,
 			value:     &Item{Value: 34},
-			wantIndex: -1,
 			wantFound: false,
 		},
 		"found": {
-			items:     DefaultItemPointerList,
+			items:     DefaultItemPointerDict,
 			value:     &Item{Value: 34},
-			wantIndex: 2,
 			wantFound: true,
 		},
 		"not-found": {
-			items:     DefaultItemPointerList,
+			items:     DefaultItemPointerDict,
 			value:     &Item{Value: 99},
-			wantIndex: -1,
 			wantFound: false,
 		},
 	}
@@ -167,10 +150,9 @@ func TestFindStructPointer(t *testing.T) {
 	test.RunTestCases(t, testCases, func(t *testing.T, logger *zap.Logger, testCase TestCase) {
 
 		// execute
-		gotIndex, gotFound := list.DeepFindIndexOf(testCase.items, testCase.value)
+		gotFound := dict.DeepFind(testCase.items, testCase.value)
 
 		// assert
-		require.Equalf(t, testCase.wantIndex, gotIndex, "wrong index!")
 		require.Equalf(t, testCase.wantFound, gotFound, "wrong found!")
 	})
 }
