@@ -3,7 +3,7 @@ package set
 import "github.com/gvaligiani/al.go/util"
 
 func RemoveIf[V comparable, S ~map[V]struct{}](s *S, predicate util.Predicate[V]) bool {
-	if len(*s) == 0 {
+	if s == nil || len(*s) == 0 {
 		return false
 	}
 	toRemove := make([]V, 0, len(*s))

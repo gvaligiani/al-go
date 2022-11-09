@@ -108,7 +108,7 @@ func toString[K comparable, V any, D ~map[K]V](d D) string {
 		if first {
 			sb.WriteString(fmt.Sprintf("%v:%v", k, v))
 		} else {
-			sb.WriteString(fmt.Sprintf(" %v:%v", k, v))
+			sb.WriteString(fmt.Sprintf(", %v:%v", k, v))
 		}
 		first = false
 	}

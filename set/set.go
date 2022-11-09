@@ -122,15 +122,21 @@ func (s *Set[V]) Clear() bool {
 }
 
 func (s *Set[V]) RemoveIf(predicate util.Predicate[V]) bool {
-	if s == nil || len(*s) == 0 {
-		return false
-	}
 	return RemoveIf(s, predicate)
 }
 
 func (s *Set[V]) KeepIf(predicate util.Predicate[V]) bool {
-	if s == nil || len(*s) == 0 {
-		return false
-	}
 	return KeepIf(s, predicate)
+}
+
+func (s Set[V]) Union(right Set[V]) Set[V] {
+	return Union(s, right)
+}
+
+func (s Set[V]) Difference(right Set[V]) Set[V] {
+	return Difference(s, right)
+}
+
+func (s Set[V]) Intersection(right Set[V]) Set[V] {
+	return Intersection(s, right)
 }

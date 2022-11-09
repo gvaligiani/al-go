@@ -35,6 +35,10 @@ type Item struct {
 	Value int64
 }
 
+func (i Item) String() string {
+	return fmt.Sprintf("Item{Value: %d}", i.Value)
+}
+
 var (
 	EmptyItemSet   = set.New[Item]()
 	DefaultItemSet = set.New(
@@ -103,7 +107,7 @@ func toString[V comparable, S ~map[V]struct{}](items S) string {
 		if first {
 			sb.WriteString(fmt.Sprintf("%v", item))
 		} else {
-			sb.WriteString(fmt.Sprintf(" %v", item))
+			sb.WriteString(fmt.Sprintf(", %v", item))
 		}
 		first = false
 	}

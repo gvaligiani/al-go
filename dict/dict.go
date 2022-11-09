@@ -1,6 +1,9 @@
 package dict
 
-import "github.com/gvaligiani/al.go/util"
+import (
+	"github.com/gvaligiani/al.go/list"
+	"github.com/gvaligiani/al.go/util"
+)
 
 // alias
 
@@ -140,7 +143,7 @@ func (d *Dict[K, V]) Add(key K, value V) bool {
 	return overriden
 }
 
-func (d *Dict[K, V]) Remove(key K) bool {
+func (d *Dict[K, V]) RemoveKey(key K) bool {
 	if d == nil || len(*d) == 0 {
 		return false
 	}
@@ -149,6 +152,10 @@ func (d *Dict[K, V]) Remove(key K) bool {
 		return true
 	}
 	return false
+}
+
+func (d *Dict[K, V]) Remove(values ...V) bool {
+	return RemoveIf(d, func(v V) bool { return list.AnyOf(values, func(value V) bool { return util.DeepEqual(v, value) }) })
 }
 
 func (d *Dict[K, V]) Clear() bool {

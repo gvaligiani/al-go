@@ -102,7 +102,7 @@ func toString[V comparable, L ~[]V](l L) string {
 		if first {
 			sb.WriteString(fmt.Sprintf("%v", v))
 		} else {
-			sb.WriteString(fmt.Sprintf(" %v", v))
+			sb.WriteString(fmt.Sprintf(", %v", v))
 		}
 		first = false
 	}

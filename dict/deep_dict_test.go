@@ -15,6 +15,8 @@ func TestDeepDict(t *testing.T) {
 	d := dict.DeepDict[int, *Item]{
 		10: &Item{Value: 21},
 		20: &Item{Value: 22},
+		40: &Item{Value: 21},
+		50: &Item{Value: 23},
 	}
 
 	// add
@@ -24,8 +26,9 @@ func TestDeepDict(t *testing.T) {
 
 	// remove
 
-	require.True(t, d.Remove(10), "remove 10")
-	require.False(t, d.Remove(10), "remove 10 wice")
+	require.True(t, d.RemoveKey(10), "remove 10")
+	require.False(t, d.RemoveKey(10), "remove 10 twice")
+	require.True(t, d.Remove(&Item{Value: 21}, &Item{Value: 23}, &Item{Value: 99}), "remove 40 & 50")
 
 	// map[20:22,30:17]
 
