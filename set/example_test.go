@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/gvaligiani/al-go/set"
-	"github.com/travelaudience/cxt-go/testx"
 )
 
 func IsEven(v int) bool {
@@ -104,7 +103,7 @@ func ExampleStrictDecode_success() {
 	values := map[int]struct{}{2: {}, 6: {}, 10: {}, 16: {}}
 	decoded, err := set.StrictDecode(values, func(v int) (int, error) {
 		if v%2 != 0 {
-			return 0, testx.Error
+			return 0, fmt.Errorf("%d is not even", v)
 		}
 		return v / 2, nil
 	})
@@ -127,7 +126,7 @@ func ExampleStrictDecode_error() {
 	fmt.Printf("%v\n", err)
 	// Output:
 	// map[]
-	// fmt.Errorf("%d is not even", v)
+	// 17 is not even
 }
 
 func ExampleDecode_success() {

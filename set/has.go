@@ -1,9 +1,9 @@
 package set
 
 // //////////////////////////////////////////////////
-// contains
+// has
 
-func Contains[T comparable](items map[T]struct{}, value T) bool {
+func Has[T comparable](items map[T]struct{}, value T) bool {
 	if items == nil {
 		return false
 	}
