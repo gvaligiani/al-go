@@ -12,6 +12,7 @@ type Dict[K comparable, V comparable] map[K]V
 // builder
 
 func New[K comparable, V comparable]() Dict[K, V] {
+	// make(Dict[K, V])
 	// TODO add capacity
 	return Dict[K, V]{}
 }

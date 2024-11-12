@@ -33,3 +33,19 @@ func Max[V Ordered](left V, right V) V {
 	}
 	return left
 }
+
+func Less[V Ordered](left V, right V) bool {
+	return left < right
+}
+
+func LessOrEqual[V Ordered](left V, right V) bool {
+	return left <= right
+}
+
+func Greater[V Ordered](left V, right V) bool {
+	return left > right
+}
+
+func GreaterOrEqual[V Ordered](left V, right V) bool {
+	return left >= right
+}

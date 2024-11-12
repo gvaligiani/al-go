@@ -16,8 +16,6 @@ func TestEachInt64(t *testing.T) {
 	// test cases
 	//
 
-	type Key int
-	type Value int64
 	type TestCase struct {
 		items   dict.Dict[int, int64]
 		wantSum int64
