@@ -1,175 +1,132 @@
 package dict
 
-import "github.com/gvaligiani/al.go/util"
+import (
+	"github.com/gvaligiani/al-go/fn"
+)
 
-// alias
+// //////////////////////////////////////////////////
+// set
 
-type Dict[K comparable, V comparable] map[K]V
+type Dict[K comparable, V any] map[K]V
 
-// builder
+// //////////////////////////////////////////////////
+// has
 
-func New[K comparable, V comparable]() Dict[K, V] {
-	return Dict[K, V]{}
+// Has is an helper to test if a key is present in the map
+func (d Dict[K, V]) Has(key K) bool {
+	_, found := d[key]
+	return found
 }
 
-func (d *Dict[K, V]) With(key K, value V) *Dict[K, V] {
-	d.Add(key, value)
-	return d
+// //////////////////////////////////////////////////
+// add
+
+// Add is an helper to add a single pair in the map
+func (d *Dict[K, V]) Add(key K, value V) {
+	(*d)[key] = value
 }
 
-// getter
+// AddPair is an helper to add multiple pairs into the map
+func (d *Dict[K, V]) AddPair(items ...pair[K, V]) {
+	for _, item := range items {
+		(*d)[item.Key] = item.Value
+	}
+}
 
+// //////////////////////////////////////////////////
+// del
+
+// Del is an helper to remove multiple keys from the map
+func (d *Dict[K, V]) Del(keys ...K) {
+	for _, key := range keys {
+		delete((*d), key)
+	}
+}
+
+// //////////////////////////////////////////////////
+// keys
+
+// Keys is an helper to get keys
 func (d Dict[K, V]) Keys() []K {
-	l := make([]K, 0, len(d))
-	for key := range d {
-		l = append(l, key)
-	}
-	return l
+	return Keys(d)
 }
 
-func (d Dict[K, V]) Values() []V {
-	l := make([]V, 0, len(d))
-	for _, v := range d {
-		l = append(l, v)
-	}
-	return l
+// KeySet is an helper to get keys as a set
+func (d Dict[K, V]) KeySet() map[K]struct{} {
+	return KeySet(d)
 }
 
+// //////////////////////////////////////////////////
 // state
 
-func (d Dict[K, V]) IsEmpty() bool {
-	return len(d) == 0
-}
-
-func (d Dict[K, V]) AllOf(predicate util.Predicate[V]) bool {
+func (d Dict[K, V]) AllOf(predicate fn.BiPredicate[K, V]) bool {
 	return AllOf(d, predicate)
 }
 
-func (d Dict[K, V]) AllKeyOf(predicate util.BiPredicate[K, V]) bool {
-	return AllKeyOf(d, predicate)
-}
-
-func (d Dict[K, V]) AnyOf(predicate util.Predicate[V]) bool {
+func (d Dict[K, V]) AnyOf(predicate fn.BiPredicate[K, V]) bool {
 	return AnyOf(d, predicate)
 }
 
-func (d Dict[K, V]) AnyKeyOf(predicate util.BiPredicate[K, V]) bool {
-	return AnyKeyOf(d, predicate)
-}
-
-func (d Dict[K, V]) NoneOf(predicate util.Predicate[V]) bool {
+func (d Dict[K, V]) NoneOf(predicate fn.BiPredicate[K, V]) bool {
 	return NoneOf(d, predicate)
 }
 
-func (d Dict[K, V]) NoKeyOf(predicate util.BiPredicate[K, V]) bool {
-	return NoKeyOf(d, predicate)
+// //////////////////////////////////////////////////
+// remove if
+
+func (d *Dict[K, V]) RemoveIf(predicate fn.BiPredicate[K, V]) {
+	RemoveIf(d, predicate)
 }
 
+// //////////////////////////////////////////////////
+// keep if
+
+func (d *Dict[K, V]) KeepIf(predicate fn.BiPredicate[K, V]) {
+	KeepIf(d, predicate)
+}
+
+// //////////////////////////////////////////////////
+// count if
+
+func (d Dict[K, V]) CountIf(predicate fn.BiPredicate[K, V]) int {
+	return CountIf(d, predicate)
+}
+
+// //////////////////////////////////////////////////
 // each
 
-func (d Dict[K, V]) Each(consumer util.Consumer[V]) {
-	Each(d, consumer)
+func (d Dict[K, V]) Each(consume fn.BiConsumer[K, V]) {
+	Each(d, consume)
 }
 
-func (d Dict[K, V]) EachKey(consumer util.BiConsumer[K, V]) {
-	EachKey(d, consumer)
-}
+// //////////////////////////////////////////////////
+// copy if
 
-// find
-
-func (d Dict[K, V]) FindKey(key K) bool {
-	return FindKey(d, key)
-}
-
-func (d Dict[K, V]) FindValueFromKey(key K) (V, bool) {
-	return FindValueFromKey(d, key)
-}
-
-func (d Dict[K, V]) Find(value V) bool {
-	return Find(d, value)
-}
-
-func (d Dict[K, V]) FindKeyFromValue(value V) (K, bool) {
-	return FindKeyFromValue(d, value)
-}
-
-func (d Dict[K, V]) FindIf(predicate util.Predicate[V]) (V, bool) {
-	return FindIf(d, predicate)
-}
-
-func (d Dict[K, V]) FindIfKey(predicate util.BiPredicate[K, V]) (K, V, bool) {
-	return FindIfKey(d, predicate)
-}
-
-func (d Dict[K, V]) FindIfNot(predicate util.Predicate[V]) (V, bool) {
-	return FindIfNot(d, predicate)
-}
-
-func (d Dict[K, V]) FindIfNotKey(predicate util.BiPredicate[K, V]) (K, V, bool) {
-	return FindIfNotKey(d, predicate)
-}
-
-// copy
-
-func (d Dict[K, V]) Copy() Dict[K, V] {
-	return Dict[K, V](Copy(d))
-}
-
-func (d Dict[K, V]) CopyIf(predicate util.Predicate[V]) Dict[K, V] {
+func (d Dict[K, V]) CopyIf(predicate fn.BiPredicate[K, V]) Dict[K, V] {
 	return Dict[K, V](CopyIf(d, predicate))
 }
 
-func (d Dict[K, V]) CopyIfKey(predicate util.BiPredicate[K, V]) Dict[K, V] {
-	return Dict[K, V](CopyIfKey(d, predicate))
+// //////////////////////////////////////////////////
+// find if
+
+func (d Dict[K, V]) FindIf(predicate fn.BiPredicate[K, V]) (K, V, bool) {
+	return FindIf(d, predicate)
 }
 
-func (d Dict[K, V]) CopyIfNot(predicate util.Predicate[V]) Dict[K, V] {
-	return Dict[K, V](CopyIfNot(d, predicate))
+// //////////////////////////////////////////////////
+// join
+
+func (d Dict[K, V]) Join(separator string) string {
+	return Join(d, separator)
 }
 
-func (d Dict[K, V]) CopyIfNotKey(predicate util.BiPredicate[K, V]) Dict[K, V] {
-	return Dict[K, V](CopyIfNotKey(d, predicate))
+func (d Dict[K, V]) ConvertAndJoin(convert fn.BiConverter[K, V, string], separator string) string {
+	return ConvertAndJoin(d, convert, separator)
 }
 
-// modifier
+// //////////////////////////////////////////////////
+// validate
 
-func (d *Dict[K, V]) Add(key K, value V) bool {
-	_, overriden := (*d)[key]
-	(*d)[key] = value
-	return overriden
-}
-
-func (d *Dict[K, V]) Remove(key K) bool {
-	if d == nil || len(*d) == 0 {
-		return false
-	}
-	if _, ok := (*d)[key]; ok {
-		delete(*d, key)
-		return true
-	}
-	return false
-}
-
-func (d *Dict[K, V]) Clear() bool {
-	if d == nil || len(*d) == 0 {
-		return false
-	}
-	*d = Dict[K, V]{}
-	return true
-}
-
-func (d *Dict[K, V]) RemoveIf(predicate util.Predicate[V]) bool {
-	return RemoveIf(d, predicate)
-}
-
-func (d *Dict[K, V]) RemoveIfKey(predicate util.BiPredicate[K, V]) bool {
-	return RemoveIfKey(d, predicate)
-}
-
-func (d *Dict[K, V]) KeepIf(predicate util.Predicate[V]) bool {
-	return KeepIf(d, predicate)
-}
-
-func (d *Dict[K, V]) KeepIfKey(predicate util.BiPredicate[K, V]) bool {
-	return KeepIfKey(d, predicate)
+func (d Dict[K, V]) Validate(validate fn.BiValidator[K, V]) error {
+	return Validate(d, validate)
 }

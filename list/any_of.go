@@ -1,13 +1,11 @@
 package list
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func AnyOf[V any, L ~[]V](l L, predicate util.Predicate[V]) bool {
-	_, found := FindIf(l, predicate)
-	return found
-}
+// //////////////////////////////////////////////////
+// any
 
-func AnyIndexOf[V any, L ~[]V](l L, predicate util.BiPredicate[int, V]) bool {
-	_, _, found := FindIfIndex(l, predicate)
+func AnyOf[T any](items []T, predicate fn.Predicate[T]) bool {
+	_, found := FindIf(items, predicate)
 	return found
 }

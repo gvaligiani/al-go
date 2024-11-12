@@ -1,10 +1,11 @@
 package set
 
-import (
-	"github.com/gvaligiani/al.go/dict"
-	"github.com/gvaligiani/al.go/util"
-)
+import "github.com/gvaligiani/al-go/fn"
 
-func NoneOf[V comparable, S ~map[V]struct{}](s S, predicate util.Predicate[V]) bool {
-	return dict.NoKeyOf(s, util.TestOnFirstArg[V, struct{}](predicate))
+// //////////////////////////////////////////////////
+// none of
+
+func NoneOf[T comparable](items map[T]struct{}, predicate fn.Predicate[T]) bool {
+	_, found := FindIf(items, predicate)
+	return !found
 }

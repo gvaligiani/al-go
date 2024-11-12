@@ -1,19 +1,17 @@
 package set
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func RemoveIf[V comparable, S ~map[V]struct{}](s *S, predicate util.Predicate[V]) bool {
-	if len(*s) == 0 {
-		return false
+// //////////////////////////////////////////////////
+// remove if
+
+func RemoveIf[T comparable, S ~map[T]struct{}](items *S, predicate fn.Predicate[T]) {
+	if items == nil || len(*items) == 0 {
+		return
 	}
-	toRemove := make([]V, 0, len(*s))
-	for v := range *s {
-		if predicate(v) {
-			toRemove = append(toRemove, v)
+	for key := range *items {
+		if predicate(key) {
+			delete(*items, key)
 		}
 	}
-	for _, v := range toRemove {
-		delete(*s, v)
-	}
-	return len(toRemove) > 0
 }

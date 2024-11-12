@@ -1,130 +1,140 @@
 package set
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-// alias
+// //////////////////////////////////////////////////
+// set
 
-type Set[V comparable] map[V]struct{}
+type Set[T comparable] map[T]struct{}
 
-// builder
+// //////////////////////////////////////////////////
+// has
 
-func New[V comparable](values ...V) Set[V] {
-	s := Set[V]{}
-	for _, v := range values {
-		s.Add(v)
+// Has is an helper to check if a vaue is present in the set
+func (s Set[T]) Has(value T) bool {
+	_, found := s[value]
+	return found
+}
+
+// //////////////////////////////////////////////////
+// add
+
+// Add is an helper to add multiple values in the set
+func (s *Set[T]) Add(values ...T) {
+	for _, value := range values {
+		(*s)[value] = struct{}{}
 	}
-	return s
 }
 
-func (s *Set[V]) With(value V) *Set[V] {
-	s.Add(value)
-	return s
-}
+// //////////////////////////////////////////////////
+// del
 
-// getter
-
-func (s Set[V]) Values() []V {
-	l := make([]V, 0, len(s))
-	for v := range s {
-		l = append(l, v)
+// Del is an helper to remove multiple values from the set
+func (s *Set[T]) Del(values ...T) {
+	for _, value := range values {
+		delete((*s), value)
 	}
-	return l
 }
 
+// //////////////////////////////////////////////////
+// to list
+
+func (s Set[T]) ToList(values ...T) []T {
+	return ToList(s)
+}
+
+// //////////////////////////////////////////////////
 // state
 
-func (s Set[V]) IsEmpty() bool {
-	return len(s) == 0
-}
-
-func (s Set[V]) AllOf(predicate util.Predicate[V]) bool {
+func (s Set[T]) AllOf(predicate fn.Predicate[T]) bool {
 	return AllOf(s, predicate)
 }
 
-func (s Set[V]) AnyOf(predicate util.Predicate[V]) bool {
+func (s Set[T]) AnyOf(predicate fn.Predicate[T]) bool {
 	return AnyOf(s, predicate)
 }
 
-func (s Set[V]) NoneOf(predicate util.Predicate[V]) bool {
+func (s Set[T]) NoneOf(predicate fn.Predicate[T]) bool {
 	return NoneOf(s, predicate)
 }
 
+// //////////////////////////////////////////////////
+// remove if
+
+func (s *Set[T]) RemoveIf(predicate fn.Predicate[T]) {
+	RemoveIf(s, predicate)
+}
+
+// //////////////////////////////////////////////////
+// keep if
+
+func (s *Set[T]) KeepIf(predicate fn.Predicate[T]) {
+	KeepIf(s, predicate)
+}
+
+// //////////////////////////////////////////////////
+// count if
+
+func (s Set[T]) CountIf(predicate fn.Predicate[T]) int {
+	return CountIf(s, predicate)
+}
+
+// //////////////////////////////////////////////////
 // each
 
-func (s Set[V]) Each(consumer util.Consumer[V]) {
-	Each(s, consumer)
+func (s Set[T]) Each(consume fn.Consumer[T]) {
+	Each(s, consume)
 }
 
+// //////////////////////////////////////////////////
+// copy if
+
+func (s Set[T]) CopyIf(predicate fn.Predicate[T]) Set[T] {
+	return Set[T](CopyIf(s, predicate))
+}
+
+// //////////////////////////////////////////////////
 // find
 
-func (s Set[V]) Find(value V) bool {
-	return Find(s, value)
-}
-
-func (s Set[V]) FindIf(predicate util.Predicate[V]) (V, bool) {
+func (s Set[T]) FindIf(predicate fn.Predicate[T]) (T, bool) {
 	return FindIf(s, predicate)
 }
 
-func (s Set[V]) FindIfNot(predicate util.Predicate[V]) (V, bool) {
-	return FindIfNot(s, predicate)
+// //////////////////////////////////////////////////
+// join
+
+func (s Set[T]) Join(separator string) string {
+	return Join(s, separator)
 }
 
-// copy
-
-func (s Set[V]) Copy() Set[V] {
-	return Set[V](Copy(s))
+func (s Set[T]) ConvertAndJoin(convert fn.Converter[T, string], separator string) string {
+	return ConvertAndJoin(s, convert, separator)
 }
 
-func (s Set[V]) CopyIf(predicate util.Predicate[V]) Set[V] {
-	return Set[V](CopyIf(s, predicate))
+// //////////////////////////////////////////////////
+// validate
+
+func (s Set[T]) Validate(validate fn.Validator[T]) error {
+	return Validate(s, validate)
 }
 
-func (s Set[V]) CopyIfNot(predicate util.Predicate[V]) Set[V] {
-	return Set[V](CopyIfNot(s, predicate))
+// //////////////////////////////////////////////////
+// diff
+
+func (s Set[T]) Diff(o Set[T]) Set[T] {
+	return Set[T](Diff(s, o))
 }
 
-// modifier
+// //////////////////////////////////////////////////
+// intersect
 
-func (s *Set[V]) Add(value V) bool {
-	if s == nil {
-		return false
-	}
-	if _, ok := (*s)[value]; !ok {
-		(*s)[value] = struct{}{}
-		return true
-	}
-	return false
+func (s Set[T]) Intersect(o Set[T]) Set[T] {
+	return Set[T](Intersect(s, o))
 }
 
-func (s *Set[V]) Remove(value V) bool {
-	if s == nil || len(*s) == 0 {
-		return false
-	}
-	if _, ok := (*s)[value]; ok {
-		delete(*s, value)
-		return true
-	}
-	return false
-}
+// //////////////////////////////////////////////////
+// union
 
-func (s *Set[V]) Clear() bool {
-	if s == nil || len(*s) == 0 {
-		return false
-	}
-	*s = Set[V]{}
-	return true
-}
-
-func (s *Set[V]) RemoveIf(predicate util.Predicate[V]) bool {
-	if s == nil || len(*s) == 0 {
-		return false
-	}
-	return RemoveIf(s, predicate)
-}
-
-func (s *Set[V]) KeepIf(predicate util.Predicate[V]) bool {
-	if s == nil || len(*s) == 0 {
-		return false
-	}
-	return KeepIf(s, predicate)
+func (s Set[T]) Union(o Set[T]) Set[T] {
+	return Set[T](Union(s, o))
 }

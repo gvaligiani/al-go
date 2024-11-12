@@ -1,19 +1,15 @@
 package dict
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func CopyIf[K comparable, V any, D ~map[K]V](d D, predicate util.Predicate[V]) D {
-	return CopyIfKey(d, util.TestOnSecondArg[K](predicate))
-}
+// //////////////////////////////////////////////////
+// copy if
 
-func CopyIfKey[K comparable, V any, D ~map[K]V](d D, predicate util.BiPredicate[K, V]) D {
-	if d == nil {
-		return nil
-	}
-	copy := make(D, len(d))
-	for k, v := range d {
-		if predicate(k, v) {
-			copy[k] = v
+func CopyIf[K comparable, V any](items map[K]V, predicate fn.BiPredicate[K, V]) map[K]V {
+	copy := make(map[K]V, len(items))
+	for key, value := range items {
+		if predicate(key, value) {
+			copy[key] = value
 		}
 	}
 	return copy

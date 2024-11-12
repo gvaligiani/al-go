@@ -1,7 +1,10 @@
 package set
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func KeepIf[V comparable, S ~map[V]struct{}](s *S, predicate util.Predicate[V]) bool {
-	return RemoveIf(s, func(v V) bool { return !predicate(v) })
+// //////////////////////////////////////////////////
+// keep if
+
+func KeepIf[T comparable, S ~map[T]struct{}](items *S, predicate fn.Predicate[T]) {
+	RemoveIf(items, fn.Not(predicate))
 }
