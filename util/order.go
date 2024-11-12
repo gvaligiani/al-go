@@ -1,51 +1,33 @@
 package util
 
-type Unsigned interface {
-	~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr
-}
+import "golang.org/x/exp/constraints"
 
-type Signed interface {
-	~int | ~int8 | ~int16 | ~int32 | ~int64
-}
-
-type Integer interface {
-	Signed | Unsigned
-}
-
-type Float interface {
-	~float32 | ~float64
-}
-
-type Ordered interface {
-	Integer | Float | ~string
-}
-
-func Min[V Ordered](left V, right V) V {
+func Min[V constraints.Ordered](left V, right V) V {
 	if left < right {
 		return left
 	}
 	return right
 }
 
-func Max[V Ordered](left V, right V) V {
+func Max[V constraints.Ordered](left V, right V) V {
 	if left < right {
 		return right
 	}
 	return left
 }
 
-func Less[V Ordered](left V, right V) bool {
+func Less[V constraints.Ordered](left V, right V) bool {
 	return left < right
 }
 
-func LessOrEqual[V Ordered](left V, right V) bool {
+func LessOrEqual[V constraints.Ordered](left V, right V) bool {
 	return left <= right
 }
 
-func Greater[V Ordered](left V, right V) bool {
+func Greater[V constraints.Ordered](left V, right V) bool {
 	return left > right
 }
 
-func GreaterOrEqual[V Ordered](left V, right V) bool {
+func GreaterOrEqual[V constraints.Ordered](left V, right V) bool {
 	return left >= right
 }

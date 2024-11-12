@@ -1,7 +1,14 @@
 package set
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func Copy[V comparable, S ~map[V]struct{}](s S) S {
-	return CopyIf(s, util.True[V]())
+// //////////////////////////////////////////////////
+// copy if
+
+func Copy[T comparable](items map[T]struct{}, predicate fn.Predicate[T]) map[T]struct{} {
+	copy := make(map[T]struct{}, len(items))
+	for item := range items {
+		copy[item] = struct{}{}
+	}
+	return copy
 }

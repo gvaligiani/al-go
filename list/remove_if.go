@@ -1,35 +1,31 @@
 package list
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func RemoveIf[V any, L ~[]V](l *L, predicate util.Predicate[V]) bool {
-	return RemoveIfIndex(l, util.TestOnSecondArg[int](predicate))
-}
+// //////////////////////////////////////////////////
+// remove if
 
-func RemoveIfIndex[V any, L ~[]V](l *L, predicate util.BiPredicate[int, V]) bool {
-	if l == nil || len(*l) == 0 {
-		return false
+func RemoveIf[T any, L ~[]T](items *L, predicate fn.Predicate[T]) {
+	if items == nil {
+		return
 	}
-	// note:
-	//  - this method does not keep the original order of the list
-	//  - but it sends the right old index to the predicate
-	var empty V
-	size := len(*l)
-	index := 0
+	size := len(*items)
+	if size == 0 {
+		return
+	}
+	// note: this method does not keep the original order of the list
+	var empty T
 	indexEnd := size - 1
 	for indexStart := 0; indexStart <= indexEnd; {
-		if predicate(index, (*l)[indexStart]) {
+		if predicate((*items)[indexStart]) {
 			// move last element at current index
-			(*l)[indexStart] = (*l)[indexEnd]
-			(*l)[indexEnd] = empty
-			index = indexEnd
+			(*items)[indexStart] = (*items)[indexEnd]
+			(*items)[indexEnd] = empty
 			indexEnd--
 		} else {
 			indexStart++
-			index = indexStart
 		}
 	}
 	// reduce the list to the right size
-	(*l) = (*l)[:indexEnd+1]
-	return indexEnd < size-1
+	(*items) = (*items)[:indexEnd+1]
 }

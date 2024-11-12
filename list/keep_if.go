@@ -1,11 +1,10 @@
 package list
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func KeepIf[V any, L ~[]V](l *L, predicate util.Predicate[V]) bool {
-	return RemoveIf(l, util.Not(predicate))
-}
+// //////////////////////////////////////////////////
+// keep if
 
-func KeepIfIndex[V any, L ~[]V](l *L, predicate util.BiPredicate[int, V]) bool {
-	return RemoveIfIndex(l, util.BiNot(predicate))
+func KeepIf[T any, L ~[]T](items *L, predicate fn.Predicate[T]) {
+	RemoveIf(items, fn.Not(predicate))
 }

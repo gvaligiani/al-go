@@ -1,11 +1,14 @@
 package set
 
-import (
-	"github.com/gvaligiani/al.go/dict"
-	"github.com/gvaligiani/al.go/util"
-)
+// //////////////////////////////////////////////////
+// find if
 
-func FindIf[V comparable, S ~map[V]struct{}](s S, predicate util.Predicate[V]) (V, bool) {
-	v, _, found := dict.FindIfKey(s, util.TestOnFirstArg[V, struct{}](predicate))
-	return v, found
+func FindIf[T comparable](items map[T]struct{}, predicate func(item T) bool) (T, bool) {
+	for item := range items {
+		if predicate(item) {
+			return item, true
+		}
+	}
+	var empty T
+	return empty, false
 }

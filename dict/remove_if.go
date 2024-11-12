@@ -1,23 +1,17 @@
 package dict
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func RemoveIf[K comparable, V any, D ~map[K]V](d *D, predicate util.Predicate[V]) bool {
-	return RemoveIfKey(d, func(_ K, v V) bool { return predicate(v) })
-}
+// //////////////////////////////////////////////////
+// remove if
 
-func RemoveIfKey[K comparable, V any, D ~map[K]V](d *D, predicate util.BiPredicate[K, V]) bool {
-	if d == nil || len(*d) == 0 {
-		return false
+func RemoveIf[K comparable, V any, M ~map[K]V](items *M, predicate fn.BiPredicate[K, V]) {
+	if items == nil || len(*items) == 0 {
+		return
 	}
-	keys := make([]K, 0, len(*d))
-	for k, t := range *d {
-		if predicate(k, t) {
-			keys = append(keys, k)
+	for key, value := range *items {
+		if predicate(key, value) {
+			delete(*items, key)
 		}
 	}
-	for _, k := range keys {
-		delete(*d, k)
-	}
-	return len(keys) > 0
 }

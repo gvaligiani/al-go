@@ -1,11 +1,10 @@
 package dict
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func KeepIf[K comparable, V any, D ~map[K]V](d *D, predicate util.Predicate[V]) bool {
-	return RemoveIf(d, util.Not(predicate))
-}
+// //////////////////////////////////////////////////
+// keep if
 
-func KeepIfKey[K comparable, V any, D ~map[K]V](d *D, predicate util.BiPredicate[K, V]) bool {
-	return RemoveIfKey(d, util.BiNot(predicate))
+func KeepIf[K comparable, V any, M ~map[K]V](items *M, predicate fn.BiPredicate[K, V]) {
+	RemoveIf(items, fn.BiNot(predicate))
 }

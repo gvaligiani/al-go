@@ -1,0 +1,8 @@
+package to
+
+// //////////////////////////////////////////////////
+// convert to any
+
+func Any[T any](value T) any {
+	return value
+}

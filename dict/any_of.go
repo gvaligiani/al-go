@@ -1,13 +1,11 @@
 package dict
 
-import "github.com/gvaligiani/al.go/util"
+import "github.com/gvaligiani/al-go/fn"
 
-func AnyOf[K comparable, V any, D ~map[K]V](d D, predicate util.Predicate[V]) bool {
-	_, found := FindIf(d, predicate)
-	return found
-}
+// //////////////////////////////////////////////////
+// any of
 
-func AnyKeyOf[K comparable, V any, D ~map[K]V](d D, predicate util.BiPredicate[K, V]) bool {
-	_, _, found := FindIfKey(d, predicate)
+func AnyOf[K comparable, V any](items map[K]V, predicate fn.BiPredicate[K, V]) bool {
+	_, _, found := FindIf(items, predicate)
 	return found
 }
